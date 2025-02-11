@@ -1,8 +1,8 @@
 
 # JavaFx 
-/bin
-/lib
-/.vscode
+bin/
+lib/
+.vscode/
 
 # Compiled class file
 *.class
