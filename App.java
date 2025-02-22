@@ -11,6 +11,7 @@ public class App extends Application {
         stage.setTitle("Recipez");
         stage.setScene(scene);
         stage.show();
+        
     }
 
     public static void main(String[] args) {
