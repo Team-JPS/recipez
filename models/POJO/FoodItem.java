@@ -1,4 +1,4 @@
-package models;
+package models.POJO;
 
 public class FoodItem {
     // TODO: JavaDoc this class
