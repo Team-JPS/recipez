@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import models.RecipeModel;
 import models.POJO.Recipe;
-import util.RecipeConverter;
+import util.ViewToModelConverter;
 
 // 
 public class RecipeViewModel {
@@ -19,14 +19,14 @@ public class RecipeViewModel {
     private final StringProperty recipeName = new SimpleStringProperty();
     
     //Uses data from this viewModel to create a new Recipe class.
-    private final RecipeConverter converter = new RecipeConverter();
+    private final ViewToModelConverter converter = new ViewToModelConverter();
     
     private final RecipeModel recipeModel = new RecipeModel();
 
     
     public String getName(){
         if(recipeName.get() == null || recipeName.get().trim() == ""){
-            return "Big ol weiners";
+            return "Suspicious Nachos";
         }
         return recipeName.get();
     }
