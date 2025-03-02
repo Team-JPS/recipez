@@ -2,7 +2,6 @@ package views;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class HomeView extends Scene {
     private Pane root;      
@@ -19,6 +19,10 @@ public class HomeView extends Scene {
     private Label welcome;
     private StackPane spScreen;
     private RecipeView recipeView;
+    
+    private final Font smallFont = new Font("Arial", 12);
+    private final Font mediumFont = new Font("Arial", 24);
+    private final Font largeFont = new Font("Arial", 36);
     
     public HomeView() {
         //Constructor call to parent Scene
@@ -35,11 +39,15 @@ public class HomeView extends Scene {
         this.btnRecipeBook = new Button("Recipe Book");
         this.btnMealPlanner = new Button("Meal Planner");
 
+        this.welcome = new Label("Welcome!");
+
         this.spScreen = new StackPane();
       
         this.hboxNavigation = new HBox();
         this.vboxApplication = new VBox();
         this.vboxHomeScreen = new VBox();
+
+        this.welcome.setFont(largeFont);
 
         //Vbox for welcome screen
         this.vboxHomeScreen.setPrefHeight(300);
@@ -48,6 +56,8 @@ public class HomeView extends Scene {
 
         this.hboxNavigation.setPrefWidth(900);
         this.hboxNavigation.setAlignment(Pos.CENTER);
+
+        this.vboxHomeScreen.getChildren().addAll(this.welcome);
 
         this.btnRecipeCreate.setOnAction(this::navigation);
         this.btnRecipeBook.setOnAction(this::navigation);
