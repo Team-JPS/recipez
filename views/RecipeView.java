@@ -13,14 +13,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 //extends StackPane to use z-indexing of elements
 public class RecipeView extends StackPane{
 
-    private Label lblRecipeName, lblRecipeName2, lblUserMessage;
+    private Label lblRecipeName, lblUserMessage;
     private TextField tfRecipeName;
     private Button btnSaveRecipeName;
     private HBox hboxRecipeNameInput, hboxRecipeNameLabel;
