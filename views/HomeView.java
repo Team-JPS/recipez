@@ -1,15 +1,16 @@
 package views;
 
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
 
 public class HomeView extends Scene {
-    private Group root;      
+    private Pane root;      
     public HomeView() {
-        super(new Group(), 900, 300, Color.BLACK);
-        root = ((Group)this.getRoot());        
-        RecipeView recipeView = new RecipeView();
+        //Constructor call to parent Scene
+        super(new Pane(), 900, 300);
+        //intializing 
+        root = ((Pane)this.getRoot());        
+        RecipeView recipeView = new RecipeView();        
         root.getChildren().add(recipeView);
     }
 }
