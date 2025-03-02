@@ -83,17 +83,17 @@ public class RecipeView extends StackPane{
         //initial display
         this.getChildren().addAll(vboxLabelContainer, vboxInputContainer);
     }
-    //SwapLayer being called by a mouseevent 
+    //SwapLayer being called by a MouseEvent 
     private void swapLayer(MouseEvent event){
         swap();
     }
 
-    //SwapLayer will be called by a Mouseevent 
+    //SwapLayer being called by a KeyEvent 
     private void swapLayer(KeyEvent event){
         swap();
     }
 
-    //SwapLayer will be called by a ActionEvent
+    //SwapLayer being called by a ActionEvent
     private void swapLayer(ActionEvent event){
         swap();
     }
