@@ -18,6 +18,7 @@ public class HomeView extends Scene {
     private VBox vboxApplication, vboxHomeScreen;
     private Label welcome;
     private StackPane spScreen;
+    //The views for our application (Create recipe, Recipe Book, Create Meal Plan)
     private RecipeView recipeView;
     
     private final Font smallFont = new Font("Arial", 12);
@@ -34,14 +35,14 @@ public class HomeView extends Scene {
         //intializing 
         root = ((Pane)this.getRoot());
         this.recipeView = new RecipeView();
+        
+        //This StackPane will be where our views will display
+        this.spScreen = new StackPane();
 
         this.btnRecipeCreate = new Button("New Recipe");
         this.btnRecipeBook = new Button("Recipe Book");
         this.btnMealPlanner = new Button("Meal Planner");
-
         this.welcome = new Label("Welcome!");
-
-        this.spScreen = new StackPane();
       
         this.hboxNavigation = new HBox();
         this.vboxApplication = new VBox();
@@ -62,7 +63,6 @@ public class HomeView extends Scene {
         this.btnRecipeCreate.setOnAction(this::navigation);
         this.btnRecipeBook.setOnAction(this::navigation);
         this.btnMealPlanner.setOnAction(this::navigation);
-
 
         this.spScreen.getChildren().addAll(vboxHomeScreen);
         this.hboxNavigation.getChildren().addAll(btnRecipeCreate, btnRecipeBook, btnMealPlanner);

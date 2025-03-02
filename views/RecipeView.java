@@ -43,7 +43,7 @@ public class RecipeView extends StackPane{
         this.lblUserMessage = new Label("Click to rename your recipe!");
         this.lblRecipeName = new Label("");
         // this.lblRecipeName2 = new Label("Recipe Name 2");        
-        this.tfRecipeName = new TextField();
+        this.tfRecipeName = new TextField("");
         this.btnSaveRecipeName = new Button("Save");
 
         this.lblUserMessage.setFont(this.largeFont);
@@ -61,7 +61,7 @@ public class RecipeView extends StackPane{
         this.lblUserMessage.setOnMouseClicked(this::swapLayer);
         this.lblRecipeName.setOnMouseClicked(this::swapLayer);
         this.tfRecipeName.setOnKeyPressed(this::processKeyPress);
-        this.btnSaveRecipeName.setOnAction(this::save);
+        this.btnSaveRecipeName.setOnAction(this::saveRecipeName);
         
         this.hboxRecipeNameInput = new HBox(); 
         this.hboxRecipeNameLabel = new HBox(); 
@@ -205,7 +205,8 @@ public class RecipeView extends StackPane{
     private void processKeyPress(KeyEvent event){
        switch(event.getCode()){
             case ENTER:
-                save(event);
+                recipeViewModel.setName(tfRecipeName.getText());
+                saveRecipeName(event);
                 swapLayer(event);
                 break;
             default:
@@ -213,6 +214,6 @@ public class RecipeView extends StackPane{
     }
  
 
-    private void save(ActionEvent evt){ recipeViewModel.save() ;swapLayer(evt); }
-    private void save(KeyEvent evt){ recipeViewModel.save(); }
+    private void saveRecipeName(ActionEvent event){ recipeViewModel.setName(tfRecipeName.getText()); recipeViewModel.save(); swapLayer(event); }
+    private void saveRecipeName(KeyEvent event){ recipeViewModel.save(); }
 }
