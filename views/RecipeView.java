@@ -48,6 +48,7 @@ public class RecipeView extends StackPane{
         this.tfRecipeName.setOnKeyPressed(this::processKeyPress);
         this.btnSaveRecipeName.setOnAction(this::save);
         this.lblRecipeName2.setOnMouseClicked(this::swapLayer);
+        this.lblUserMessage.setOnMouseClicked(this::swapLayer);
 
         this.hboxRecipeNameInput = new HBox(); 
         this.hboxRecipeNameLabel = new HBox(); 
