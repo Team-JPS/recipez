@@ -23,7 +23,7 @@ public class RecipeView extends StackPane{
     private TextField tfRecipeName;
     private Button btnSaveRecipeName;
     private HBox hboxRecipeNameInput, hboxRecipeNameLabel;
-    private VBox vboxInputContainer, vboxLabelContainer;
+    private VBox vboxInputContainer, separatorNameInput, vboxLabelContainer, separatorNameLabel;
     private boolean recipeNameToggle;
 
     private final Font smallFont = new Font("Arial", 12);
@@ -46,7 +46,7 @@ public class RecipeView extends StackPane{
         this.tfRecipeName = new TextField();
         this.btnSaveRecipeName = new Button("Save");
 
-        this.lblUserMessage.setFont(this.smallFont);
+        this.lblUserMessage.setFont(this.largeFont);
         this.lblRecipeName.setFont(this.largeFont);
         // this.lblRecipeName2.setFont(this.font);
         this.tfRecipeName.setFont(this.largeFont);
@@ -67,8 +67,9 @@ public class RecipeView extends StackPane{
         this.hboxRecipeNameLabel = new HBox(); 
 
         this.vboxInputContainer = new VBox();
-        this.vboxLabelContainer = new VBox();
-      
+        this.vboxLabelContainer = new VBox();      
+        this.separatorNameInput = new VBox();
+        this.separatorNameLabel = new VBox();
 
         /*********************************User input screen*********************************/
     
@@ -81,11 +82,10 @@ public class RecipeView extends StackPane{
         this.hboxRecipeNameInput.setPrefWidth(900);
         HBox.setHgrow(this.tfRecipeName, Priority.ALWAYS);
 
-        VBox separatorNameInput = new VBox();
-        separatorNameInput.getChildren().addAll(this.hboxRecipeNameInput, this.btnSaveRecipeName);
-        separatorNameInput.setAlignment(Pos.TOP_CENTER);
-        separatorNameInput.setPrefHeight(150);
-        separatorNameInput.setStyle("-fx-background-color: #fccdb6");
+        this.separatorNameInput.getChildren().addAll(this.hboxRecipeNameInput, this.btnSaveRecipeName);
+        this.separatorNameInput.setAlignment(Pos.TOP_CENTER);
+        this.separatorNameInput.setPrefHeight(150);
+        this.separatorNameInput.setStyle("-fx-background-color: #fccdb6");
         
         //Vbox to hold Hbox to user input textfield
         this.vboxInputContainer.setPrefHeight(300);
@@ -102,11 +102,11 @@ public class RecipeView extends StackPane{
         this.hboxRecipeNameLabel.getChildren().addAll(this.lblRecipeName);        
         this.hboxRecipeNameLabel.setPrefWidth(900);
 
-        VBox separatorNameLabel = new VBox();
-        separatorNameLabel.getChildren().addAll(this.hboxRecipeNameLabel, this.lblUserMessage);
-        separatorNameLabel.setAlignment(Pos.TOP_CENTER);
-        separatorNameLabel.setPrefHeight(150);        
-        separatorNameLabel.setStyle("-fx-background-color: #fccdb6)");
+        //Vbox to vertically align lblUserMessage and lblRecipeName 
+        this.separatorNameLabel.getChildren().addAll(this.hboxRecipeNameLabel, this.lblUserMessage);
+        this.separatorNameLabel.setAlignment(Pos.TOP_CENTER);
+        this.separatorNameLabel.setPrefHeight(150);        
+        this.separatorNameLabel.setStyle("-fx-background-color: #fccdb6");
         
         //Vbox to hold Hbox user input label     
         this.vboxLabelContainer.setPrefHeight(300);
@@ -115,8 +115,11 @@ public class RecipeView extends StackPane{
         this.vboxLabelContainer.getChildren().addAll(separatorNameLabel);
 
         //initial display
+      
         this.getChildren().addAll(this.vboxLabelContainer, this.vboxInputContainer);
+        // fadeOut(this.separatorNameLabel);
     }
+
     //SwapLayer being called by a MouseEvent 
     private void swapLayer(MouseEvent event){
         swap();
@@ -150,34 +153,48 @@ public class RecipeView extends StackPane{
 
         /**/
         //swap logic that checks against a boolean (addtional boolean attribute required), limited to two elements, may be perfect for usage here.
-        if(recipeNameToggle){
+        //TODO: BROKEN, opacity doesnt remove element so you cant click through an invisible element. rework
+        if(this.recipeNameToggle){
             fadeOut(this.vboxInputContainer);
+            this.btnSaveRecipeName.setDisable(true);
+            this.tfRecipeName.setDisable(true);
+            this.getChildren().clear();
+            this.getChildren().addAll(this.vboxInputContainer, this.vboxLabelContainer);
             fadeIn(this.vboxLabelContainer);
-            recipeNameToggle = !recipeNameToggle;            
+            this.recipeNameToggle = !this.recipeNameToggle;            
         }else{
             fadeOut(this.vboxLabelContainer);
+            this.btnSaveRecipeName.setDisable(false);
+            this.tfRecipeName.setDisable(false);
+            this.getChildren().clear();
+            this.getChildren().addAll(this.vboxLabelContainer, this.vboxInputContainer);
             fadeIn(this.vboxInputContainer);
-            recipeNameToggle = !recipeNameToggle;  
+            this.recipeNameToggle = !this.recipeNameToggle;  
         }
         /**/
     }
 
-    private void fadeIn(VBox ref) {
+    private void fadeIn(VBox ref) {        
+        System.out.println("fadeIn() method called");
         FadeTransition ft = new FadeTransition(Duration.millis(1000), ref);
         ft.setFromValue(0.0);
         ft.setToValue(1.0);
         ft.setCycleCount(1);
         ft.setAutoReverse(false);
-        ft.play();        
+        ft.play();
+        System.out.println("fadeIn() method completed");        
     }
 
     private void fadeOut(VBox ref) {
+        System.out.println("fadeOut() method called");
         FadeTransition ft = new FadeTransition(Duration.millis(1000), ref);
         ft.setFromValue(1.0);
         ft.setToValue(0.0);
         ft.setCycleCount(1);
         ft.setAutoReverse(false);
         ft.play();
+        
+        System.out.println("fadeOut() method completed");
     }
 
     private void bindViewModel(){
