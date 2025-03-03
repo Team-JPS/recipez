@@ -16,18 +16,14 @@ public class RecipeViewModel {
      */
     
     //Data elements
-    private StringProperty recipeName = new SimpleStringProperty();
+    private final StringProperty recipeName = new SimpleStringProperty();
     
     //Uses data from this viewModel to create a new Recipe class.
     private final ViewToModelConverter converter = new ViewToModelConverter();
     
-    private RecipeModel recipeModel = new RecipeModel();
+    private final RecipeModel recipeModel = new RecipeModel();
 
-    
     public String getName(){
-        // if(recipeName.get() == null || recipeName.get().trim() == ""){            
-        //     return "Suspicious Nachos";
-        // }
         return recipeName.get();
     }
 
@@ -39,12 +35,10 @@ public class RecipeViewModel {
         System.out.println("setName() in RecipeViewModel() being called\nName: " + name);
         if(name == null || name.trim() == ""){
             System.out.print("Setting Name to Suspicious Nachos\n");
-            this.recipeName.set("Suspicious Nachos");
-            
+            this.recipeName.set("Suspicious Nachos");            
         }else{
             this.recipeName.set(name);
-        }
-        
+        }        
     }
 
     public void save(){

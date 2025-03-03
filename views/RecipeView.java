@@ -202,6 +202,9 @@ public class RecipeView extends StackPane{
         this.lblRecipeName.textProperty().bindBidirectional(recipeViewModel.nameProperty()); 
     }    
 
+
+
+    // processKeyPres(), and both saveRecipeName() methods needs to be looked at, maybe too obtuse? Streamline this? dont know how at the moment.
     private void processKeyPress(KeyEvent event){
        switch(event.getCode()){
             case ENTER:
@@ -212,8 +215,6 @@ public class RecipeView extends StackPane{
             default:
        } 
     }
- 
-
     private void saveRecipeName(ActionEvent event){ recipeViewModel.setName(tfRecipeName.getText()); recipeViewModel.save(); swapLayer(event); }
     private void saveRecipeName(KeyEvent event){ recipeViewModel.save(); }
 }

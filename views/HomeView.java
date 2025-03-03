@@ -27,7 +27,8 @@ public class HomeView extends Scene {
     
     public HomeView() {
         //Constructor call to parent Scene
-        super(new Pane(), 900, 400);                
+        //900x400 is NOT the defining aspect ratio, purely cosmetic to know the work space while coding.
+        super(new Pane(), 900, 400);                 
         createView();
     }
 
@@ -35,6 +36,7 @@ public class HomeView extends Scene {
         //intializing 
         root = ((Pane)this.getRoot());
         this.recipeView = new RecipeView();
+        // this.recipeBookView = new RecipeBookView();
         
         //This StackPane will be where our views will display
         this.spScreen = new StackPane();
@@ -48,6 +50,7 @@ public class HomeView extends Scene {
         this.vboxApplication = new VBox();
         this.vboxHomeScreen = new VBox();
 
+        //setting up the fluff, the pretty stuff
         this.welcome.setFont(largeFont);
 
         //Vbox for welcome screen
@@ -71,12 +74,19 @@ public class HomeView extends Scene {
     }
 
     private void navigation(ActionEvent evt){
-       String buttonText = ((Button)evt.getSource()).getText();
+        String buttonText = ((Button)evt.getSource()).getText();
         if (buttonText == "New Recipe") {
             this.spScreen.getChildren().clear();
             this.spScreen.getChildren().addAll(this.recipeView);
             ((Button)evt.getSource()).setDisable(true); 
             // need to add focus back to the tfRecipeName in the RecipeView... ??
         }
+        // if (buttonText == "Recipe Book") {
+        //     this.spScreen.getChildren().clear();
+        //     this.spScreen.getChildren().addAll(this.recipeBookView);
+        //     ((Button)evt.getSource()).setDisable(true); 
+        //     // need to add focus back to the tfRecipeName in the RecipeView... ??
+        // }
+
     }
 }
