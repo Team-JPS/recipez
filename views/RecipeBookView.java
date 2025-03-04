@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import models.POJO.Recipe;
 import views.view_models.RecipeBookViewModel;
  
@@ -18,11 +17,6 @@ public class RecipeBookView extends StackPane {
     private Button nextRecipe, previousRecipe;
     private HBox hboxRecipeBook;
     private VBox vboxRecipeBookContainer;
-
-    //properties already initialized
-    private final Font smallFont = new Font("Arial", 12);
-    private final Font mediumFont = new Font("Arial", 24);
-    private final Font largeFont = new Font("Arial", 36);
 
     //This is the data store where you will save and load data from, for this View.
     //When you call 'new RecipeBookViewModel()', anything that you create in the constructor for the 
