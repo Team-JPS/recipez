@@ -30,6 +30,5 @@ public class Ingredient {
         this.quantity = 1;
         this.measurement = "1";
     }
-
     // Add Setters and Getters
 }

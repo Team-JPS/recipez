@@ -4,6 +4,7 @@ import views.view_models.RecipeViewModel;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -45,6 +46,8 @@ public class RecipeView extends StackPane{
         this.lblRecipeName.setFont(GlobalValues.LARGE_FONT);
         this.tfRecipeName.setFont(GlobalValues.LARGE_FONT);
         this.btnSaveRecipeName.setFont(GlobalValues.MEDIUM_FONT);
+        
+        this.setStyle(GlobalValues.COLOR_PRIMARY);
 
         this.lblRecipeName.setStyle("-fx-padding: 12 8 8 8");
         this.tfRecipeName.setAlignment(Pos.CENTER);
@@ -107,6 +110,8 @@ public class RecipeView extends StackPane{
         this.vboxLabelContainer.getChildren().addAll(separatorNameLabel);
 
         //initial display      
+        //Stacking containers, rather than only adding the one you are viewing/editing, allows for a smoother 
+        //transition effect when calling the fadeIn() and fadeOut() methods 
         this.getChildren().addAll(this.vboxLabelContainer, this.vboxInputContainer);
     }
 
@@ -164,35 +169,31 @@ public class RecipeView extends StackPane{
         /**/
     }
 
-    private void fadeIn(VBox ref) {        
-        System.out.println("fadeIn() method called");
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), ref);
+    // These fadeIn / fadeOut use Node as it is the base class (superclass) for all components added to the JavaFX Scene Graph. 
+    // The JavaFX Node class is abstract, so you will only add subclasses of the Node.
+    // When I use it in the RecipeView, I pass in a VBox not a Node. 
+    private void fadeIn(Node elementToTransition) {        
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), elementToTransition);
         ft.setFromValue(0.0);
         ft.setToValue(1.0);
         ft.setCycleCount(1);
         ft.setAutoReverse(false);
-        ft.play();
-        System.out.println("fadeIn() method completed");        
+        ft.play();        
     }
 
-    private void fadeOut(VBox ref) {
-        System.out.println("fadeOut() method called");
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), ref);
+    private void fadeOut(Node elementToTransition) {
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), elementToTransition);
         ft.setFromValue(1.0);
         ft.setToValue(0.0);
         ft.setCycleCount(1);
         ft.setAutoReverse(false);
         ft.play();
-        
-        System.out.println("fadeOut() method completed");
     }
 
     private void bindViewModel(){
         this.tfRecipeName.textProperty().bindBidirectional(recipeViewModel.nameProperty());
         this.lblRecipeName.textProperty().bindBidirectional(recipeViewModel.nameProperty()); 
     }    
-
-
 
     // processKeyPres(), and both saveRecipeName() methods needs to be looked at, maybe too obtuse? Streamline this? dont know how at the moment.
     private void processKeyPress(KeyEvent event){

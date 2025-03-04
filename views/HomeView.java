@@ -24,15 +24,10 @@ public class HomeView extends Scene {
     private RecipeView recipeView;
     // private RecipeBookView recipeBookView;
     // private MealPlannerView MealPlannerView;
-
-    //Fonts setup for easier formatting of text related elements
-    // private final Font smallFont = new Font("Arial", 12);
-    // private final Font mediumFont = new Font("Arial", 24);
-    // private final Font largeFont = new Font("Arial", 36);
     
     public HomeView() {
         //Constructor call super() to parent Scene
-        //Change varbiable values in GlobalVariable class to alter aspect ratio.
+        //Change varbiable values in GlobalValues class to alter aspect ratio.
         super(new Pane(), GlobalValues.APP_WIDTH, GlobalValues.APP_HEIGHTH);                 
         createView();
     }
