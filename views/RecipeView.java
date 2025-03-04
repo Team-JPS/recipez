@@ -1,7 +1,6 @@
 package views;
 
 import views.view_models.RecipeViewModel;
-import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -10,15 +9,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 import util.GlobalValues;
+import util.Utility;
 
 //extends StackPane to use z-indexing of elements
-public class RecipeView extends StackPane{
+public class RecipeView extends GridPane{
 
     private Label lblRecipeName, lblUserMessage;
     private TextField tfRecipeName;
@@ -30,11 +29,12 @@ public class RecipeView extends StackPane{
     private final RecipeViewModel recipeViewModel = new RecipeViewModel();
 
     public RecipeView(){       
-        createNameRecipeView();
+        createRecipeNameView();
+        // createIngredientsListView();
         bindViewModel(); 
     }
  
-    private void createNameRecipeView(){
+    private void createRecipeNameView(){
         this.recipeNameToggle = true;
 
         this.lblUserMessage = new Label("Click to rename your recipe!");
@@ -74,7 +74,7 @@ public class RecipeView extends StackPane{
         this.hboxRecipeNameInput.setAlignment(Pos.CENTER);
         this.hboxRecipeNameInput.setStyle(GlobalValues.COLOR_PRIMARY);        
         this.hboxRecipeNameInput.getChildren().addAll(this.tfRecipeName);        
-        this.hboxRecipeNameInput.setPrefWidth(900);
+        this.hboxRecipeNameInput.setPrefWidth(GlobalValues.APP_WIDTH);
         HBox.setHgrow(this.tfRecipeName, Priority.ALWAYS);
 
         this.separatorNameInput.getChildren().addAll(this.hboxRecipeNameInput, this.btnSaveRecipeName);
@@ -91,11 +91,11 @@ public class RecipeView extends StackPane{
         /*********************************Input display screen*********************************/
 
         //Hbox container that displays user input via label             
-        this.hboxRecipeNameLabel.setSpacing(10);
+        // this.hboxRecipeNameLabel.setSpacing(10);
         this.hboxRecipeNameLabel.setAlignment(Pos.CENTER);
         this.hboxRecipeNameLabel.setStyle(GlobalValues.COLOR_PRIMARY);
         this.hboxRecipeNameLabel.getChildren().addAll(this.lblRecipeName);        
-        this.hboxRecipeNameLabel.setPrefWidth(900);
+        this.hboxRecipeNameLabel.setPrefWidth(GlobalValues.APP_WIDTH);
 
         //Vbox to vertically align lblUserMessage and lblRecipeName 
         this.separatorNameLabel.getChildren().addAll(this.hboxRecipeNameLabel, this.lblUserMessage);
@@ -109,10 +109,11 @@ public class RecipeView extends StackPane{
         this.vboxLabelContainer.setStyle(GlobalValues.COLOR_PRIMARY);
         this.vboxLabelContainer.getChildren().addAll(separatorNameLabel);
 
-        //initial display      
-        //Stacking containers, rather than only adding the one you are viewing/editing, allows for a smoother 
-        //transition effect when calling the fadeIn() and fadeOut() methods 
-        this.getChildren().addAll(this.vboxLabelContainer, this.vboxInputContainer);
+        //initial display              
+        this.add(this.vboxLabelContainer, 0, 0);
+        this.add(this.vboxInputContainer, 0, 0);
+        // GridPane.setColumnSpan(vboxInputContainer, 2);        
+        // GridPane.setColumnSpan(vboxLabelContainer, 2);
     }
 
     //SwapLayer being called by a MouseEvent 
@@ -130,65 +131,54 @@ public class RecipeView extends StackPane{
         swap();
     }
 
-    //only works for two items, rework for 3 and above to use in application function traversal
     private void swap(){
-
-        /**/
-        //swap logic that checks for the top most element
-        // if (this.getChildren().getLast() == this.vboxInputContainer){
-        //     System.out.println("You are on the input view, now swapping to label view.");           
-        //     this.getChildren().clear();
-        //     this.getChildren().addAll(this.vboxInputContainer, this.vboxLabelContainer);
-        //     return;
-        // }
-        // System.out.println("You are on the label view, now swapping to input view.");   
-        // this.getChildren().clear();;
-        // this.getChildren().addAll(this.vboxLabelContainer, this.vboxInputContainer);
-        /**/
-
-        /**/
-        //swap logic that checks against a boolean (addtional boolean attribute required), limited to two elements, may be perfect for usage here.
-        //TODO: BROKEN, opacity doesnt remove element so you cant click through an invisible element. rework
         if(this.recipeNameToggle){
-            fadeOut(this.vboxInputContainer);
+            Utility.fadeOut(this.vboxInputContainer);
             this.btnSaveRecipeName.setDisable(true);
-            this.tfRecipeName.setDisable(true);
-            this.getChildren().clear();
-            this.getChildren().addAll(this.vboxInputContainer, this.vboxLabelContainer);
-            fadeIn(this.vboxLabelContainer);
+            this.tfRecipeName.setDisable(true);            
+            binarySwap(vboxLabelContainer, vboxInputContainer);
+            Utility.fadeIn(this.vboxLabelContainer);
             this.recipeNameToggle = !this.recipeNameToggle;            
         }else{
-            fadeOut(this.vboxLabelContainer);
+            Utility.fadeOut(this.vboxLabelContainer);
             this.btnSaveRecipeName.setDisable(false);
-            this.tfRecipeName.setDisable(false);
-            this.getChildren().clear();
-            this.getChildren().addAll(this.vboxLabelContainer, this.vboxInputContainer);
-            fadeIn(this.vboxInputContainer);
+            this.tfRecipeName.setDisable(false);            
+            binarySwap(vboxInputContainer, vboxLabelContainer);
+            Utility.fadeIn(this.vboxInputContainer);
             this.recipeNameToggle = !this.recipeNameToggle;  
         }
-        /**/
+    }
+    private void binarySwap(Node front, Node back){
+        for(Node node : this.getChildren()){
+            if(GridPane.getColumnIndex(node) == GridPane.getColumnIndex(front) && GridPane.getRowIndex(node) == GridPane.getRowIndex(front)) {               
+                this.getChildren().removeAll(front, back);                      
+                this.add(back, GridPane.getColumnIndex(node), GridPane.getRowIndex(node));                 
+                this.add(front, GridPane.getColumnIndex(node), GridPane.getRowIndex(node));
+                break;
+            }
+        }
     }
 
     // These fadeIn / fadeOut use Node as it is the base class (superclass) for all components added to the JavaFX Scene Graph. 
     // The JavaFX Node class is abstract, so you will only add subclasses of the Node.
     // When I use it in the RecipeView, I pass in a VBox not a Node. 
-    private void fadeIn(Node elementToTransition) {        
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), elementToTransition);
-        ft.setFromValue(0.0);
-        ft.setToValue(1.0);
-        ft.setCycleCount(1);
-        ft.setAutoReverse(false);
-        ft.play();        
-    }
+    // private void fadeIn(Node elementToTransition) {        
+    //     FadeTransition ft = new FadeTransition(Duration.millis(1000), elementToTransition);
+    //     ft.setFromValue(0.0);
+    //     ft.setToValue(1.0);
+    //     ft.setCycleCount(1);
+    //     ft.setAutoReverse(false);
+    //     ft.play();        
+    // }
 
-    private void fadeOut(Node elementToTransition) {
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), elementToTransition);
-        ft.setFromValue(1.0);
-        ft.setToValue(0.0);
-        ft.setCycleCount(1);
-        ft.setAutoReverse(false);
-        ft.play();
-    }
+    // private void fadeOut(Node elementToTransition) {
+    //     FadeTransition ft = new FadeTransition(Duration.millis(1000), elementToTransition);
+    //     ft.setFromValue(1.0);
+    //     ft.setToValue(0.0);
+    //     ft.setCycleCount(1);
+    //     ft.setAutoReverse(false);
+    //     ft.play();
+    // }
 
     private void bindViewModel(){
         this.tfRecipeName.textProperty().bindBidirectional(recipeViewModel.nameProperty());
