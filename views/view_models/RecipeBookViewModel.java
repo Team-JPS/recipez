@@ -8,7 +8,7 @@ import models.POJO.Recipe;
 
 public class RecipeBookViewModel {
 
-    //This is the property that will house the recipe book
+    //This is the property that will house the recipe book, I think this will work
     private final ObservableList<Recipe> recipeBook;
 
     //Constructor for this class
@@ -20,10 +20,12 @@ public class RecipeBookViewModel {
             loadedFromStorage.add(new Recipe(name));
         }
         //DO NOT GET HUNG UP on the above logic, that is NOT how we are loading our data into the app.
+
+        //loadedFromStorage is an Arraylist<Recipe>
         this.recipeBook = FXCollections.observableArrayList(loadedFromStorage);
     }
 
-    public ObservableList<Recipe> getRecipeBook(){      
+    public ObservableList<Recipe> getRecipeBook(){   
         return this.recipeBook;
     }
 

@@ -47,7 +47,9 @@ public class RecipeBookView extends StackPane {
     //Do not delete the current getRecipeBook(), add another that returns a ArrayList<Recipe>.
     public ArrayList<Recipe> searchRecipes(String typeOfSort) {
         ObservableList<Recipe> book = this.recipeBookViewModel.getRecipeBook();
-        return new ArrayList<Recipe>();
+        //soooo apparantly this is a way to get the ArrayList out of the ObservableList, I would use the logic in this return statement 
+        // in the RecipeBookViewModel to return the array list
+        return ((ArrayList<Recipe>)book.stream().toList());
     }
 
     //Same goes for this. 

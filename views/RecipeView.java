@@ -13,8 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.util.Duration;
+import util.GlobalValues;
 
 //extends StackPane to use z-indexing of elements
 public class RecipeView extends StackPane{
@@ -25,10 +25,6 @@ public class RecipeView extends StackPane{
     private HBox hboxRecipeNameInput, hboxRecipeNameLabel;
     private VBox vboxInputContainer, separatorNameInput, vboxLabelContainer, separatorNameLabel;
     private boolean recipeNameToggle;
-
-    private final Font smallFont = new Font("Arial", 12);
-    private final Font mediumFont = new Font("Arial", 24);
-    private final Font largeFont = new Font("Arial", 36);
     
     private final RecipeViewModel recipeViewModel = new RecipeViewModel();
 
@@ -41,22 +37,18 @@ public class RecipeView extends StackPane{
         this.recipeNameToggle = true;
 
         this.lblUserMessage = new Label("Click to rename your recipe!");
-        this.lblRecipeName = new Label("");
-        // this.lblRecipeName2 = new Label("Recipe Name 2");        
+        this.lblRecipeName = new Label("");       
         this.tfRecipeName = new TextField("");
         this.btnSaveRecipeName = new Button("Save");
 
-        this.lblUserMessage.setFont(this.largeFont);
-        this.lblRecipeName.setFont(this.largeFont);
-        // this.lblRecipeName2.setFont(this.font);
-        this.tfRecipeName.setFont(this.largeFont);
-        this.btnSaveRecipeName.setFont(this.mediumFont);
+        this.lblUserMessage.setFont(GlobalValues.LARGE_FONT);
+        this.lblRecipeName.setFont(GlobalValues.LARGE_FONT);
+        this.tfRecipeName.setFont(GlobalValues.LARGE_FONT);
+        this.btnSaveRecipeName.setFont(GlobalValues.MEDIUM_FONT);
 
         this.lblRecipeName.setStyle("-fx-padding: 12 8 8 8");
-        // this.tfRecipeName.setStyle("-fx-alignment: center");
         this.tfRecipeName.setAlignment(Pos.CENTER);
         this.btnSaveRecipeName.setAlignment(Pos.CENTER);
-
 
         this.lblUserMessage.setOnMouseClicked(this::swapLayer);
         this.lblRecipeName.setOnMouseClicked(this::swapLayer);
@@ -77,7 +69,7 @@ public class RecipeView extends StackPane{
         //Hbox container for textfield for user input   
         this.hboxRecipeNameInput.setSpacing(10);
         this.hboxRecipeNameInput.setAlignment(Pos.CENTER);
-        this.hboxRecipeNameInput.setStyle("-fx-background-color: #fccdb6");        
+        this.hboxRecipeNameInput.setStyle(GlobalValues.COLOR_PRIMARY);        
         this.hboxRecipeNameInput.getChildren().addAll(this.tfRecipeName);        
         this.hboxRecipeNameInput.setPrefWidth(900);
         HBox.setHgrow(this.tfRecipeName, Priority.ALWAYS);
@@ -85,12 +77,12 @@ public class RecipeView extends StackPane{
         this.separatorNameInput.getChildren().addAll(this.hboxRecipeNameInput, this.btnSaveRecipeName);
         this.separatorNameInput.setAlignment(Pos.TOP_CENTER);
         this.separatorNameInput.setPrefHeight(150);
-        this.separatorNameInput.setStyle("-fx-background-color: #fccdb6");
+        this.separatorNameInput.setStyle(GlobalValues.COLOR_PRIMARY);
         
         //Vbox to hold Hbox to user input textfield
-        this.vboxInputContainer.setPrefHeight(300);
+        this.vboxInputContainer.setPrefHeight(GlobalValues.VIEW_HEIGHTH);
         this.vboxInputContainer.setAlignment(Pos.CENTER);
-        this.vboxInputContainer.setStyle("-fx-background-color: #fccdb6");
+        this.vboxInputContainer.setStyle(GlobalValues.COLOR_PRIMARY);
         this.vboxInputContainer.getChildren().addAll(separatorNameInput);
 
         /*********************************Input display screen*********************************/
@@ -98,7 +90,7 @@ public class RecipeView extends StackPane{
         //Hbox container that displays user input via label             
         this.hboxRecipeNameLabel.setSpacing(10);
         this.hboxRecipeNameLabel.setAlignment(Pos.CENTER);
-        this.hboxRecipeNameLabel.setStyle("-fx-background-color: #fccdb6");
+        this.hboxRecipeNameLabel.setStyle(GlobalValues.COLOR_PRIMARY);
         this.hboxRecipeNameLabel.getChildren().addAll(this.lblRecipeName);        
         this.hboxRecipeNameLabel.setPrefWidth(900);
 
@@ -106,18 +98,16 @@ public class RecipeView extends StackPane{
         this.separatorNameLabel.getChildren().addAll(this.hboxRecipeNameLabel, this.lblUserMessage);
         this.separatorNameLabel.setAlignment(Pos.TOP_CENTER);
         this.separatorNameLabel.setPrefHeight(150);        
-        this.separatorNameLabel.setStyle("-fx-background-color: #fccdb6");
+        this.separatorNameLabel.setStyle(GlobalValues.COLOR_PRIMARY);
         
         //Vbox to hold Hbox user input label     
-        this.vboxLabelContainer.setPrefHeight(300);
+        this.vboxLabelContainer.setPrefHeight(GlobalValues.VIEW_HEIGHTH);
         this.vboxLabelContainer.setAlignment(Pos.CENTER);
-        this.vboxLabelContainer.setStyle("-fx-background-color: #fccdb6");
+        this.vboxLabelContainer.setStyle(GlobalValues.COLOR_PRIMARY);
         this.vboxLabelContainer.getChildren().addAll(separatorNameLabel);
 
-        //initial display
-      
+        //initial display      
         this.getChildren().addAll(this.vboxLabelContainer, this.vboxInputContainer);
-        // fadeOut(this.separatorNameLabel);
     }
 
     //SwapLayer being called by a MouseEvent 
