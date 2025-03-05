@@ -7,23 +7,33 @@ public class Recipe {
  
     private String recipeName; 
     private ArrayList<Ingredient> recipeIngredients; 
+    private ArrayList<String> recipeInstructions;
           
     public Recipe(String name){        
         this.recipeName = name;
-        String[] storage = {"Carrot, cheese, Bacon"};
-        ArrayList<Ingredient> loadedFromStorage = new ArrayList<Ingredient>();       
-        for (String ingredient : storage) {
-            loadedFromStorage.add(new Ingredient(ingredient));
-        }
-        this.recipeIngredients = loadedFromStorage;
-
-
+        this.recipeIngredients = new ArrayList<Ingredient>();
+        this.recipeInstructions = new ArrayList<String>();
     }
 
-    public Recipe(String name, ArrayList<Ingredient> recipeIngredients){
+    // public Recipe(String name, ArrayList<Ingredient> recipeIngredients){
         
+    // }
+
+    public void setInstructions(ArrayList<String> instructions){
+        this.recipeInstructions = instructions;
     }
 
+    public ArrayList<String> getInstructions(){
+        return this.recipeInstructions;
+    }
+
+    public void setIngredients(ArrayList<Ingredient> ingredients){
+        this.recipeIngredients = ingredients;
+    }
+
+    public ArrayList<Ingredient> getIngredients(){
+        return this.recipeIngredients;
+    }
 
     public String getRecipeName(){
         return this.recipeName;

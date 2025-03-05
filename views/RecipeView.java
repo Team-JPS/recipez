@@ -1,6 +1,10 @@
 package views;
 
 import views.view_models.RecipeViewModel;
+
+import java.util.ArrayList;
+
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -13,12 +17,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import models.POJO.Ingredient;
 import util.GlobalValues;
 import util.Utility;
 
 //extends StackPane to use z-indexing of elements
 public class RecipeView extends GridPane{
 
+    // Add/Edit Recipe Name UI elements
     private Label lblRecipeName, lblUserMessage;
     private TextField tfRecipeName;
     private Button btnSaveRecipeName;
@@ -26,12 +32,37 @@ public class RecipeView extends GridPane{
     private VBox vboxInputContainer, separatorNameInput, vboxLabelContainer, separatorNameLabel;
     private boolean recipeNameToggle;
     
+    // Add/remove recipe ingredients UI Elements
+    private VBox vboxIngredientsList;
+
+
     private final RecipeViewModel recipeViewModel = new RecipeViewModel();
 
     public RecipeView(){       
         createRecipeNameView();
-        // createIngredientsListView();
+        createIngredientsListView();
+        // createInstructionsListView();
         bindViewModel(); 
+    }
+
+
+
+
+    private void createIngredientsListView(){
+        this.vboxIngredientsList = new VBox();
+
+        String[] storage = {"Carrot, cheese, Bacon"};
+        ArrayList<Ingredient> loadedFromStorage = new ArrayList<Ingredient>();       
+        for (String ingredient : storage) {
+            loadedFromStorage.add(new Ingredient(ingredient));
+        }
+
+        for(Ingredient ingredient : loadedFromStorage){
+            this.vboxIngredientsList.getChildren().add(new Label(ingredient.getName())); 
+        }
+        this.add(this.vboxIngredientsList, 1, 1);
+        this.vboxIngredientsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);
+        
     }
  
     private void createRecipeNameView(){
@@ -72,7 +103,7 @@ public class RecipeView extends GridPane{
         //Hbox container for textfield for user input   
         this.hboxRecipeNameInput.setSpacing(10);
         this.hboxRecipeNameInput.setAlignment(Pos.CENTER);
-        this.hboxRecipeNameInput.setStyle(GlobalValues.COLOR_PRIMARY);        
+        this.hboxRecipeNameInput.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
         this.hboxRecipeNameInput.getChildren().addAll(this.tfRecipeName);        
         this.hboxRecipeNameInput.setPrefWidth(GlobalValues.APP_WIDTH);
         HBox.setHgrow(this.tfRecipeName, Priority.ALWAYS);
@@ -80,10 +111,10 @@ public class RecipeView extends GridPane{
         this.separatorNameInput.getChildren().addAll(this.hboxRecipeNameInput, this.btnSaveRecipeName);
         this.separatorNameInput.setAlignment(Pos.TOP_CENTER);
         this.separatorNameInput.setPrefHeight(150);
-        this.separatorNameInput.setStyle(GlobalValues.COLOR_PRIMARY);
+        this.separatorNameInput.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);
         
         //Vbox to hold Hbox to user input textfield
-        this.vboxInputContainer.setPrefHeight(GlobalValues.VIEW_HEIGHTH);
+        this.vboxInputContainer.setPrefHeight(GlobalValues.VIEW_HEIGHTH-300);
         this.vboxInputContainer.setAlignment(Pos.CENTER);
         this.vboxInputContainer.setStyle(GlobalValues.COLOR_PRIMARY);
         this.vboxInputContainer.getChildren().addAll(separatorNameInput);
@@ -104,7 +135,7 @@ public class RecipeView extends GridPane{
         this.separatorNameLabel.setStyle(GlobalValues.COLOR_PRIMARY);
         
         //Vbox to hold Hbox user input label     
-        this.vboxLabelContainer.setPrefHeight(GlobalValues.VIEW_HEIGHTH);
+        this.vboxLabelContainer.setPrefHeight(GlobalValues.VIEW_HEIGHTH-300);
         this.vboxLabelContainer.setAlignment(Pos.CENTER);
         this.vboxLabelContainer.setStyle(GlobalValues.COLOR_PRIMARY);
         this.vboxLabelContainer.getChildren().addAll(separatorNameLabel);
@@ -112,8 +143,8 @@ public class RecipeView extends GridPane{
         //initial display              
         this.add(this.vboxLabelContainer, 0, 0);
         this.add(this.vboxInputContainer, 0, 0);
-        // GridPane.setColumnSpan(vboxInputContainer, 2);        
-        // GridPane.setColumnSpan(vboxLabelContainer, 2);
+        GridPane.setColumnSpan(vboxInputContainer, 2);        
+        GridPane.setColumnSpan(vboxLabelContainer, 2);
     }
 
     //SwapLayer being called by a MouseEvent 

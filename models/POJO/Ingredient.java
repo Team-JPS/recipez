@@ -30,5 +30,10 @@ public class Ingredient {
         this.quantity = 1;
         this.measurement = "1";
     }
+
+    public String getName(){
+        return this.ingredientName;
+    }
+
     // Add Setters and Getters
 }

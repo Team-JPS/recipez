@@ -2,6 +2,7 @@ package views;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,7 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import util.GlobalValues;
 
 public class HomeView extends Scene {
@@ -61,7 +61,7 @@ public class HomeView extends Scene {
         //Vbox for welcome screen prettified
         this.vboxHomeScreen.setPrefHeight(GlobalValues.VIEW_HEIGHTH);
         this.vboxHomeScreen.setAlignment(Pos.CENTER);
-        this.vboxHomeScreen.setStyle(GlobalValues.COLOR_PRIMARY);
+        this.vboxHomeScreen.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);
 
         //navigation holder prettified
         this.hboxNavigation.setPrefWidth(GlobalValues.APP_WIDTH);
@@ -81,19 +81,32 @@ public class HomeView extends Scene {
         this.root.getChildren().addAll(vboxApplication);
     }
 
-    //TODO: Bad navigation logic, need to rework so disabled buttons can be enabled
+    //Fixed navigation issue, buttons will disable/enable as appropriate. May need a efficiency rework
     private void navigation(ActionEvent event){
         String buttonText = ((Button)event.getSource()).getText();
         if (buttonText == "New Recipe") {
+            for(Node button : this.hboxNavigation.getChildren()){
+                ((Button)button).setDisable(false);
+            }
             this.spScreen.getChildren().clear();
-            this.spScreen.getChildren().addAll(this.recipeView);
+            this.spScreen.getChildren().add(this.recipeView);
             ((Button)event.getSource()).setDisable(true); 
         }
-        // if (buttonText == "Recipe Book") {
-        //     this.spScreen.getChildren().clear();
-        //     this.spScreen.getChildren().addAll(this.recipeBookView);
-        //     ((Button)evt.getSource()).setDisable(true); 
-        // }
-
+        if (buttonText == "Recipe Book") {
+            for(Node button : this.hboxNavigation.getChildren()){
+                ((Button)button).setDisable(false);
+            }
+            // this.spScreen.getChildren().clear();
+            // this.spScreen.getChildren().add(this.recipeBookView);
+            ((Button)event.getSource()).setDisable(true); 
+        }
+        if (buttonText == "Meal Planner") {
+            for(Node button : this.hboxNavigation.getChildren()){
+                ((Button)button).setDisable(false);
+            }
+            // this.spScreen.getChildren().clear();
+            // this.spScreen.getChildren().add(this.mealPlannerView);
+            ((Button)event.getSource()).setDisable(true); 
+        }
     }
 }
