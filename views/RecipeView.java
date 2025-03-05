@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -35,17 +36,40 @@ public class RecipeView extends GridPane{
     // Add/remove recipe ingredients UI Elements
     private VBox vboxIngredientsList;
 
+    //Add/remove recipe instructions UI Elements
+    private VBox vboxInstructionsList;
+
 
     private final RecipeViewModel recipeViewModel = new RecipeViewModel();
 
-    public RecipeView(){       
+    public RecipeView(){  
+        this.setVgap(5);
+        this.setHgap(5);  
+        ColumnConstraints columns = new ColumnConstraints(); 
+        columns.setPercentWidth(50);
+        this.getColumnConstraints().addAll(columns);   
         createRecipeNameView();
         createIngredientsListView();
-        // createInstructionsListView();
+        createInstructionsListView();
         bindViewModel(); 
     }
 
+    private void createInstructionsListView(){
+        this.vboxInstructionsList = new VBox();
 
+        String[] storage = {"Turn up heat, Cook the stuff, let cool and serve"};
+        ArrayList<String> loadedFromStorage = new ArrayList<String>();       
+        for (String instruction : storage) {
+            loadedFromStorage.add(instruction);
+        }
+
+        for(String instruction : loadedFromStorage){
+            this.vboxInstructionsList.getChildren().add(new Label(instruction)); 
+        }
+        this.add(this.vboxInstructionsList, 0, 1);
+        this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);
+        
+    }
 
 
     private void createIngredientsListView(){
