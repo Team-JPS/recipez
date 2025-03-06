@@ -11,7 +11,7 @@ import models.POJO.Ingredient;
 import models.POJO.Recipe;
 import util.ViewToModelConverter;
 
-
+// This can be used by both RecipeView and CreateRecipeView... I think... formulate plan for use across both...
 public class RecipeViewModel {   
     
     //Data elements

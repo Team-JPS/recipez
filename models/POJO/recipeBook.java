@@ -1,14 +1,16 @@
+package models.POJO;
 
 import java.util.ArrayList;
 
 public class RecipeBook {
+    
     private ArrayList<Recipe> recipes;
 
     public RecipeBook() {
-        this.recipes = new ArrayList<>();
+        this.recipes = new ArrayList<Recipe>();
     }
 
-    public Arraylist<recipe> getRecipes() {
+    public ArrayList<Recipe> getRecipes() {
         return this.recipes;
     }
     

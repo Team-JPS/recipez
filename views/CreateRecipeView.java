@@ -66,10 +66,8 @@ public class CreateRecipeView extends GridPane{
             this.vboxInstructionsList.getChildren().add(new Label(instruction)); 
         }
         this.add(this.vboxInstructionsList, 0, 1);
-        this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);
-        
+        this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
     }
-
 
     private void createIngredientsListView(){
         this.vboxIngredientsList = new VBox();
@@ -212,27 +210,6 @@ public class CreateRecipeView extends GridPane{
             }
         }
     }
-
-    // These fadeIn / fadeOut use Node as it is the base class (superclass) for all components added to the JavaFX Scene Graph. 
-    // The JavaFX Node class is abstract, so you will only add subclasses of the Node.
-    // When I use it in the RecipeView, I pass in a VBox not a Node. 
-    // private void fadeIn(Node elementToTransition) {        
-    //     FadeTransition ft = new FadeTransition(Duration.millis(1000), elementToTransition);
-    //     ft.setFromValue(0.0);
-    //     ft.setToValue(1.0);
-    //     ft.setCycleCount(1);
-    //     ft.setAutoReverse(false);
-    //     ft.play();        
-    // }
-
-    // private void fadeOut(Node elementToTransition) {
-    //     FadeTransition ft = new FadeTransition(Duration.millis(1000), elementToTransition);
-    //     ft.setFromValue(1.0);
-    //     ft.setToValue(0.0);
-    //     ft.setCycleCount(1);
-    //     ft.setAutoReverse(false);
-    //     ft.play();
-    // }
 
     private void bindViewModel(){
         this.tfRecipeName.textProperty().bindBidirectional(recipeViewModel.nameProperty());

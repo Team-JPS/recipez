@@ -22,8 +22,6 @@ public class Utility {
         ft.setCycleCount(1);
         ft.setAutoReverse(false);
         ft.play();
-    }
-
-    
+    }    
 
 }
