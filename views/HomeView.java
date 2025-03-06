@@ -14,33 +14,33 @@ import util.GlobalValues;
 
 public class HomeView extends Scene {
     private Pane root;      
-    private Button btnRecipeCreate, btnRecipeBook, btnMealPlanner;
+    private Button btnCreateRecipe, btnRecipeBook, btnMealPlanner;
     private HBox hboxNavigation;
     private VBox vboxApplication, vboxHomeScreen;
     private Label welcome;
     private StackPane spScreen;
 
     //The views for our application 
-    private RecipeView recipeView;
-    // private RecipeBookView recipeBookView;
+    private CreateRecipeView createRecipeView;
+    private RecipeBookView recipeBookView;
     // private MealPlannerView MealPlannerView;
     
     public HomeView() {
         //Constructor call super() to parent Scene
         //Change varbiable values in GlobalValues class to alter aspect ratio.
-        super(new Pane(), GlobalValues.APP_WIDTH, GlobalValues.APP_HEIGHTH);                 
+        super(new Pane(), GlobalValues.APP_WIDTH, GlobalValues.APP_HEIGHT);                 
         createView();
     }
 
     private void createView(){
         //intializing 
         root = ((Pane)this.getRoot());
-        this.recipeView = new RecipeView();
-        // this.recipeBookView = new RecipeBookView();
+        this.createRecipeView = new CreateRecipeView();
+        this.recipeBookView = new RecipeBookView();
         // this.mealPlannerView = new MealPlannerView();
 
         //Application Navigation buttons initialized
-        this.btnRecipeCreate = new Button("New Recipe");
+        this.btnCreateRecipe = new Button("New Recipe");
         this.btnRecipeBook = new Button("Recipe Book");
         this.btnMealPlanner = new Button("Meal Planner");
 
@@ -59,24 +59,24 @@ public class HomeView extends Scene {
         this.welcome.setFont(GlobalValues.LARGE_FONT);
 
         //Vbox for welcome screen prettified
-        this.vboxHomeScreen.setPrefHeight(GlobalValues.VIEW_HEIGHTH);
+        this.vboxHomeScreen.setPrefHeight(GlobalValues.VIEW_HEIGHT);
         this.vboxHomeScreen.setAlignment(Pos.CENTER);
         this.vboxHomeScreen.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);
 
         //navigation holder prettified
         this.hboxNavigation.setPrefWidth(GlobalValues.APP_WIDTH);
-        this.hboxNavigation.setPrefHeight(GlobalValues.NAV_HEIGHTH);
+        this.hboxNavigation.setPrefHeight(GlobalValues.NAV_HEIGHT);
         this.hboxNavigation.setAlignment(Pos.CENTER);
 
         //setting up action for click on navigation buttons
-        this.btnRecipeCreate.setOnAction(this::navigation);
+        this.btnCreateRecipe.setOnAction(this::navigation);
         this.btnRecipeBook.setOnAction(this::navigation);
         this.btnMealPlanner.setOnAction(this::navigation);
 
         // Putting the UI elements together
         this.vboxHomeScreen.getChildren().addAll(this.welcome);
         this.spScreen.getChildren().addAll(vboxHomeScreen);
-        this.hboxNavigation.getChildren().addAll(btnRecipeCreate, btnRecipeBook, btnMealPlanner);
+        this.hboxNavigation.getChildren().addAll(btnCreateRecipe, btnRecipeBook, btnMealPlanner);
         this.vboxApplication.getChildren().addAll(spScreen, hboxNavigation);
         this.root.getChildren().addAll(vboxApplication);
     }
@@ -89,18 +89,16 @@ public class HomeView extends Scene {
                 ((Button)button).setDisable(false);
             }
             this.spScreen.getChildren().clear();
-            this.spScreen.getChildren().add(this.recipeView);
+            this.spScreen.getChildren().add(this.createRecipeView);
             ((Button)event.getSource()).setDisable(true); 
-        }
-        if (buttonText == "Recipe Book") {
+        }else if (buttonText == "Recipe Book") {
             for(Node button : this.hboxNavigation.getChildren()){
                 ((Button)button).setDisable(false);
             }
-            // this.spScreen.getChildren().clear();
-            // this.spScreen.getChildren().add(this.recipeBookView);
+            this.spScreen.getChildren().clear();
+            this.spScreen.getChildren().add(this.recipeBookView);
             ((Button)event.getSource()).setDisable(true); 
-        }
-        if (buttonText == "Meal Planner") {
+        }else if (buttonText == "Meal Planner") {
             for(Node button : this.hboxNavigation.getChildren()){
                 ((Button)button).setDisable(false);
             }

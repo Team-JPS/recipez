@@ -8,8 +8,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import models.POJO.Recipe;
+import util.GlobalValues;
 import views.view_models.RecipeBookViewModel;
- 
+
+//This extends StackPane, but you can change it to whatever UI element works best for your View Layout.
 public class RecipeBookView extends StackPane {
 
     //properties
@@ -32,6 +34,10 @@ public class RecipeBookView extends StackPane {
     public void createView(){
         //intialize the properties and Create the UI for recipe Book here. Any data you need to 
         //display will come from this.recipeBookViewModel
+        this.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);
+        this.setWidth(GlobalValues.APP_WIDTH);
+        this.setHeight(GlobalValues.VIEW_HEIGHT);
+        this.setMinHeight(GlobalValues.VIEW_HEIGHT);
 
     }
 

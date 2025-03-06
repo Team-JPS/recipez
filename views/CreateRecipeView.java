@@ -4,7 +4,6 @@ import views.view_models.RecipeViewModel;
 
 import java.util.ArrayList;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -23,7 +22,7 @@ import util.GlobalValues;
 import util.Utility;
 
 //extends StackPane to use z-indexing of elements
-public class RecipeView extends GridPane{
+public class CreateRecipeView extends GridPane{
 
     // Add/Edit Recipe Name UI elements
     private Label lblRecipeName, lblUserMessage;
@@ -42,7 +41,7 @@ public class RecipeView extends GridPane{
 
     private final RecipeViewModel recipeViewModel = new RecipeViewModel();
 
-    public RecipeView(){  
+    public CreateRecipeView(){  
         this.setVgap(5);
         this.setHgap(5);  
         ColumnConstraints columns = new ColumnConstraints(); 
@@ -138,7 +137,7 @@ public class RecipeView extends GridPane{
         this.separatorNameInput.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);
         
         //Vbox to hold Hbox to user input textfield
-        this.vboxInputContainer.setPrefHeight(GlobalValues.VIEW_HEIGHTH-300);
+        this.vboxInputContainer.setPrefHeight(GlobalValues.VIEW_HEIGHT-300);
         this.vboxInputContainer.setAlignment(Pos.CENTER);
         this.vboxInputContainer.setStyle(GlobalValues.COLOR_PRIMARY);
         this.vboxInputContainer.getChildren().addAll(separatorNameInput);
@@ -159,7 +158,7 @@ public class RecipeView extends GridPane{
         this.separatorNameLabel.setStyle(GlobalValues.COLOR_PRIMARY);
         
         //Vbox to hold Hbox user input label     
-        this.vboxLabelContainer.setPrefHeight(GlobalValues.VIEW_HEIGHTH-300);
+        this.vboxLabelContainer.setPrefHeight(GlobalValues.VIEW_HEIGHT-300);
         this.vboxLabelContainer.setAlignment(Pos.CENTER);
         this.vboxLabelContainer.setStyle(GlobalValues.COLOR_PRIMARY);
         this.vboxLabelContainer.getChildren().addAll(separatorNameLabel);
