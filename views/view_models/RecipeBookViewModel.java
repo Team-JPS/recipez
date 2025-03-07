@@ -14,7 +14,7 @@ public class RecipeBookViewModel {
     //Constructor for this class
     public RecipeBookViewModel(){
         //This will create an ArrayList and put it into the ObservableList<Recipe> recipeBook.
-        String[] storage = {"Cheese Burger, Fries, Shake"};
+        String[] storage = {"Cheese Burger", "Fries", "Shake"};
         ArrayList<Recipe> loadedFromStorage = new ArrayList<Recipe>();       
         for (String name : storage) {
             loadedFromStorage.add(new Recipe(name));

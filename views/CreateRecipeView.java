@@ -56,14 +56,14 @@ public class CreateRecipeView extends GridPane{
     private void createInstructionsListView(){
         this.vboxInstructionsList = new VBox();
 
-        String[] storage = {"Turn up heat, Cook the stuff, let cool and serve"};
+        String[] storage = {"Turn up heat", "Cook the stuff", "let cool and serve"};
         ArrayList<String> loadedFromStorage = new ArrayList<String>();       
         for (String instruction : storage) {
             loadedFromStorage.add(instruction);
         }
 
         for(String instruction : loadedFromStorage){
-            this.vboxInstructionsList.getChildren().add(new Label(instruction)); 
+            this.vboxInstructionsList.getChildren().add(new Button(instruction)); 
         }
         this.add(this.vboxInstructionsList, 0, 1);
         this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
@@ -72,7 +72,7 @@ public class CreateRecipeView extends GridPane{
     private void createIngredientsListView(){
         this.vboxIngredientsList = new VBox();
 
-        String[] storage = {"Carrot, cheese, Bacon"};
+        String[] storage = {"Carrot", "cheese", "Bacon"};
         ArrayList<Ingredient> loadedFromStorage = new ArrayList<Ingredient>();       
         for (String ingredient : storage) {
             loadedFromStorage.add(new Ingredient(ingredient));
