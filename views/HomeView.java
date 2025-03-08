@@ -17,8 +17,8 @@ public class HomeView extends Scene {
     private Button btnCreateRecipe, btnRecipeBook, btnMealPlanner;
     private HBox hboxNavigation;
     private VBox vboxApplication, vboxHomeScreen;
-    private Label welcome;
-    private StackPane spScreen;
+    private Label lblWelcome;
+    private StackPane spViewDisplay;
 
     //The views for our application 
     private CreateRecipeView createRecipeView;
@@ -47,16 +47,16 @@ public class HomeView extends Scene {
         //vboxHomeScreen is the element that will be swapped out for our views
         //Welcome message to the user when first starting app, will be populated in vBoxHomeScreen.
         this.vboxHomeScreen = new VBox();
-        this.welcome = new Label("Welcome!");      
+        this.lblWelcome = new Label("Welcome!");      
         
         //vBoxApplication is where the the whole of the application will be housed. 
-        //This StackPane will be where our views will display
+        //The spViewDisplay StackPane is where our views will display
         this.vboxApplication = new VBox();
-        this.spScreen = new StackPane();
+        this.spViewDisplay = new StackPane();
         this.hboxNavigation = new HBox();
         
         //setting up the fluff, the pretty stuff
-        this.welcome.setFont(GlobalValues.LARGE_FONT);
+        this.lblWelcome.setFont(GlobalValues.LARGE_FONT);
 
         //Vbox for welcome screen prettified
         this.vboxHomeScreen.setPrefHeight(GlobalValues.VIEW_HEIGHT);
@@ -74,10 +74,10 @@ public class HomeView extends Scene {
         this.btnMealPlanner.setOnAction(this::navigation);
 
         // Putting the UI elements together
-        this.vboxHomeScreen.getChildren().addAll(this.welcome);
-        this.spScreen.getChildren().addAll(vboxHomeScreen);
+        this.vboxHomeScreen.getChildren().addAll(this.lblWelcome);
+        this.spViewDisplay.getChildren().addAll(vboxHomeScreen);
         this.hboxNavigation.getChildren().addAll(btnCreateRecipe, btnRecipeBook, btnMealPlanner);
-        this.vboxApplication.getChildren().addAll(spScreen, hboxNavigation);
+        this.vboxApplication.getChildren().addAll(spViewDisplay, hboxNavigation);
         this.root.getChildren().addAll(vboxApplication);
     }
 
@@ -88,22 +88,22 @@ public class HomeView extends Scene {
             for(Node button : this.hboxNavigation.getChildren()){
                 ((Button)button).setDisable(false);
             }
-            this.spScreen.getChildren().clear();
-            this.spScreen.getChildren().add(this.createRecipeView);
+            this.spViewDisplay.getChildren().clear();
+            this.spViewDisplay.getChildren().add(this.createRecipeView);
             ((Button)event.getSource()).setDisable(true); 
         }else if (buttonText == "Recipe Book") {
             for(Node button : this.hboxNavigation.getChildren()){
                 ((Button)button).setDisable(false);
             }
-            this.spScreen.getChildren().clear();
-            this.spScreen.getChildren().add(this.recipeBookView);
+            this.spViewDisplay.getChildren().clear();
+            this.spViewDisplay.getChildren().add(this.recipeBookView);
             ((Button)event.getSource()).setDisable(true); 
         }else if (buttonText == "Meal Planner") {
             for(Node button : this.hboxNavigation.getChildren()){
                 ((Button)button).setDisable(false);
             }
-            // this.spScreen.getChildren().clear();
-            // this.spScreen.getChildren().add(this.mealPlannerView);
+            // this.spViewDisplay.getChildren().clear();
+            // this.spViewDisplay.getChildren().add(this.mealPlannerView);
             ((Button)event.getSource()).setDisable(true); 
         }
     }

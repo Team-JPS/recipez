@@ -21,7 +21,7 @@ import models.POJO.Ingredient;
 import util.GlobalValues;
 import util.Utility;
 
-//extends StackPane to use z-indexing of elements
+//extends GridPane, design choice for layout of elements. 
 public class CreateRecipeView extends GridPane{
 
     // Add/Edit Recipe Name UI elements
@@ -38,7 +38,7 @@ public class CreateRecipeView extends GridPane{
     //Add/remove recipe instructions UI Elements
     private VBox vboxInstructionsList;
 
-
+    //Data store for creating a recipe... RecipeViewModel has notes on its usage with CreateRecipeView and RecipeView.
     private final RecipeViewModel recipeViewModel = new RecipeViewModel();
 
     public CreateRecipeView(){  
@@ -88,7 +88,6 @@ public class CreateRecipeView extends GridPane{
  
     private void createRecipeNameView(){
         this.recipeNameToggle = true;
-
         this.lblUserMessage = new Label("Click to rename your recipe!");
         this.lblRecipeName = new Label("");       
         this.tfRecipeName = new TextField("");

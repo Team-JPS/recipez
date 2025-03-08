@@ -19,9 +19,10 @@ public class RecipeViewModel {
     private final ObservableList<Ingredient> recipeIngredients = FXCollections.observableArrayList();
     private final ObservableList<String> recipeInstructions = FXCollections.observableArrayList();
     
-    //Uses data from this viewModel to create a new Recipe class.
+    //Uses data from this viewModel (ReceipeViewModel) to create a new Recipe class.
     private final ViewToModelConverter converter = new ViewToModelConverter();
     
+    //I think data persistence for creating and saving a recipe will be here. 
     private final RecipeModel recipeModel = new RecipeModel();
 
     public ObservableList<String> instructionsProperty(){
@@ -65,7 +66,7 @@ public class RecipeViewModel {
     } 
     
     public void setName(String name){
-        System.out.println("setName() in RecipeViewModel() being called\nName: " + name);
+        System.out.println("setName() in the RecipeViewModel class is being called\nName: " + name);
         if(name == null || name.trim() == ""){
             System.out.print("Setting Name to Suspicious Nachos\n");
             this.recipeName.set("Suspicious Nachos");            
