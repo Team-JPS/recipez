@@ -44,13 +44,13 @@ public class HomeView extends Scene {
         this.btnRecipeBook = new Button("Recipe Book");
         this.btnMealPlanner = new Button("Meal Planner");
 
-        //vboxHomeScreen is the element that will be swapped out for our views
-        //Welcome message to the user when first starting app, will be populated in vBoxHomeScreen.
+        // vboxHomeScreen is the element that will be swapped out for our views
+        // lblWelcome stores a message to the user when first starting app, populate in vBoxHomeScreen.
         this.vboxHomeScreen = new VBox();
         this.lblWelcome = new Label("Welcome!");      
         
-        //vBoxApplication is where the the whole of the application will be housed. 
-        //The spViewDisplay StackPane is where our views will display
+        // vboxApplication is where the the whole of the application will be housed. Vbox was chosen to stack our views with the navigation below it. 
+        // The spViewDisplay StackPane is where our views will display
         this.vboxApplication = new VBox();
         this.spViewDisplay = new StackPane();
         this.hboxNavigation = new HBox();

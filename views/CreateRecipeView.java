@@ -124,10 +124,11 @@ public class CreateRecipeView extends GridPane{
         this.hboxRecipeNameInput.setSpacing(10);
         this.hboxRecipeNameInput.setAlignment(Pos.CENTER);
         this.hboxRecipeNameInput.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
-        this.hboxRecipeNameInput.getChildren().addAll(this.tfRecipeName);        
+        this.hboxRecipeNameInput.getChildren().add(this.tfRecipeName);        
         this.hboxRecipeNameInput.setPrefWidth(GlobalValues.APP_WIDTH);
         HBox.setHgrow(this.tfRecipeName, Priority.ALWAYS);
-
+        
+        //Vbox to vertically align tfRecipeName and btnSaveRecipeName 
         this.separatorNameInput.getChildren().addAll(this.hboxRecipeNameInput, this.btnSaveRecipeName);
         this.separatorNameInput.setAlignment(Pos.TOP_CENTER);
         this.separatorNameInput.setPrefHeight(150);
@@ -137,7 +138,7 @@ public class CreateRecipeView extends GridPane{
         this.vboxInputContainer.setPrefHeight(GlobalValues.VIEW_HEIGHT-300);
         this.vboxInputContainer.setAlignment(Pos.CENTER);
         this.vboxInputContainer.setStyle(GlobalValues.COLOR_PRIMARY);
-        this.vboxInputContainer.getChildren().addAll(separatorNameInput);
+        this.vboxInputContainer.getChildren().add(separatorNameInput);
 
         /*********************************Input display screen*********************************/
 
@@ -145,7 +146,7 @@ public class CreateRecipeView extends GridPane{
         // this.hboxRecipeNameLabel.setSpacing(10);
         this.hboxRecipeNameLabel.setAlignment(Pos.CENTER);
         this.hboxRecipeNameLabel.setStyle(GlobalValues.COLOR_PRIMARY);
-        this.hboxRecipeNameLabel.getChildren().addAll(this.lblRecipeName);        
+        this.hboxRecipeNameLabel.getChildren().add(this.lblRecipeName);        
         this.hboxRecipeNameLabel.setPrefWidth(GlobalValues.APP_WIDTH);
 
         //Vbox to vertically align lblUserMessage and lblRecipeName 
@@ -158,7 +159,7 @@ public class CreateRecipeView extends GridPane{
         this.vboxLabelContainer.setPrefHeight(GlobalValues.VIEW_HEIGHT-300);
         this.vboxLabelContainer.setAlignment(Pos.CENTER);
         this.vboxLabelContainer.setStyle(GlobalValues.COLOR_PRIMARY);
-        this.vboxLabelContainer.getChildren().addAll(separatorNameLabel);
+        this.vboxLabelContainer.getChildren().add(separatorNameLabel);
 
         //initial display              
         this.add(this.vboxLabelContainer, 0, 0);

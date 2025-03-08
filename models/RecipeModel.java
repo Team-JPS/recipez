@@ -13,5 +13,7 @@ public class RecipeModel {
 
     public void save(Recipe recipe){
         System.out.println("Saving: \n" + recipe.toString());
+
+       
     }
 }
