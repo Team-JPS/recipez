@@ -91,11 +91,13 @@ public class CreateRecipeView extends GridPane{
     private void createRecipeNameView(){
         this.recipeNameToggle = true;
         this.lblUserMessage = new Label("Click to rename your recipe!");
-        this.lblRecipeName = new Label("");
+        
         if(recipeViewModel.getName()!=null){
-            this.tfRecipeName = new TextField(recipeViewModel.getName());     
+            this.tfRecipeName = new TextField(recipeViewModel.getName()); 
+            this.lblRecipeName = new Label(recipeViewModel.getName());    
         }else{
             this.tfRecipeName = new TextField("It was null");
+            this.lblRecipeName = new Label("not good"); 
         }
         
         
@@ -259,14 +261,15 @@ public class CreateRecipeView extends GridPane{
     private void loadRecipe(){ 
         System.out.println("IS IT MAKING IT HERER!!!!!");
         recipeViewModel.load();
-        for(Node node : this.getChildren()){
-            if(node.getOpacity() < 1){
-                Utility.fadeIn(node);
-            }
-        }
-        this.getChildren().removeAll(this.vboxIngredientsList, this.vboxInstructionsList, this.vboxInputContainer, this.vboxLabelContainer);
+        // for(Node node : this.getChildren()){
+        //     if(node.getOpacity() < 1){
+        //         Utility.fadeIn(node);
+        //     }
+        // }
+        this.getChildren().clear();
         createRecipeNameView();
         createIngredientsListView();
         createInstructionsListView();
+        bindViewModel();
     }
 }
