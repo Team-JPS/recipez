@@ -1,5 +1,6 @@
 package com.recipez.models;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -40,13 +41,23 @@ public class RecipeModel {
         // Read Json from a file
         // Create a Gson instance
         Gson gson = new Gson();
-        try (Reader reader = new FileReader(filePath+"\\recipe.json")) {
-            // convert the JSON data to a Java object
-            recipe = gson.fromJson(reader, Recipe.class);
-            System.out.print("CHUCKY CHEESES");
-            System.out.println(recipe);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        File check = new File(filePath+"\\recipe.json");
+        
+        
+        if(check.exists()){
+            System.out.print("RECIPE IS PRESENT");
+            try {
+                Reader reader = new FileReader(filePath+"\\recipe.json");
+                // convert the JSON data to a Java object
+                recipe = gson.fromJson(reader, Recipe.class);
+                System.out.print("CHUCKY CHEESES");
+                System.out.println(recipe);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            //we should probably return an empty Recipe instead of null
+            recipe = new Recipe("temp");
         }
         return recipe;
     }

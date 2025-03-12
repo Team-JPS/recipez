@@ -2,6 +2,7 @@ package com.recipez.views;
 
 import com.recipez.views.view_models.RecipeViewModel;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
@@ -34,6 +35,7 @@ public class CreateRecipeView extends GridPane{
     
     // Add/remove recipe ingredients UI Elements
     private VBox vboxIngredientsList;
+    
 
     //Add/remove recipe instructions UI Elements
     private VBox vboxInstructionsList;
@@ -41,9 +43,7 @@ public class CreateRecipeView extends GridPane{
     //Data store for creating a recipe... RecipeViewModel has notes on its usage with CreateRecipeView and RecipeView.
     private final RecipeViewModel recipeViewModel = new RecipeViewModel();
 
-    public CreateRecipeView(){  
-     
-
+    public CreateRecipeView(){
         this.setVgap(5);
         this.setHgap(5);  
         ColumnConstraints columns = new ColumnConstraints(); 
@@ -57,6 +57,20 @@ public class CreateRecipeView extends GridPane{
 
     private void createInstructionsListView(){
         this.vboxInstructionsList = new VBox();
+
+        String workingDir = System.getProperty("user.dir");
+        String filePath = workingDir+"\\src\\main\\resources\\data\\recipe.json";
+        
+        File file = new File(filePath);
+
+        if(file.exists()){
+            System.out.println("CreatedInstructionsList found a file");
+        }else{
+            System.out.println("Missing recipe file for CreatedInstructionsList");
+        }
+
+
+        
 
         String[] storage = {"Turn up heat", "Cook the stuff", "let cool and serve"};
         ArrayList<String> loadedFromStorage = new ArrayList<String>();       
@@ -91,16 +105,9 @@ public class CreateRecipeView extends GridPane{
     private void createRecipeNameView(){
         this.recipeNameToggle = true;
         this.lblUserMessage = new Label("Click to rename your recipe!");
-        
-        if(recipeViewModel.getName()!=null){
-            this.tfRecipeName = new TextField(recipeViewModel.getName()); 
-            this.lblRecipeName = new Label(recipeViewModel.getName());    
-        }else{
-            this.tfRecipeName = new TextField("It was null");
-            this.lblRecipeName = new Label("not good"); 
-        }
-        
-        
+        this.tfRecipeName = new TextField("");
+        this.lblRecipeName = new Label("");      
+                
         this.btnSaveRecipeName = new Button("Save");
         this.btnSaveRecipe = new Button("Save Recipe");
 
@@ -110,15 +117,13 @@ public class CreateRecipeView extends GridPane{
         this.btnLoadRecipe = new Button("Load Recipe");
         this.btnLoadRecipe.setFont(GlobalValues.MEDIUM_FONT);
         this.btnLoadRecipe.setOnAction(e -> loadRecipe());
-        this.add(btnLoadRecipe, 0, 3);
-        
+        this.add(btnLoadRecipe, 0, 3);        
 
         this.lblUserMessage.setFont(GlobalValues.LARGE_FONT);
         this.lblRecipeName.setFont(GlobalValues.LARGE_FONT);
         this.tfRecipeName.setFont(GlobalValues.LARGE_FONT);
         this.btnSaveRecipeName.setFont(GlobalValues.MEDIUM_FONT);        
         this.btnSaveRecipe.setFont(GlobalValues.MEDIUM_FONT);
-
 
         this.setStyle(GlobalValues.COLOR_PRIMARY);
 
@@ -252,20 +257,17 @@ public class CreateRecipeView extends GridPane{
             default:
        } 
     }
+    // Saving the name of the recipe to the recipeViewModel, should also save to temp recipe json.
+    // Auto save points should be created for temp recipe json. 
     private void saveRecipeName(ActionEvent event){ recipeViewModel.setName(tfRecipeName.getText()); swapLayer(event); }
     private void saveRecipeName(KeyEvent event){ recipeViewModel.setName(tfRecipeName.getText()); swapLayer(event); }
 
-
+    // this save should save to the recipe book json file, and delete the temp recipe json.  
     private void saveRecipe(ActionEvent event){ recipeViewModel.save();}
 
     private void loadRecipe(){ 
         System.out.println("IS IT MAKING IT HERER!!!!!");
         recipeViewModel.load();
-        // for(Node node : this.getChildren()){
-        //     if(node.getOpacity() < 1){
-        //         Utility.fadeIn(node);
-        //     }
-        // }
         this.getChildren().clear();
         createRecipeNameView();
         createIngredientsListView();

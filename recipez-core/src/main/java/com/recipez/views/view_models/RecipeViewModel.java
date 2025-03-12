@@ -2,6 +2,8 @@ package com.recipez.views.view_models;
 
 import java.util.ArrayList;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -18,16 +20,25 @@ public class RecipeViewModel {
     private final StringProperty recipeName = new SimpleStringProperty();
     private final ObservableList<Ingredient> recipeIngredients = FXCollections.observableArrayList();
     private final ObservableList<String> recipeInstructions = FXCollections.observableArrayList();
-    
+    private final BooleanProperty recipeFilePresent = new SimpleBooleanProperty();
+
     //Uses data from this viewModel (ReceipeViewModel) to create a new Recipe class.
     private final ViewToModelConverter converter = new ViewToModelConverter();
     
     //I think data persistence for creating and saving a recipe will be here. 
     private final RecipeModel recipeModel = new RecipeModel();
 
+    public StringProperty nameProperty(){
+        return this.recipeName;
+    } 
+
+    public ObservableList<Ingredient> ingredientsProperty(){
+        return this.recipeIngredients;
+    }
+
     public ObservableList<String> instructionsProperty(){
         return this.recipeInstructions;
-    }
+    }    
 
     public ArrayList<String> getInstructions(){
         ArrayList<String> temp = new ArrayList<String>();
@@ -41,9 +52,7 @@ public class RecipeViewModel {
         this.recipeInstructions.setAll(instructions);
     }
 
-    public ObservableList<Ingredient> ingredientsProperty(){
-        return this.recipeIngredients;
-    }
+   
 
     public ArrayList<Ingredient> getIngredients(){
         ArrayList<Ingredient> temp = new ArrayList<Ingredient>();
@@ -69,9 +78,7 @@ public class RecipeViewModel {
         return recipeName.get();
     }
 
-    public StringProperty nameProperty(){
-        return recipeName;
-    } 
+   
     
     public void setName(String name){
         System.out.println("setName() in the RecipeViewModel class is being called\nName: " + name);
