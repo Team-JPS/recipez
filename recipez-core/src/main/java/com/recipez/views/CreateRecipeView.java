@@ -91,8 +91,14 @@ public class CreateRecipeView extends GridPane{
     private void createRecipeNameView(){
         this.recipeNameToggle = true;
         this.lblUserMessage = new Label("Click to rename your recipe!");
-        this.lblRecipeName = new Label("");       
-        this.tfRecipeName = new TextField("");
+        this.lblRecipeName = new Label("");
+        if(recipeViewModel.getName()!=null){
+            this.tfRecipeName = new TextField(recipeViewModel.getName());     
+        }else{
+            this.tfRecipeName = new TextField("It was null");
+        }
+        
+        
         this.btnSaveRecipeName = new Button("Save");
         this.btnSaveRecipe = new Button("Save Recipe");
 
@@ -101,7 +107,7 @@ public class CreateRecipeView extends GridPane{
         // only ever be one recipe that is currently being worked on. 
         this.btnLoadRecipe = new Button("Load Recipe");
         this.btnLoadRecipe.setFont(GlobalValues.MEDIUM_FONT);
-        this.btnLoadRecipe.setOnAction(this::loadRecipe);
+        this.btnLoadRecipe.setOnAction(e -> loadRecipe());
         this.add(btnLoadRecipe, 0, 3);
         
 
@@ -250,5 +256,17 @@ public class CreateRecipeView extends GridPane{
 
     private void saveRecipe(ActionEvent event){ recipeViewModel.save();}
 
-    private void loadRecipe(ActionEvent event){ recipeViewModel.load();}
+    private void loadRecipe(){ 
+        System.out.println("IS IT MAKING IT HERER!!!!!");
+        recipeViewModel.load();
+        for(Node node : this.getChildren()){
+            if(node.getOpacity() < 1){
+                Utility.fadeIn(node);
+            }
+        }
+        this.getChildren().removeAll(this.vboxIngredientsList, this.vboxInstructionsList, this.vboxInputContainer, this.vboxLabelContainer);
+        createRecipeNameView();
+        createIngredientsListView();
+        createInstructionsListView();
+    }
 }

@@ -63,7 +63,6 @@ public class Recipe implements Serializable {
         for(String instruction : getInstructions()){
             message += " " + count + " " + instruction;
         }
-
         return message; 
     }
 

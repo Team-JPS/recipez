@@ -41,6 +41,10 @@ public class RecipeViewModel {
         this.recipeInstructions.setAll(instructions);
     }
 
+    public ObservableList<Ingredient> ingredientsProperty(){
+        return this.recipeIngredients;
+    }
+
     public ArrayList<Ingredient> getIngredients(){
         ArrayList<Ingredient> temp = new ArrayList<Ingredient>();
         for(Ingredient ingredient: this.recipeIngredients.stream().toList()){
@@ -48,11 +52,7 @@ public class RecipeViewModel {
         }
         return temp;
     }
-
-    public ObservableList<Ingredient> ingredientsProperty(){
-        return this.recipeIngredients;
-    }
-
+   
     public void setIngredients(ArrayList<Ingredient> ingredients){
         this.recipeIngredients.setAll(ingredients);
     }
@@ -91,7 +91,10 @@ public class RecipeViewModel {
     }
 
     public void load(){
-        recipeModel.loadRecipe();
+        Recipe recipe = recipeModel.load();
+        this.setName(recipe.getRecipeName());
+        this.setIngredients(recipe.getIngredients());
+        this.setInstructions(recipe.getInstructions());    
     }
 
 

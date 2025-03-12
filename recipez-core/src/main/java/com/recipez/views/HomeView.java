@@ -1,7 +1,6 @@
 package com.recipez.views;
 
 import java.io.File;
-import java.nio.file.FileSystems;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -35,10 +34,16 @@ public class HomeView extends Scene {
     public HomeView() {
         //Constructor call super() to parent Scene
         //Change varbiable values in GlobalValues class to alter aspect ratio.
-       
-        // Creates a local directory for data persistence. Recipe,
-        // RecipeBook, and MealPlan will be saved here. T 
         super(new Pane(), GlobalValues.APP_WIDTH, GlobalValues.APP_HEIGHT);                 
+        
+        // Creates a local directory for data persistence. Recipe,
+        // RecipeBook, and MealPlan will be saved in the src\main\resources\data directory
+        // new File(workingDir+"\\src\\main\\resources\\data").mkdir()
+        // the double \\ lets you insert a \ into a String.   
+        
+
+        // workingDir is the directory where we are currently running the app from
+        // which should be c:\some\path\to\your\code\recipez-core 
         String workingDir = System.getProperty("user.dir");
         System.out.println("Current working directory: " + workingDir);
         if(new File(workingDir+"\\src\\main\\resources\\data").mkdir()){
