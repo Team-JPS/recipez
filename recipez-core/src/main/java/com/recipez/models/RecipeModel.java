@@ -39,7 +39,7 @@ public class RecipeModel {
         
         Gson gson = new Gson();
         
-        // looks for a file and assigns what if finds to check
+        // looks for a file and assigns what it finds to check
         File check = new File(filePath+"\\recipe.json");
         
         //if the file exists

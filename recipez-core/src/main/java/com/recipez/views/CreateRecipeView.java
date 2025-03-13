@@ -7,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -30,8 +29,7 @@ public class CreateRecipeView extends GridPane{
     private Button btnSaveRecipeName, btnSaveRecipe;
     private HBox hboxRecipeNameInput, hboxRecipeNameLabel;
     private VBox vboxInputContainer, separatorNameInput, vboxLabelContainer, separatorNameLabel;
-    private boolean recipeNameToggle;
-    
+    private boolean recipeNameToggle;    
     
     // Add/remove recipe ingredients UI Elements
     private VBox vboxIngredientsList;
@@ -72,7 +70,6 @@ public class CreateRecipeView extends GridPane{
         for(Ingredient ingredient : recipeViewModel.getIngredients()){
             this.vboxIngredientsList.getChildren().add(new Label(ingredient.getName())); 
         }
-
         
         this.spaneIngredientsListHolder.setContent(vboxIngredientsList);
         this.add(this.spaneIngredientsListHolder, 0, 1);
@@ -90,10 +87,9 @@ public class CreateRecipeView extends GridPane{
         for (String instruction : storage) {
             recipeViewModel.addInstruction(instruction);
         }
-
         for(String instruction : recipeViewModel.getInstructions()){
             this.vboxInstructionsList.getChildren().add(new Button(instruction)); 
-        }
+        }        
         this.spaneInstrcutionsListHolder.setContent(this.vboxInstructionsList);
         this.add(this.spaneInstrcutionsListHolder, 1, 1);
         this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
@@ -179,7 +175,7 @@ public class CreateRecipeView extends GridPane{
         this.vboxLabelContainer.setStyle(GlobalValues.COLOR_PRIMARY);
         this.vboxLabelContainer.getChildren().add(separatorNameLabel);
 
-        //initial display              
+        //UI elements combined for main display of RecipeView              
         this.add(this.vboxLabelContainer, 0, 0);
         this.add(this.vboxInputContainer, 0, 0);
         this.add(this.btnSaveRecipe, 0, 2);
