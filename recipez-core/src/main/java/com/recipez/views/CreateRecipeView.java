@@ -2,14 +2,13 @@ package com.recipez.views;
 
 import com.recipez.views.view_models.RecipeViewModel;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -33,12 +32,14 @@ public class CreateRecipeView extends GridPane{
     private VBox vboxInputContainer, separatorNameInput, vboxLabelContainer, separatorNameLabel;
     private boolean recipeNameToggle;
     
+    
     // Add/remove recipe ingredients UI Elements
     private VBox vboxIngredientsList;
-    
+    private ScrollPane spaneIngredientsListHolder;
 
     //Add/remove recipe instructions UI Elements
     private VBox vboxInstructionsList;
+    private ScrollPane spaneInstrcutionsListHolder;
 
     //Data store for creating a recipe... RecipeViewModel has notes on its usage with CreateRecipeView and RecipeView.
     private final RecipeViewModel recipeViewModel = new RecipeViewModel();
@@ -54,14 +55,14 @@ public class CreateRecipeView extends GridPane{
         createRecipeNameView();
         createIngredientsListView();
         createInstructionsListView();
-
-
         bindViewModel(); 
     }
 
     private void createIngredientsListView(){
         this.vboxIngredientsList = new VBox();
-
+        this.spaneIngredientsListHolder = new ScrollPane();
+        this.spaneIngredientsListHolder.setFitToHeight(true);
+        this.spaneIngredientsListHolder.setPrefViewportHeight(200);
         String[] storage = {"Carrot", "cheese", "Bacon"};
         // ArrayList<Ingredient> loadedFromStorage = new ArrayList<Ingredient>();       
         for (String ingredient : storage) {
@@ -71,25 +72,30 @@ public class CreateRecipeView extends GridPane{
         for(Ingredient ingredient : recipeViewModel.getIngredients()){
             this.vboxIngredientsList.getChildren().add(new Label(ingredient.getName())); 
         }
-        this.add(this.vboxIngredientsList, 0, 1);
+
+        
+        this.spaneIngredientsListHolder.setContent(vboxIngredientsList);
+        this.add(this.spaneIngredientsListHolder, 0, 1);
         this.vboxIngredientsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);
         
     }
  
     private void createInstructionsListView(){
         this.vboxInstructionsList = new VBox();
+        this.spaneInstrcutionsListHolder = new ScrollPane();
+        this.spaneInstrcutionsListHolder.setFitToHeight(true);
+        this.spaneInstrcutionsListHolder.setPrefViewportHeight(200);
         String[] storage = {"Turn up heat", "Cook the stuff", "let cool and serve"};
         // ArrayList<String> loadedFromStorage = new ArrayList<String>();       
         for (String instruction : storage) {
             recipeViewModel.addInstruction(instruction);
         }
 
-
-
         for(String instruction : recipeViewModel.getInstructions()){
             this.vboxInstructionsList.getChildren().add(new Button(instruction)); 
         }
-        this.add(this.vboxInstructionsList, 1, 1);
+        this.spaneInstrcutionsListHolder.setContent(this.vboxInstructionsList);
+        this.add(this.spaneInstrcutionsListHolder, 1, 1);
         this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
     }
 
@@ -101,14 +107,6 @@ public class CreateRecipeView extends GridPane{
                 
         this.btnSaveRecipeName = new Button("Save");
         this.btnSaveRecipe = new Button("Save Recipe");
-
-        // For testing purposes I am adding a load button, but recipe load 
-        // for the CreateRecipeView should happen automatic, and there should 
-        // only ever be one recipe that is currently being worked on. 
-        // this.btnLoadRecipe = new Button("Load Recipe");
-        // this.btnLoadRecipe.setFont(GlobalValues.MEDIUM_FONT);
-        // this.btnLoadRecipe.setOnAction(e -> loadRecipe());
-        // this.add(btnLoadRecipe, 0, 3);        
 
         this.lblUserMessage.setFont(GlobalValues.LARGE_FONT);
         this.lblRecipeName.setFont(GlobalValues.LARGE_FONT);
@@ -223,6 +221,8 @@ public class CreateRecipeView extends GridPane{
             this.recipeNameToggle = !this.recipeNameToggle;  
         }
     }
+
+    //The fade transition isnt smooth without both being present, hence the binary swap
     private void binarySwap(Node front, Node back){
         for(Node node : this.getChildren()){
             if(GridPane.getColumnIndex(node) == GridPane.getColumnIndex(front) && GridPane.getRowIndex(node) == GridPane.getRowIndex(front)) {               
@@ -234,6 +234,7 @@ public class CreateRecipeView extends GridPane{
         }
     }
 
+    //bind UI input fields to propteries of the recipeViewModel
     private void bindViewModel(){
         this.tfRecipeName.textProperty().bindBidirectional(recipeViewModel.recipeNameProperty());
         this.lblRecipeName.textProperty().bindBidirectional(recipeViewModel.recipeNameProperty()); 
@@ -257,7 +258,7 @@ public class CreateRecipeView extends GridPane{
     private void saveRecipe(ActionEvent event){ recipeViewModel.save();}
 
     private void loadRecipe(){ 
-        recipeViewModel.load();
+        recipeViewModel.loadRecipe();
         // this.getChildren().clear();
         // createRecipeNameView();
         // createIngredientsListView();

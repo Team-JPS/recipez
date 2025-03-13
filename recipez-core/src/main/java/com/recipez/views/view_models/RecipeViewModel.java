@@ -125,7 +125,7 @@ public class RecipeViewModel {
         }        
     }
 
-    public void load(){
+    public void loadRecipe(){
         Recipe recipe = recipeModel.load();
         if(recipe.getRecipeName().length() == 0 && recipe.getIngredients().size() == 0 && recipe.getInstructions().size() == 0){
             this.setRecipeFilePresent(false);    
