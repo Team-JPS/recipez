@@ -2,6 +2,7 @@ package com.recipez.views;
 
 import com.recipez.views.view_models.RecipeViewModel;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -254,10 +255,11 @@ public class CreateRecipeView extends GridPane implements Observer{
     }
 
     //bind UI input fields to propteries of the recipeViewModel
+    @SuppressWarnings("unchecked")
     private void bindViewModel(){
         this.tfRecipeName.textProperty().bindBidirectional(recipeViewModel.recipeNameProperty());
         this.lblRecipeName.textProperty().bindBidirectional(recipeViewModel.recipeNameProperty());
-        this.vboxInstructionsList.getChildren().bindBidirectional(recipeViewModel.recipeIngredientsProperty()); 
+        // ((ObservableList<Ingredient>)this.vboxInstructionsList).getChildren().bindBidirectional(recipeViewModel.recipeIngredientsProperty()); 
     }    
 
     // processKeyPres(), and both saveRecipeName() methods needs to be looked at, maybe too obtuse? Streamline this? dont know how at the moment.
