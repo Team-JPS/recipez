@@ -18,7 +18,7 @@ public class RecipeModel {
 
 
     @SuppressWarnings("unchecked")
-    public void save(Recipe recipe){
+    public void saveRecipe(Recipe recipe){
         // System.out.println("Saving recipe: \n" + recipe.toString());        
         String workingDir = System.getProperty("user.dir");
         // System.out.println("Current working directory: " + workingDir);
@@ -33,7 +33,7 @@ public class RecipeModel {
                 recipeTempFile.delete();
             }
             System.out.println("Java object successfully written to recipe.json\n");            
-            throw new CustomValidSaveException("Save recipe Successeful");        
+            throw new CustomValidSaveException("Save recipe Successeful Bonkers");        
         } catch (IOException e) {
             e.printStackTrace();
         } 

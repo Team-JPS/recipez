@@ -129,7 +129,7 @@ public class RecipeViewModel {
             if(message.length() != 0){
                 throw new Exception(message);
             }
-            recipeModel.save(recipe);                      
+            recipeModel.saveRecipe(recipe);                      
         }catch(CustomValidSaveException e){
             throw new CustomValidSaveException(e.getMessage());
         }catch(Exception e){            

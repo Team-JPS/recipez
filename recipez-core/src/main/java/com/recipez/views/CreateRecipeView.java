@@ -32,7 +32,7 @@ public class CreateRecipeView extends GridPane implements Observer{
     // Add/Edit Recipe Name UI elements
     private Label lblRecipeName, lblUserMessage;
     private TextField tfRecipeName;
-    private Button btnSaveRecipeName, btnSaveRecipe;
+    private Button btnSaveRecipeName, btnSaveRecipe, btnNewRecipe;
     private HBox hboxRecipeNameInput, hboxRecipeNameLabel;
     private VBox vboxInputContainer, separatorNameInput, vboxLabelContainer, separatorNameLabel;
     private boolean recipeNameToggle;    
@@ -121,12 +121,14 @@ public class CreateRecipeView extends GridPane implements Observer{
                 
         this.btnSaveRecipeName = new Button("Save");
         this.btnSaveRecipe = new Button("Save Recipe");
+        this.btnNewRecipe = new Button("New Recipe");
 
         this.lblUserMessage.setFont(GlobalValues.LARGE_FONT);
         this.lblRecipeName.setFont(GlobalValues.LARGE_FONT);
         this.tfRecipeName.setFont(GlobalValues.LARGE_FONT);
         this.btnSaveRecipeName.setFont(GlobalValues.MEDIUM_FONT);        
         this.btnSaveRecipe.setFont(GlobalValues.MEDIUM_FONT);
+        this.btnNewRecipe.setFont(GlobalValues.MEDIUM_FONT);
 
         this.setStyle(GlobalValues.COLOR_PRIMARY);
 
@@ -134,12 +136,14 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.tfRecipeName.setAlignment(Pos.CENTER);
         this.btnSaveRecipeName.setAlignment(Pos.CENTER);
         this.btnSaveRecipe.setAlignment(Pos.CENTER);
+        this.btnNewRecipe.setAlignment(Pos.CENTER);
 
         this.lblUserMessage.setOnMouseClicked(this::swapLayer);
         this.lblRecipeName.setOnMouseClicked(this::swapLayer);
         this.tfRecipeName.setOnKeyPressed(this::processKeyPress);
         this.btnSaveRecipeName.setOnAction(this::saveRecipeName);
         this.btnSaveRecipe.setOnAction(this::saveRecipe);
+        this.btnNewRecipe.setOnAction(this::newRecipe);
         
         this.hboxRecipeNameInput = new HBox(); 
         this.hboxRecipeNameLabel = new HBox(); 
@@ -197,6 +201,7 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.add(this.vboxLabelContainer, 0, 0);
         this.add(this.vboxInputContainer, 0, 0);
         this.add(this.btnSaveRecipe, 0, 2);
+        this.add(this.btnNewRecipe, 1, 2);
         GridPane.setColumnSpan(btnSaveRecipe, 2);
         GridPane.setColumnSpan(vboxInputContainer, 2);        
         GridPane.setColumnSpan(vboxLabelContainer, 2);
@@ -251,7 +256,8 @@ public class CreateRecipeView extends GridPane implements Observer{
     //bind UI input fields to propteries of the recipeViewModel
     private void bindViewModel(){
         this.tfRecipeName.textProperty().bindBidirectional(recipeViewModel.recipeNameProperty());
-        this.lblRecipeName.textProperty().bindBidirectional(recipeViewModel.recipeNameProperty()); 
+        this.lblRecipeName.textProperty().bindBidirectional(recipeViewModel.recipeNameProperty());
+        this.vboxInstructionsList.getChildren().bindBidirectional(recipeViewModel.recipeIngredientsProperty()); 
     }    
 
     // processKeyPres(), and both saveRecipeName() methods needs to be looked at, maybe too obtuse? Streamline this? dont know how at the moment.
@@ -274,7 +280,7 @@ public class CreateRecipeView extends GridPane implements Observer{
 
     // this save should save recipe json file, and delete the tempRecipe json.  
     // This is a terrible way to handle the CurrentUpdate for recipe as this works even if it doesnt save it. need beter logic. for testing only.
-    // Maybe a chain of try/catch/throw to get back here if it does save propperly
+    // Maybe a chain of try/catch/throw chain to get back here if it does save propperly
     
     // @SuppressWarnings("unchecked")
     private void saveRecipe(ActionEvent event) { 
@@ -286,6 +292,11 @@ public class CreateRecipeView extends GridPane implements Observer{
         }
         
     }
+
+    private void newRecipe(ActionEvent event){
+        recipeViewModel.resetRecipeAll();
+    }
+
 
     private void loadRecipe(){ 
         recipeViewModel.loadTemporaryRecipe();      
