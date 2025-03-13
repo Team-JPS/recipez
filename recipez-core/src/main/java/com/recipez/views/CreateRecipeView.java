@@ -263,6 +263,7 @@ public class CreateRecipeView extends GridPane implements Observer{
     private void saveTemporaryRecipe(KeyEvent event) { recipeViewModel.saveTemporaryRecipe();}
 
     // this save should save recipe json file, and delete the tempRecipe json.  
+    // This is a terrible way to handle the CurrentUpdate for recipe as this works even if it doesnt save it. need beter logic. for testing only.
     private void saveRecipe(ActionEvent event) { recipeViewModel.saveRecipe(); ((RecipeDataStoreModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.RECIPE);}
 
     private void loadRecipe(){ 
