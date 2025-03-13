@@ -12,10 +12,7 @@ import com.recipez.models.POJO.Recipe;
 //Data save logic is going to be here, but persistence between Views.... Handled in ViewModel files??
 public class RecipeModel {
     /**
-     * @method save(Recipe recipe) currently uses system out to print a message to show the program made it this far
-     * Save to JSON object? 
-     *
-     *  
+     * @method save(Recipe recipe) saves a Recipe class to a JSON file. 
      */
 
     public void save(Recipe recipe){
@@ -35,6 +32,7 @@ public class RecipeModel {
     }
 
     public Recipe load() {
+        //The logic in here is rough, needs rework
         String workingDir = System.getProperty("user.dir");
         String filePath = workingDir+"\\src\\main\\resources\\data";
         Recipe recipe;        
@@ -42,8 +40,6 @@ public class RecipeModel {
         // Create a Gson instance
         Gson gson = new Gson();
         File check = new File(filePath+"\\recipe.json");
-        
-        
         if(check.exists()){
             System.out.print("RECIPE IS PRESENT");
             try {
@@ -56,8 +52,8 @@ public class RecipeModel {
                 throw new RuntimeException(e);
             }
         }else{
-            //we should probably return an empty Recipe instead of null
-            recipe = new Recipe("temp");
+            System.out.print("NO RECIPE FILE PRESENT, LOADING EMPTY RECIPE");
+            recipe = new Recipe("");
         }
         return recipe;
     }

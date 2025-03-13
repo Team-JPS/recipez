@@ -1,6 +1,7 @@
 package com.recipez.views.view_models;
 
 import java.util.ArrayList;
+import java.util.MissingResourceException;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -28,17 +29,29 @@ public class RecipeViewModel {
     //I think data persistence for creating and saving a recipe will be here. 
     private final RecipeModel recipeModel = new RecipeModel();
 
-    public StringProperty nameProperty(){
+    public StringProperty recipeNameProperty(){
         return this.recipeName;
     } 
 
-    public ObservableList<Ingredient> ingredientsProperty(){
+    public ObservableList<Ingredient> recipeIngredientsProperty(){
         return this.recipeIngredients;
     }
 
-    public ObservableList<String> instructionsProperty(){
+    public ObservableList<String> recipeInstructionsProperty(){
         return this.recipeInstructions;
     }    
+
+    public BooleanProperty recipefilePresentProperty(){
+        return this.recipeFilePresent;
+    }
+
+    public String getName(){
+        return recipeName.get();
+    }   
+    
+    public void setName(String name){
+        this.recipeName.set(name);
+    }
 
     public ArrayList<String> getInstructions(){
         ArrayList<String> temp = new ArrayList<String>();
@@ -50,9 +63,15 @@ public class RecipeViewModel {
 
     public void setInstructions(ArrayList<String> instructions){
         this.recipeInstructions.setAll(instructions);
+    }  
+
+    public void removeInstruction(String instruction){
+        this.recipeInstructions.remove(instruction);
     }
 
-   
+    public void addInstruction(String instruction){
+        this.recipeInstructions.add(instruction);
+    }
 
     public ArrayList<Ingredient> getIngredients(){
         ArrayList<Ingredient> temp = new ArrayList<Ingredient>();
@@ -64,7 +83,7 @@ public class RecipeViewModel {
    
     public void setIngredients(ArrayList<Ingredient> ingredients){
         this.recipeIngredients.setAll(ingredients);
-    }
+    }   
 
     public void addIngredient(Ingredient newIngredient){
         this.recipeIngredients.add(newIngredient);
@@ -74,31 +93,45 @@ public class RecipeViewModel {
         this.recipeIngredients.remove(ingredientToRemove);
     }
 
-    public String getName(){
-        return recipeName.get();
+    public void setRecipeFilePresent(Boolean bool){
+        this.recipeFilePresent.set(bool);
     }
 
-   
-    
-    public void setName(String name){
-        System.out.println("setName() in the RecipeViewModel class is being called\nName: " + name);
-        if(name == null || name.trim() == ""){
-            System.out.print("Setting Name to Suspicious Nachos\n");
-            this.recipeName.set("Suspicious Nachos");            
-        }else{
-            this.recipeName.set(name);
-        }        
+    public Boolean getRecipeFilePresent(){
+        return this.recipeFilePresent.getValue();
     }
+
 
     public void save(){
-        //this may need to have a return of a message about missing data or instead of a return have a try/catch that the save is called inside of to catch
-        //missing name, ingredients, or instructions. 
         Recipe recipe = converter.toRecipe(this);
-        recipeModel.save(recipe);
+        try{
+            String message = "";
+            if(recipe.getRecipeName() == ""){
+                message += "Missing recipe name.\n";                
+            }
+            if(recipe.getIngredients().size() == 0) {               
+                message += "No ingredients.\n";
+            }
+            if (recipe.getInstructions().size() == 0){
+                message += "No instructions.\n\n";
+            }
+            System.out.print("\n\nSAVE ERROR MESSAGE:\n" + message);
+            if(message.length() != 0){
+                throw new Exception(message);
+            }
+            recipeModel.save(recipe);            
+        }catch(Exception e){            
+            System.err.print("FILE NOT SAVED:\n\n" + e.getMessage());
+        }        
     }
 
     public void load(){
         Recipe recipe = recipeModel.load();
+        if(recipe.getRecipeName().length() == 0 && recipe.getIngredients().size() == 0 && recipe.getInstructions().size() == 0){
+            this.setRecipeFilePresent(false);    
+        }else{
+            this.setRecipeFilePresent(true);
+        }
         this.setName(recipe.getRecipeName());
         this.setIngredients(recipe.getIngredients());
         this.setInstructions(recipe.getInstructions());    
@@ -107,7 +140,8 @@ public class RecipeViewModel {
 
     public void reset(){
         this.recipeName.set("");
+        
     }
 
-    public StringProperty recipeNameProperty() { return recipeName;}
+    
 }

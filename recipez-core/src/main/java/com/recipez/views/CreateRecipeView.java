@@ -28,7 +28,7 @@ public class CreateRecipeView extends GridPane{
     // Add/Edit Recipe Name UI elements
     private Label lblRecipeName, lblUserMessage;
     private TextField tfRecipeName;
-    private Button btnSaveRecipeName, btnSaveRecipe, btnLoadRecipe;
+    private Button btnSaveRecipeName, btnSaveRecipe;
     private HBox hboxRecipeNameInput, hboxRecipeNameLabel;
     private VBox vboxInputContainer, separatorNameInput, vboxLabelContainer, separatorNameLabel;
     private boolean recipeNameToggle;
@@ -49,59 +49,50 @@ public class CreateRecipeView extends GridPane{
         ColumnConstraints columns = new ColumnConstraints(); 
         columns.setPercentWidth(50);
         this.getColumnConstraints().addAll(columns);   
+        
+        loadRecipe();
         createRecipeNameView();
         createIngredientsListView();
         createInstructionsListView();
+
+
         bindViewModel(); 
-    }
-
-    private void createInstructionsListView(){
-        this.vboxInstructionsList = new VBox();
-
-        String workingDir = System.getProperty("user.dir");
-        String filePath = workingDir+"\\src\\main\\resources\\data\\recipe.json";
-        
-        File file = new File(filePath);
-
-        if(file.exists()){
-            System.out.println("CreatedInstructionsList found a file");
-        }else{
-            System.out.println("Missing recipe file for CreatedInstructionsList");
-        }
-
-
-        
-
-        String[] storage = {"Turn up heat", "Cook the stuff", "let cool and serve"};
-        ArrayList<String> loadedFromStorage = new ArrayList<String>();       
-        for (String instruction : storage) {
-            loadedFromStorage.add(instruction);
-        }
-
-        for(String instruction : loadedFromStorage){
-            this.vboxInstructionsList.getChildren().add(new Button(instruction)); 
-        }
-        this.add(this.vboxInstructionsList, 0, 1);
-        this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
     }
 
     private void createIngredientsListView(){
         this.vboxIngredientsList = new VBox();
 
         String[] storage = {"Carrot", "cheese", "Bacon"};
-        ArrayList<Ingredient> loadedFromStorage = new ArrayList<Ingredient>();       
+        // ArrayList<Ingredient> loadedFromStorage = new ArrayList<Ingredient>();       
         for (String ingredient : storage) {
-            loadedFromStorage.add(new Ingredient(ingredient));
+            recipeViewModel.addIngredient(new Ingredient(ingredient));
         }
 
-        for(Ingredient ingredient : loadedFromStorage){
+        for(Ingredient ingredient : recipeViewModel.getIngredients()){
             this.vboxIngredientsList.getChildren().add(new Label(ingredient.getName())); 
         }
-        this.add(this.vboxIngredientsList, 1, 1);
+        this.add(this.vboxIngredientsList, 0, 1);
         this.vboxIngredientsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);
         
     }
  
+    private void createInstructionsListView(){
+        this.vboxInstructionsList = new VBox();
+        String[] storage = {"Turn up heat", "Cook the stuff", "let cool and serve"};
+        // ArrayList<String> loadedFromStorage = new ArrayList<String>();       
+        for (String instruction : storage) {
+            recipeViewModel.addInstruction(instruction);
+        }
+
+
+
+        for(String instruction : recipeViewModel.getInstructions()){
+            this.vboxInstructionsList.getChildren().add(new Button(instruction)); 
+        }
+        this.add(this.vboxInstructionsList, 1, 1);
+        this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
+    }
+
     private void createRecipeNameView(){
         this.recipeNameToggle = true;
         this.lblUserMessage = new Label("Click to rename your recipe!");
@@ -114,10 +105,10 @@ public class CreateRecipeView extends GridPane{
         // For testing purposes I am adding a load button, but recipe load 
         // for the CreateRecipeView should happen automatic, and there should 
         // only ever be one recipe that is currently being worked on. 
-        this.btnLoadRecipe = new Button("Load Recipe");
-        this.btnLoadRecipe.setFont(GlobalValues.MEDIUM_FONT);
-        this.btnLoadRecipe.setOnAction(e -> loadRecipe());
-        this.add(btnLoadRecipe, 0, 3);        
+        // this.btnLoadRecipe = new Button("Load Recipe");
+        // this.btnLoadRecipe.setFont(GlobalValues.MEDIUM_FONT);
+        // this.btnLoadRecipe.setOnAction(e -> loadRecipe());
+        // this.add(btnLoadRecipe, 0, 3);        
 
         this.lblUserMessage.setFont(GlobalValues.LARGE_FONT);
         this.lblRecipeName.setFont(GlobalValues.LARGE_FONT);
@@ -244,8 +235,8 @@ public class CreateRecipeView extends GridPane{
     }
 
     private void bindViewModel(){
-        this.tfRecipeName.textProperty().bindBidirectional(recipeViewModel.nameProperty());
-        this.lblRecipeName.textProperty().bindBidirectional(recipeViewModel.nameProperty()); 
+        this.tfRecipeName.textProperty().bindBidirectional(recipeViewModel.recipeNameProperty());
+        this.lblRecipeName.textProperty().bindBidirectional(recipeViewModel.recipeNameProperty()); 
     }    
 
     // processKeyPres(), and both saveRecipeName() methods needs to be looked at, maybe too obtuse? Streamline this? dont know how at the moment.
@@ -266,12 +257,11 @@ public class CreateRecipeView extends GridPane{
     private void saveRecipe(ActionEvent event){ recipeViewModel.save();}
 
     private void loadRecipe(){ 
-        System.out.println("IS IT MAKING IT HERER!!!!!");
         recipeViewModel.load();
-        this.getChildren().clear();
-        createRecipeNameView();
-        createIngredientsListView();
-        createInstructionsListView();
-        bindViewModel();
+        // this.getChildren().clear();
+        // createRecipeNameView();
+        // createIngredientsListView();
+        // createInstructionsListView();
+        // bindViewModel();
     }
 }

@@ -22,11 +22,6 @@ public class Recipe implements Serializable {
         this.recipeInstructions = new ArrayList<String>();
     }
 
-
-    // public Recipe(String name, ArrayList<Ingredient> recipeIngredients){
-        
-    // }
-
     public void setInstructions(ArrayList<String> instructions){
         this.recipeInstructions = instructions;
     }
