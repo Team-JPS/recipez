@@ -16,12 +16,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+
+import com.recipez.models.RecipeDataStoreModel;
 import com.recipez.models.POJO.Ingredient;
+import com.recipez.util.CurrentUpdate;
 import com.recipez.util.GlobalValues;
+import com.recipez.util.Observer;
+import com.recipez.util.Subject;
 import com.recipez.util.Utility;
 
 //extends GridPane, design choice for layout of elements. 
-public class CreateRecipeView extends GridPane{
+public class CreateRecipeView extends GridPane implements Observer{
 
     // Add/Edit Recipe Name UI elements
     private Label lblRecipeName, lblUserMessage;
@@ -41,14 +46,17 @@ public class CreateRecipeView extends GridPane{
 
     //Data store for creating a recipe... RecipeViewModel has notes on its usage with CreateRecipeView and RecipeView.
     private final RecipeViewModel recipeViewModel = new RecipeViewModel();
+    private Subject dataStoreUpdater;
 
-    public CreateRecipeView(){
+
+    public CreateRecipeView(Subject dataStoreUpdater){
         this.setVgap(5);
         this.setHgap(5);  
         ColumnConstraints columns = new ColumnConstraints(); 
         columns.setPercentWidth(50);
         this.getColumnConstraints().addAll(columns);   
-        
+        dataStoreUpdater.registerObserver(this);
+        this.dataStoreUpdater = dataStoreUpdater;
         loadRecipe();
         createRecipeNameView();
         createIngredientsListView();
@@ -255,7 +263,7 @@ public class CreateRecipeView extends GridPane{
     private void saveTemporaryRecipe(KeyEvent event) { recipeViewModel.saveTemporaryRecipe();}
 
     // this save should save recipe json file, and delete the tempRecipe json.  
-    private void saveRecipe(ActionEvent event) { recipeViewModel.saveRecipe();}
+    private void saveRecipe(ActionEvent event) { recipeViewModel.saveRecipe(); ((RecipeDataStoreModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.RECIPE);}
 
     private void loadRecipe(){ 
         recipeViewModel.loadTemporaryRecipe();
@@ -264,5 +272,9 @@ public class CreateRecipeView extends GridPane{
         // createIngredientsListView();
         // createInstructionsListView();
         // bindViewModel();
+    }
+
+    public void update(CurrentUpdate update) {
+        //For now CreateRecipeView isnt looking for any updates. so it doesnt matter what the current update is.
     }
 }

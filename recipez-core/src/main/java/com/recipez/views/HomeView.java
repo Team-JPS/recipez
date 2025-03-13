@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import com.recipez.models.RecipeDataStoreModel;
 import com.recipez.util.GlobalValues;
+import com.recipez.util.Observer;
 
 public class HomeView extends Scene {
     private Pane root;      
@@ -30,7 +31,9 @@ public class HomeView extends Scene {
 
     //Observer Pattern solution (INCOMPLETE)
     private RecipeDataStoreModel recipeDataStoreModel = new RecipeDataStoreModel();
-    
+    private Observer[] observers = new Observer[2]; // this is 3, recipeBook, groceryList, and mealPlanner should be aware of updates
+
+
     public HomeView() {
         //Constructor call super() to parent Scene
         //Change varbiable values in GlobalValues class to alter aspect ratio.
@@ -57,10 +60,11 @@ public class HomeView extends Scene {
     private void createView(){
         //intializing 
         root = ((Pane)this.getRoot());
-        this.createRecipeView = new CreateRecipeView();
-        this.recipeBookView = new RecipeBookView();
+        this.createRecipeView = new CreateRecipeView(this.recipeDataStoreModel);
+        this.recipeBookView = new RecipeBookView(this.recipeDataStoreModel);
         // this.mealPlannerView = new MealPlannerView();
-
+        this.observers[0] = this.createRecipeView;
+        this.observers[1] = this.recipeBookView;
         //Application Navigation buttons initialized
         this.btnCreateRecipe = new Button("New Recipe");
         this.btnRecipeBook = new Button("Recipe Book");
@@ -110,6 +114,9 @@ public class HomeView extends Scene {
             for(Node button : this.hboxNavigation.getChildren()){
                 ((Button)button).setDisable(false);
             }
+            for(Observer observer : this.observers){
+                observer.update(recipeDataStoreModel.getCurrentUpdate());
+            }
             this.spViewDisplay.getChildren().clear();
             this.spViewDisplay.getChildren().add(this.createRecipeView);
             ((Button)event.getSource()).setDisable(true); 
@@ -117,12 +124,18 @@ public class HomeView extends Scene {
             for(Node button : this.hboxNavigation.getChildren()){
                 ((Button)button).setDisable(false);
             }
+            for(Observer observer : this.observers){
+                observer.update(recipeDataStoreModel.getCurrentUpdate());
+            }
             this.spViewDisplay.getChildren().clear();
             this.spViewDisplay.getChildren().add(this.recipeBookView);
             ((Button)event.getSource()).setDisable(true); 
         }else if (buttonText == "Meal Planner") {
             for(Node button : this.hboxNavigation.getChildren()){
                 ((Button)button).setDisable(false);
+            }
+            for(Observer observer : this.observers){
+                observer.update(recipeDataStoreModel.getCurrentUpdate());
             }
             // this.spViewDisplay.getChildren().clear();
             // this.spViewDisplay.getChildren().add(this.mealPlannerView);

@@ -15,10 +15,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TableColumn;
+
+import com.recipez.models.RecipeDataStoreModel;
 import com.recipez.models.POJO.Recipe;
 import com.recipez.util.CurrentUpdate;
 import com.recipez.util.GlobalValues;
 import com.recipez.util.Observer;
+import com.recipez.util.Subject;
 import com.recipez.views.view_models.RecipeBookViewModel;
 
 //This extends StackPane, but you can change it to whatever UI element works best for your View Layout.
@@ -33,12 +36,15 @@ public class RecipeBookView extends StackPane implements Observer {
      
 
     private final RecipeBookViewModel recipeBookViewModel = new RecipeBookViewModel();
+    private Subject dataStoreUpdater;
+    
     private int currentRecipeIndex = 0;
     private ArrayList<Recipe> recipeList;
     
-    public RecipeBookView() {
+    public RecipeBookView(Subject dataStoreUpdater) {
        //createView() will populate the UI.
-
+       dataStoreUpdater.registerObserver(this);
+       this.dataStoreUpdater = dataStoreUpdater;
        createView();
        loadRecipes();
        
@@ -95,7 +101,11 @@ public class RecipeBookView extends StackPane implements Observer {
             case NONE:
             break;
             case RECIPE:
-                loadRecipes();
+                System.out.println("Recipe Book is rececing updates from recipe creator");
+                recipeBookViewModel.loadRecipe();
+                tableView.getItems().clear();
+                this.loadRecipes();
+                ((RecipeDataStoreModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.NONE);
             break;
             case GROCERY:
             break;

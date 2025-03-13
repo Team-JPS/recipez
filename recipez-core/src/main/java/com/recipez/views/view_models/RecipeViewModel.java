@@ -2,8 +2,8 @@ package com.recipez.views.view_models;
 
 import java.util.ArrayList;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+// import javafx.beans.property.BooleanProperty;
+// import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -20,7 +20,7 @@ public class RecipeViewModel {
     private final StringProperty recipeName = new SimpleStringProperty();
     private final ObservableList<Ingredient> recipeIngredients = FXCollections.observableArrayList();
     private final ObservableList<String> recipeInstructions = FXCollections.observableArrayList();
-    private final BooleanProperty recipeFilePresent = new SimpleBooleanProperty();
+    // private final BooleanProperty recipeFilePresent = new SimpleBooleanProperty();
 
     //Uses data from this viewModel (ReceipeViewModel) to create a new Recipe class.
     private final ViewToModelConverter converter = new ViewToModelConverter();
@@ -40,9 +40,9 @@ public class RecipeViewModel {
         return this.recipeInstructions;
     }    
 
-    public BooleanProperty recipefilePresentProperty(){
-        return this.recipeFilePresent;
-    }
+    // public BooleanProperty recipefilePresentProperty(){
+    //     return this.recipeFilePresent;
+    // }
 
     public String getName(){
         return recipeName.get();
@@ -92,13 +92,13 @@ public class RecipeViewModel {
         this.recipeIngredients.remove(ingredientToRemove);
     }
 
-    public void setRecipeFilePresent(Boolean bool){
-        this.recipeFilePresent.set(bool);
-    }
+    // public void setRecipeFilePresent(Boolean bool){
+    //     this.recipeFilePresent.set(bool);
+    // }
 
-    public Boolean getRecipeFilePresent(){
-        return this.recipeFilePresent.getValue();
-    }
+    // public Boolean getRecipeFilePresent(){
+    //     return this.recipeFilePresent.getValue();
+    // }
 
     public void saveTemporaryRecipe(){
         Recipe recipe = converter.toRecipe(this);
@@ -124,7 +124,7 @@ public class RecipeViewModel {
             if (recipe.getInstructions().size() == 0){
                 message += "No instructions.\n\n";
             }
-            System.out.print("\n\nSAVE ERROR MESSAGE:\n" + message);
+            // System.out.print("\n\nSAVE ERROR MESSAGE:\n" + message);
             if(message.length() != 0){
                 throw new Exception(message);
             }
@@ -137,11 +137,11 @@ public class RecipeViewModel {
     //This may be broken with having temp recipe and recipe 
     public void loadTemporaryRecipe(){
         Recipe recipe = recipeModel.loadTemporaryRecipe();
-        if(recipe.getRecipeName().length() == 0 && recipe.getIngredients().size() == 0 && recipe.getInstructions().size() == 0){
-            this.setRecipeFilePresent(false);    
-        }else{
-            this.setRecipeFilePresent(true);
-        }
+        // if(recipe.getRecipeName().length() == 0 && recipe.getIngredients().size() == 0 && recipe.getInstructions().size() == 0){
+        //     this.setRecipeFilePresent(false);    
+        // }else{
+        //     this.setRecipeFilePresent(true);
+        // }
         this.setName(recipe.getRecipeName());
         this.setIngredients(recipe.getIngredients());
         this.setInstructions(recipe.getInstructions());    
@@ -164,5 +164,4 @@ public class RecipeViewModel {
     public void resetRecipeInstructions(){
         this.recipeInstructions.clear();
     }
-
 }

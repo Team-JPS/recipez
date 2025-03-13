@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import com.recipez.models.RecipeBookModel;
 import com.recipez.models.POJO.Recipe;
 import com.recipez.util.Observer;
 
@@ -12,7 +14,7 @@ public class RecipeBookViewModel {
     //This is the property that will house the recipe book, I think this will work
     private final ArrayList<Recipe> recipeBook;
     
-
+    public final RecipeBookModel recipeBookModel = new RecipeBookModel();
     //Constructor for this class
     public RecipeBookViewModel(){
         //This will create an ArrayList and put it into the ObservableList<Recipe> recipeBook.
@@ -39,6 +41,10 @@ public class RecipeBookViewModel {
 
     public void loadRecipes() {
 
+    }
+
+    public void loadRecipe() {
+        this.recipeBook.add(recipeBookModel.loadRecipe());
     }
 
 }
