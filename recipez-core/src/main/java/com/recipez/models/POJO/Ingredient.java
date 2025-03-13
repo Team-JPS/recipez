@@ -11,7 +11,9 @@ public class Ingredient {
      * @param unitOfVulume cup(c), teaspoon(tsp), tablespoont(tbsp), gallon(gal), quart(qt), pint(pt)
      * may become an emum
      * @param weight if measurement is not in volume but weight, use this property
-     * @param unitOfWeight pound(lb), Ounce (oz),  
+     * @param unitOfWeight pound(lb), ounce (oz),  
+     * 
+     * Some of these parameters may become enums. try and work this in.
     **/ 
     
    /**
@@ -34,7 +36,7 @@ public class Ingredient {
         this.volume = "1";  
         this.unitOfVolume = "cup";  
         this.weight = "0"; 
-        this.unitOfWeight = "pounds";  
+        this.unitOfWeight = "ounces";  
     }
 
     public String getName(){
@@ -87,5 +89,4 @@ public class Ingredient {
         this.unitOfWeight = unitOfWeight;
     }
 
-    // Add Setters and Getters
 }

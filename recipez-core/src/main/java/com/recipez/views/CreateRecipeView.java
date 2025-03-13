@@ -63,9 +63,9 @@ public class CreateRecipeView extends GridPane{
         this.spaneIngredientsListHolder.setPrefViewportHeight(200);
         String[] storage = {"Carrot", "cheese", "Bacon"};
         // ArrayList<Ingredient> loadedFromStorage = new ArrayList<Ingredient>();       
-        for (String ingredient : storage) {
-            recipeViewModel.addIngredient(new Ingredient(ingredient));
-        }
+        // for (String ingredient : storage) {
+        //     recipeViewModel.addIngredient(new Ingredient(ingredient));
+        // }
 
         for(Ingredient ingredient : recipeViewModel.getIngredients()){
             this.vboxIngredientsList.getChildren().add(new Label(ingredient.getName())); 
@@ -247,14 +247,18 @@ public class CreateRecipeView extends GridPane{
     }
     // Saving the name of the recipe to the recipeViewModel, should also save to temp recipe json.
     // Auto save points should be created for temp recipe json. 
-    private void saveRecipeName(ActionEvent event){ recipeViewModel.setName(tfRecipeName.getText()); swapLayer(event); }
-    private void saveRecipeName(KeyEvent event){ recipeViewModel.setName(tfRecipeName.getText()); swapLayer(event); }
+    private void saveRecipeName(ActionEvent event){ recipeViewModel.setName(tfRecipeName.getText()); saveTemporaryRecipe(event); swapLayer(event); }
+    private void saveRecipeName(KeyEvent event){ recipeViewModel.setName(tfRecipeName.getText()); saveTemporaryRecipe(event); swapLayer(event); }
 
-    // this save should save to the recipe book json file, and delete the temp recipe json.  
-    private void saveRecipe(ActionEvent event){ recipeViewModel.save();}
+    // Saves for temporary recipes. The logic is if someone doesnt finish creating a recipe and closes the app, they dont lose their progress.
+    private void saveTemporaryRecipe(ActionEvent event) { recipeViewModel.saveTemporaryRecipe();}    
+    private void saveTemporaryRecipe(KeyEvent event) { recipeViewModel.saveTemporaryRecipe();}
+
+    // this save should save recipe json file, and delete the tempRecipe json.  
+    private void saveRecipe(ActionEvent event) { recipeViewModel.saveRecipe();}
 
     private void loadRecipe(){ 
-        recipeViewModel.loadRecipe();
+        recipeViewModel.loadTemporaryRecipe();
         // this.getChildren().clear();
         // createRecipeNameView();
         // createIngredientsListView();

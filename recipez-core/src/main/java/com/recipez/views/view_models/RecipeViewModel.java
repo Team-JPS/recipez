@@ -100,7 +100,18 @@ public class RecipeViewModel {
         return this.recipeFilePresent.getValue();
     }
 
-    public void save(){
+    public void saveTemporaryRecipe(){
+        Recipe recipe = converter.toRecipe(this);
+        try{
+            recipeModel.saveTemporaryRecipe(recipe);
+        }catch(Exception e){
+            System.out.println("Something went wrong when trying to save temporary recipe\n\n");
+            e.printStackTrace(); 
+        }
+        
+    }
+
+    public void saveRecipe(){
         Recipe recipe = converter.toRecipe(this);
         try{
             String message = "";
@@ -123,8 +134,9 @@ public class RecipeViewModel {
         }        
     }
 
-    public void loadRecipe(){
-        Recipe recipe = recipeModel.load();
+    //This may be broken with having temp recipe and recipe 
+    public void loadTemporaryRecipe(){
+        Recipe recipe = recipeModel.loadTemporaryRecipe();
         if(recipe.getRecipeName().length() == 0 && recipe.getIngredients().size() == 0 && recipe.getInstructions().size() == 0){
             this.setRecipeFilePresent(false);    
         }else{
@@ -135,9 +147,22 @@ public class RecipeViewModel {
         this.setInstructions(recipe.getInstructions());    
     }
 
-    public void reset(){
+    public void resetRecipeAll(){
+        this.resetRecipeName();
+        this.resetRecipeIngredients();
+        this.resetRecipeInstructions();
+    }
+
+    public void resetRecipeName(){
         this.recipeName.set("");
-        
+    }
+
+    public void resetRecipeIngredients(){
+        this.recipeIngredients.clear();
     }
     
+    public void resetRecipeInstructions(){
+        this.recipeInstructions.clear();
+    }
+
 }
