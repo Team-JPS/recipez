@@ -1,7 +1,6 @@
 package com.recipez.views.view_models;
 
 import java.util.ArrayList;
-import java.util.MissingResourceException;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -101,7 +100,6 @@ public class RecipeViewModel {
         return this.recipeFilePresent.getValue();
     }
 
-
     public void save(){
         Recipe recipe = converter.toRecipe(this);
         try{
@@ -137,11 +135,9 @@ public class RecipeViewModel {
         this.setInstructions(recipe.getInstructions());    
     }
 
-
     public void reset(){
         this.recipeName.set("");
         
     }
-
     
 }

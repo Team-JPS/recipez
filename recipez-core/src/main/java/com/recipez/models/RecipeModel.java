@@ -36,17 +36,19 @@ public class RecipeModel {
         String workingDir = System.getProperty("user.dir");
         String filePath = workingDir+"\\src\\main\\resources\\data";
         Recipe recipe;        
-        // Read Json from a file
-        // Create a Gson instance
+        
         Gson gson = new Gson();
+        
+        // looks for a file and assigns what if finds to check
         File check = new File(filePath+"\\recipe.json");
+        
+        //if the file exists
         if(check.exists()){
-            System.out.print("RECIPE IS PRESENT");
+            System.out.print("RECIPE IS PRESENT\n");
             try {
                 Reader reader = new FileReader(filePath+"\\recipe.json");
                 // convert the JSON data to a Java object
                 recipe = gson.fromJson(reader, Recipe.class);
-                System.out.print("CHUCKY CHEESES");
                 System.out.println(recipe);
             } catch (IOException e) {
                 throw new RuntimeException(e);

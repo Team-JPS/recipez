@@ -56,7 +56,8 @@ public class Recipe implements Serializable {
         }
         message += "Instructions:\n";
         for(String instruction : getInstructions()){
-            message += " " + count + " " + instruction;
+            message += " " + count + " " + instruction + "\n";
+            count++;
         }
         return message; 
     }
