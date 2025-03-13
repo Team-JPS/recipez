@@ -15,6 +15,7 @@ com\recipez\models\POJO\Ingredient.class
 com\recipez\util\GlobalValues.class
 com\recipez\views\RecipeBookView$1.class
 com\recipez\util\Subject.class
+com\recipez\util\CustomValidSaveException.class
 com\recipez\views\HomeView.class
 com\recipez\App.class
 com\recipez\models\RecipeBookModel.class

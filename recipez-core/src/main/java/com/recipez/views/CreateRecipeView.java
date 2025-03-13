@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import com.recipez.models.RecipeDataStoreModel;
 import com.recipez.models.POJO.Ingredient;
 import com.recipez.util.CurrentUpdate;
+import com.recipez.util.CustomValidSaveException;
 import com.recipez.util.GlobalValues;
 import com.recipez.util.Observer;
 import com.recipez.util.Subject;
@@ -69,12 +70,21 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.spaneIngredientsListHolder = new ScrollPane();
         this.spaneIngredientsListHolder.setFitToHeight(true);
         this.spaneIngredientsListHolder.setPrefViewportHeight(200);
+       
+        // local loading up ingredients for testing 
         String[] storage = {"Carrot", "cheese", "Bacon"};
-        // ArrayList<Ingredient> loadedFromStorage = new ArrayList<Ingredient>();       
-        // for (String ingredient : storage) {
-        //     recipeViewModel.addIngredient(new Ingredient(ingredient));
-        // }
+    //     ArrayList<Ingredient> loadedFromStorage = new ArrayList<Ingredient>();               
+    //    for (String ingredient : storage) {
+    //         loadedFromStorage.add(new Ingredient(ingredient));
+    //     }
+    //     for(Ingredient ingredient : loadedFromStorage){
+    //         this.vboxIngredientsList.getChildren().add(new Label(ingredient.getName())); 
+    //     }
 
+        // recipe ingredients loaded from recipeViewmodel
+        for (String ingredient : storage) {
+            recipeViewModel.addIngredient(new Ingredient(ingredient));
+        }
         for(Ingredient ingredient : recipeViewModel.getIngredients()){
             this.vboxIngredientsList.getChildren().add(new Label(ingredient.getName())); 
         }
@@ -264,15 +274,21 @@ public class CreateRecipeView extends GridPane implements Observer{
 
     // this save should save recipe json file, and delete the tempRecipe json.  
     // This is a terrible way to handle the CurrentUpdate for recipe as this works even if it doesnt save it. need beter logic. for testing only.
-    private void saveRecipe(ActionEvent event) { recipeViewModel.saveRecipe(); ((RecipeDataStoreModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.RECIPE);}
+    // Maybe a chain of try/catch/throw to get back here if it does save propperly
+    
+    // @SuppressWarnings("unchecked")
+    private void saveRecipe(ActionEvent event) { 
+        try{
+            recipeViewModel.saveRecipe();             
+        }catch(CustomValidSaveException e){
+            System.out.println("Made it back to CreateRecipeView\n"+e.getMessage());
+            ((RecipeDataStoreModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.RECIPE);
+        }
+        
+    }
 
     private void loadRecipe(){ 
-        recipeViewModel.loadTemporaryRecipe();
-        // this.getChildren().clear();
-        // createRecipeNameView();
-        // createIngredientsListView();
-        // createInstructionsListView();
-        // bindViewModel();
+        recipeViewModel.loadTemporaryRecipe();      
     }
 
     public void update(CurrentUpdate update) {

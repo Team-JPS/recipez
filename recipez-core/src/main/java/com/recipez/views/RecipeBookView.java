@@ -101,7 +101,7 @@ public class RecipeBookView extends StackPane implements Observer {
             case NONE:
             break;
             case RECIPE:
-                System.out.println("Recipe Book is rececing updates from recipe creator");
+                System.out.println("Recipe Book is receiving updates from recipe creator");
                 recipeBookViewModel.loadRecipe();
                 tableView.getItems().clear();
                 this.loadRecipes();

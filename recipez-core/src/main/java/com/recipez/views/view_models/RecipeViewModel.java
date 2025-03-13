@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import com.recipez.models.RecipeModel;
 import com.recipez.models.POJO.Ingredient;
 import com.recipez.models.POJO.Recipe;
+import com.recipez.util.CustomValidSaveException;
 import com.recipez.util.ViewToModelConverter;
 
 // This can be used by both RecipeView and CreateRecipeView... I think... formulate plan for use across both...
@@ -110,7 +111,7 @@ public class RecipeViewModel {
         }
         
     }
-
+    @SuppressWarnings("unchecked")
     public void saveRecipe(){
         Recipe recipe = converter.toRecipe(this);
         try{
@@ -128,7 +129,9 @@ public class RecipeViewModel {
             if(message.length() != 0){
                 throw new Exception(message);
             }
-            recipeModel.save(recipe);            
+            recipeModel.save(recipe);                      
+        }catch(CustomValidSaveException e){
+            throw new CustomValidSaveException(e.getMessage());
         }catch(Exception e){            
             System.err.print("FILE NOT SAVED:\n\n" + e.getMessage());
         }        

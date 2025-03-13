@@ -8,6 +8,7 @@ import java.io.Reader;
 
 import com.google.gson.Gson;
 import com.recipez.models.POJO.Recipe;
+import com.recipez.util.CustomValidSaveException;
 
 //Data save logic is going to be here, but persistence between Views.... Handled in ViewModel files??
 public class RecipeModel {
@@ -16,9 +17,9 @@ public class RecipeModel {
      */
 
 
-
+    @SuppressWarnings("unchecked")
     public void save(Recipe recipe){
-        System.out.println("Saving recipe: \n" + recipe.toString());        
+        // System.out.println("Saving recipe: \n" + recipe.toString());        
         String workingDir = System.getProperty("user.dir");
         // System.out.println("Current working directory: " + workingDir);
         String filePath = workingDir+"\\src\\main\\resources\\data";        
@@ -31,10 +32,14 @@ public class RecipeModel {
             if(recipeTempFile.exists()){
                 recipeTempFile.delete();
             }
-            System.out.println("Java object successfully written to recipe.json");
+            System.out.println("Java object successfully written to recipe.json\n");            
+            throw new CustomValidSaveException("Save recipe Successeful");        
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } 
+        // catch (CustomValidSaveException e){
+
+        // }
     }
 
     public void saveTemporaryRecipe(Recipe recipe){
@@ -47,7 +52,7 @@ public class RecipeModel {
         // Convert the Java object to JSON and write it to a file
         try (FileWriter writer = new FileWriter(filePath+"\\recipeTemp.json")) {
             gson.toJson(recipe, writer);
-            System.out.println("Java object successfully written to recipeTemp.json");
+            System.out.println("Java object successfully written to recipeTemp.json\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
