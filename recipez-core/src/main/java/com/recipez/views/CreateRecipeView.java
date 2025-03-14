@@ -78,7 +78,7 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.vboxIngredientsListView = new VBox();
         this.vboxIngredientsList = new VBox();
         this.hboxAddIngredientChoices = new HBox();
-        this.tfIngredientName = new TextField(" ");
+        this.tfIngredientName = new TextField("");
         this.btnAddIngredient = new Button("+");
         this.cboxUnitsOfVolume = new ChoiceBox<>();
         this.cboxVolume = new ChoiceBox<>();
@@ -119,7 +119,7 @@ public class CreateRecipeView extends GridPane implements Observer{
     }
 
     private void populateRecipeName(Recipe recipe){
-        this.tfRecipeName.setText(recipe.getRecipeName());
+        this.recipeViewModel.setRecipeName(recipe.getRecipeName());
     }
 
     private void populateIngredients(Recipe recipe){
@@ -142,7 +142,7 @@ public class CreateRecipeView extends GridPane implements Observer{
     private void createRecipeNameView(){
         this.recipeNameToggle = true;
         this.lblUserMessage = new Label("Click to rename your recipe!");
-        this.tfRecipeName = new TextField("");
+        this.tfRecipeName = new TextField(" ");
         this.lblRecipeName = new Label("");      
                 
         this.btnSaveRecipeName = new Button("Save");
@@ -301,8 +301,8 @@ public class CreateRecipeView extends GridPane implements Observer{
     }
     // Saving the name of the recipe to the recipeViewModel, should also save to temp recipe json.
     // Auto save points should be created for temp recipe json. 
-    private void saveRecipeName(ActionEvent event){ recipeViewModel.setName(tfRecipeName.getText()); saveTemporaryRecipe(event); swapLayer(event); }
-    private void saveRecipeName(KeyEvent event){ recipeViewModel.setName(tfRecipeName.getText()); saveTemporaryRecipe(event); swapLayer(event); }
+    private void saveRecipeName(ActionEvent event){ recipeViewModel.setRecipeName(tfRecipeName.getText()); saveTemporaryRecipe(event); swapLayer(event); }
+    private void saveRecipeName(KeyEvent event){ recipeViewModel.setRecipeName(tfRecipeName.getText()); saveTemporaryRecipe(event); swapLayer(event); }
 
     // Saves for temporary recipes. The logic is if someone doesnt finish creating a recipe and closes the app, they dont lose their progress.
     private void saveTemporaryRecipe(ActionEvent event) { recipeViewModel.saveTemporaryRecipe();}    
@@ -318,14 +318,12 @@ public class CreateRecipeView extends GridPane implements Observer{
         }catch(CustomValidSaveException e){
             System.out.println("Made it back to CreateRecipeView\n"+e.getMessage());
             ((RecipeDataStoreModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.RECIPE);
-        }
-        
+        }        
     }
 
     private void newRecipe(ActionEvent event){
         recipeViewModel.resetRecipeAll();
     }
-
 
     private void loadRecipe(){ 
         Recipe recipe = recipeViewModel.loadTemporaryRecipe();
@@ -338,11 +336,9 @@ public class CreateRecipeView extends GridPane implements Observer{
         //For now CreateRecipeView isnt looking for any updates. so it doesnt matter what the current update is.
     }
 
-
     public void addInstruction(ActionEvent event){
         this.vboxInstructionsList.getChildren().add(new Label(this.tfInstruction.getText()));
     }
-
 
     //add ingredient
     public void addIngredient(ActionEvent event){
@@ -358,6 +354,5 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.vboxIngredientsList.getChildren().add(hboxIngredientsDetails);
         System.out.println("ObservableList<Node> recipeIngredientNodes size: " + recipeViewModel.recipeIngredientsNodesProperty().size()+"\n\n");
     }
-
 
 }

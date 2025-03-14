@@ -25,9 +25,9 @@ public class RecipeViewModel {
     //Data elements
     private final StringProperty recipeName = new SimpleStringProperty();
     // private final ObservableList<Ingredient> recipeIngredients = FXCollections.observableArrayList();
-    private final ObservableList<Node> recipeIngredientNodes = FXCollections.observableArrayList();
+    private final ObservableList<Node> recipeIngredientsNodes = FXCollections.observableArrayList();
     // private final ObservableList<String> recipeInstructions = FXCollections.observableArrayList();
-    private final ObservableList<Node> recipeInstructionNodes = FXCollections.observableArrayList();
+    private final ObservableList<Node> recipeInstructionsNodes = FXCollections.observableArrayList();
     // private final BooleanProperty recipeFilePresent = new SimpleBooleanProperty();
 
     //Uses data from this viewModel (ReceipeViewModel) to create a new Recipe class.
@@ -45,11 +45,11 @@ public class RecipeViewModel {
     // }
 
     public ObservableList<Node> recipeIngredientsNodesProperty(){
-        return this.recipeIngredientNodes;    
+        return this.recipeIngredientsNodes;    
     }
 
     public ObservableList<Node> recipeInstructionsNodesProperty(){
-        return this.recipeInstructionNodes;    
+        return this.recipeInstructionsNodes;    
     }
 
     // public ObservableList<String> recipeInstructionsProperty(){
@@ -66,11 +66,11 @@ public class RecipeViewModel {
     // }
 
 
-    public String getName(){
+    public String getRecipeName(){
         return recipeName.get();
     }   
     
-    public void setName(String name){
+    public void setRecipeName(String name){
         System.out.print("NAMING COMING INTO setName(): " + name+ "\n");
         if(name == null || name.trim().length() == 0){
             this.recipeName.set("");
@@ -102,8 +102,7 @@ public class RecipeViewModel {
 
     public ArrayList<String> getInstructions(){
         ArrayList<String> temp = new ArrayList<String>();
-        for(Node node : this.recipeInstructionNodes) {
-            // This line broke my brain to write, and the index is dependent on how you add them in the CreateRecipeView.java... be mindful of the order.
+        for(Node node : this.recipeInstructionsNodes) {
             String instruction = ((Label)node).getText();
             temp.add(instruction); 
         }
@@ -116,7 +115,7 @@ public class RecipeViewModel {
 
     public ArrayList<Ingredient> getIngredients(){
         ArrayList<Ingredient> temp = new ArrayList<Ingredient>();
-        for(Node node : this.recipeIngredientNodes) {
+        for(Node node : this.recipeIngredientsNodes) {
             // This line broke my brain to write, and the index is dependent on how you add them in the CreateRecipeView.java... be mindful of the order.
             Ingredient ingredient = new Ingredient(((Label)((HBox)node).getChildren().get(0)).getText());
             ingredient.setVolume(((Label)((HBox)node).getChildren().get(1)).getText());
@@ -187,34 +186,25 @@ public class RecipeViewModel {
 
     //This may be broken with having temp recipe and recipe 
     public Recipe loadTemporaryRecipe(){
-        Recipe recipe = recipeModel.loadTemporaryRecipe();
-        // if(recipe.getRecipeName().length() == 0 && recipe.getIngredients().size() == 0 && recipe.getInstructions().size() == 0){
-        //     this.setRecipeFilePresent(false);    
-        // }else{
-        //     this.setRecipeFilePresent(true);
-        // }
-        // this.setName(recipe.getRecipeName());
-        // this.setIngredients(recipe.getIngredients());
-        // this.setInstructions(recipe.getInstructions());    
-
+        Recipe recipe = recipeModel.loadTemporaryRecipe();  
         return recipe;
     }
 
     public void resetRecipeAll(){
         this.resetRecipeName();
-        // this.resetRecipeIngredients();
-        // this.resetRecipeInstructions();
+        this.resetRecipeIngredients();
+        this.resetRecipeInstructions();
     }
 
     public void resetRecipeName(){
         this.recipeName.set("");
     }
 
-    // public void resetRecipeIngredients(){
-    //     this.recipeIngredients.clear();
-    // }
+    public void resetRecipeIngredients(){
+        this.recipeIngredientsNodes.clear();
+    }
     
-    // public void resetRecipeInstructions(){
-    //     this.recipeInstructions.clear();
-    // }
+    public void resetRecipeInstructions(){
+        this.recipeInstructionsNodes.clear();
+    }
 }
