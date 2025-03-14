@@ -5,8 +5,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.recipez.models.POJO.Ingredient;
 import com.recipez.models.POJO.Recipe;
 
 //Data save logic is going to be here, but persistence between Views.... Handled in ViewModel files??
@@ -107,7 +109,7 @@ public class RecipeBookModel {
             }
         }else{
             System.out.print("NO RECIPE FILE PRESENT, LOADING EMPTY RECIPE");
-            recipe = new Recipe("");
+            recipe = new Recipe("", new ArrayList<Ingredient>(), new ArrayList<String>());
         }
         return recipe;
     }

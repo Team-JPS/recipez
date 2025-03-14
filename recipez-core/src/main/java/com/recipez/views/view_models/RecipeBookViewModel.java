@@ -2,12 +2,9 @@ package com.recipez.views.view_models;
 
 import java.util.ArrayList;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import com.recipez.models.RecipeBookModel;
+import com.recipez.models.POJO.Ingredient;
 import com.recipez.models.POJO.Recipe;
-import com.recipez.util.Observer;
 
 public class RecipeBookViewModel {
 
@@ -22,7 +19,7 @@ public class RecipeBookViewModel {
         this.recipeBook = new ArrayList<>();
 
         for (String name : storage) {
-            recipeBook.add(new Recipe(name));
+            recipeBook.add(new Recipe(name, new ArrayList<Ingredient>(), new ArrayList<String>()));
         }
         //DO NOT GET HUNG UP on the above logic, that is NOT how we are loading our data into the app.
     }

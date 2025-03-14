@@ -2,11 +2,12 @@ package com.recipez.views;
 
 import com.recipez.views.view_models.RecipeViewModel;
 
-import javafx.collections.ObservableList;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -20,6 +21,7 @@ import javafx.scene.layout.VBox;
 
 import com.recipez.models.RecipeDataStoreModel;
 import com.recipez.models.POJO.Ingredient;
+import com.recipez.models.POJO.Recipe;
 import com.recipez.util.CurrentUpdate;
 import com.recipez.util.CustomValidSaveException;
 import com.recipez.util.GlobalValues;
@@ -39,17 +41,23 @@ public class CreateRecipeView extends GridPane implements Observer{
     private boolean recipeNameToggle;    
     
     // Add/remove recipe ingredients UI Elements
-    private VBox vboxIngredientsList;
+    private VBox vboxIngredientsListView, vboxIngredientsList;
+    private HBox hboxAddIngredientChoices;
     private ScrollPane spaneIngredientsListHolder;
+    private Button btnAddIngredient;
+    private TextField tfIngredientName;
+    private ChoiceBox<String> cboxVolume, cboxUnitsOfVolume, cboxUnitsOfWeight, cboxWeight;
 
     //Add/remove recipe instructions UI Elements
-    private VBox vboxInstructionsList;
-    private ScrollPane spaneInstrcutionsListHolder;
+    private VBox vboxInstructionsListView, vboxInstructionsList;
+    private HBox hboxAddInstructionOptions;
+    private ScrollPane spaneInstructionsListHolder;
+    private TextField tfInstruction;
+    private Button btnAddInstruction;
 
     //Data store for creating a recipe... RecipeViewModel has notes on its usage with CreateRecipeView and RecipeView.
     private final RecipeViewModel recipeViewModel = new RecipeViewModel();
     private Subject dataStoreUpdater;
-
 
     public CreateRecipeView(Subject dataStoreUpdater){
         this.setVgap(5);
@@ -58,60 +66,77 @@ public class CreateRecipeView extends GridPane implements Observer{
         columns.setPercentWidth(50);
         this.getColumnConstraints().addAll(columns);   
         dataStoreUpdater.registerObserver(this);
-        this.dataStoreUpdater = dataStoreUpdater;
-        loadRecipe();
+        this.dataStoreUpdater = dataStoreUpdater;        
         createRecipeNameView();
         createIngredientsListView();
         createInstructionsListView();
+        loadRecipe();
         bindViewModel(); 
     }
 
-    private void createIngredientsListView(){
+    private void createIngredientsListView(){        
+        this.vboxIngredientsListView = new VBox();
         this.vboxIngredientsList = new VBox();
+        this.hboxAddIngredientChoices = new HBox();
+        this.tfIngredientName = new TextField(" ");
+        this.btnAddIngredient = new Button("+");
+        this.cboxUnitsOfVolume = new ChoiceBox<>();
+        this.cboxVolume = new ChoiceBox<>();
+
         this.spaneIngredientsListHolder = new ScrollPane();
         this.spaneIngredientsListHolder.setFitToHeight(true);
         this.spaneIngredientsListHolder.setPrefViewportHeight(200);
-       
-        // local loading up ingredients for testing 
-        String[] storage = {"Carrot", "cheese", "Bacon"};
-    //     ArrayList<Ingredient> loadedFromStorage = new ArrayList<Ingredient>();               
-    //    for (String ingredient : storage) {
-    //         loadedFromStorage.add(new Ingredient(ingredient));
-    //     }
-    //     for(Ingredient ingredient : loadedFromStorage){
-    //         this.vboxIngredientsList.getChildren().add(new Label(ingredient.getName())); 
-    //     }
+        
+        this.btnAddIngredient.setFont(GlobalValues.SMALL_FONT);
 
-        // recipe ingredients loaded from recipeViewmodel
-        for (String ingredient : storage) {
-            recipeViewModel.addIngredient(new Ingredient(ingredient));
-        }
-        for(Ingredient ingredient : recipeViewModel.getIngredients()){
-            this.vboxIngredientsList.getChildren().add(new Label(ingredient.getName())); 
-        }
+        this.btnAddIngredient.setOnAction(this::addIngredient);
         
         this.spaneIngredientsListHolder.setContent(vboxIngredientsList);
-        this.add(this.spaneIngredientsListHolder, 0, 1);
-        this.vboxIngredientsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);
-        
+        this.hboxAddIngredientChoices.getChildren().addAll(this.btnAddIngredient, this.tfIngredientName, this.cboxUnitsOfVolume, this.cboxVolume);
+        this.vboxIngredientsListView.getChildren().addAll(this.spaneIngredientsListHolder, this.hboxAddIngredientChoices);
+        this.add(this.vboxIngredientsListView, 0, 1);        
+        this.vboxIngredientsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
     }
- 
+
     private void createInstructionsListView(){
         this.vboxInstructionsList = new VBox();
-        this.spaneInstrcutionsListHolder = new ScrollPane();
-        this.spaneInstrcutionsListHolder.setFitToHeight(true);
-        this.spaneInstrcutionsListHolder.setPrefViewportHeight(200);
-        String[] storage = {"Turn up heat", "Cook the stuff", "let cool and serve"};
-        // ArrayList<String> loadedFromStorage = new ArrayList<String>();       
-        for (String instruction : storage) {
-            recipeViewModel.addInstruction(instruction);
-        }
-        for(String instruction : recipeViewModel.getInstructions()){
-            this.vboxInstructionsList.getChildren().add(new Button(instruction)); 
-        }        
-        this.spaneInstrcutionsListHolder.setContent(this.vboxInstructionsList);
-        this.add(this.spaneInstrcutionsListHolder, 1, 1);
+        this.vboxInstructionsListView = new VBox();
+        this.hboxAddInstructionOptions = new HBox();
+        this.tfInstruction = new TextField("");
+    
+        this.btnAddInstruction = new Button("+");
+        this.spaneInstructionsListHolder = new ScrollPane();
+        this.spaneInstructionsListHolder.setFitToHeight(true);
+        this.spaneInstructionsListHolder.setPrefViewportHeight(200); 
+        
+        this.btnAddInstruction.setOnAction(this::addInstruction);        
+        
+        this.spaneInstructionsListHolder.setContent(this.vboxInstructionsList);
+        this.hboxAddInstructionOptions.getChildren().addAll(this.tfInstruction, this.btnAddInstruction);
+        this.vboxInstructionsListView.getChildren().addAll(this.spaneInstructionsListHolder, this.hboxAddInstructionOptions);
+        this.add(this.vboxInstructionsListView, 1, 1);
         this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
+    }
+
+    private void populateRecipeName(Recipe recipe){
+        this.tfRecipeName.setText(recipe.getRecipeName());
+    }
+
+    private void populateIngredients(Recipe recipe){
+        for(Ingredient ingredient : recipe.getIngredients()){
+            HBox ingredientHolder = new HBox();
+            ingredientHolder.getChildren().add(new Label(ingredient.getName()));
+            ingredientHolder.getChildren().add(new Label(ingredient.getVolume()));
+            ingredientHolder.getChildren().add(new Label(ingredient.getUnitOfVolume()));           
+            this.vboxIngredientsList.getChildren().add(ingredientHolder); 
+        } 
+    }
+
+    private void populateInstructions(Recipe recipe){
+        for(String text : recipe.getInstructions()){
+            Label holder = new Label(text);
+            this.vboxInstructionsList.getChildren().add(holder);
+        }
     }
 
     private void createRecipeNameView(){
@@ -259,7 +284,10 @@ public class CreateRecipeView extends GridPane implements Observer{
     private void bindViewModel(){
         this.tfRecipeName.textProperty().bindBidirectional(recipeViewModel.recipeNameProperty());
         this.lblRecipeName.textProperty().bindBidirectional(recipeViewModel.recipeNameProperty());
-        // ((ObservableList<Ingredient>)this.vboxInstructionsList).getChildren().bindBidirectional(recipeViewModel.recipeIngredientsProperty()); 
+        // this binding of recipeIngredientsNodesProperty is how I update the recipeViewModel with ingredients data, the data is in Node form and the contents 
+        // of the Nodes will need to be extracted before they can be saved.
+        Bindings.bindContentBidirectional(recipeViewModel.recipeIngredientsNodesProperty(), this.vboxIngredientsList.getChildren());
+        Bindings.bindContentBidirectional(recipeViewModel.recipeInstructionsNodesProperty(), this.vboxInstructionsList.getChildren());
     }    
 
     // processKeyPres(), and both saveRecipeName() methods needs to be looked at, maybe too obtuse? Streamline this? dont know how at the moment.
@@ -280,12 +308,11 @@ public class CreateRecipeView extends GridPane implements Observer{
     private void saveTemporaryRecipe(ActionEvent event) { recipeViewModel.saveTemporaryRecipe();}    
     private void saveTemporaryRecipe(KeyEvent event) { recipeViewModel.saveTemporaryRecipe();}
 
-    // this save should save recipe json file, and delete the tempRecipe json.  
-    // This is a terrible way to handle the CurrentUpdate for recipe as this works even if it doesnt save it. need beter logic. for testing only.
-    // Maybe a chain of try/catch/throw chain to get back here if it does save propperly
-    
+    // this save should save recipe json file, and when recipeBook saves it to the recipe book, it will delete this file as it will now be part of another file, the recipe book.  
+        
     // @SuppressWarnings("unchecked")
     private void saveRecipe(ActionEvent event) { 
+        //this try/catch nesting goes all the way to recipeModel
         try{
             recipeViewModel.saveRecipe();             
         }catch(CustomValidSaveException e){
@@ -301,10 +328,36 @@ public class CreateRecipeView extends GridPane implements Observer{
 
 
     private void loadRecipe(){ 
-        recipeViewModel.loadTemporaryRecipe();      
+        Recipe recipe = recipeViewModel.loadTemporaryRecipe();
+        populateRecipeName(recipe);
+        populateIngredients(recipe);
+        populateInstructions(recipe);
     }
 
     public void update(CurrentUpdate update) {
         //For now CreateRecipeView isnt looking for any updates. so it doesnt matter what the current update is.
     }
+
+
+    public void addInstruction(ActionEvent event){
+        this.vboxInstructionsList.getChildren().add(new Label(this.tfInstruction.getText()));
+    }
+
+
+    //add ingredient
+    public void addIngredient(ActionEvent event){
+
+        System.out.println("Calling addIngredient in CreateRecipeView:\nIngredient name: " + ((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()+"\n");
+        HBox hboxIngredientsDetails = new HBox();
+
+        //these are tricky as the index needs to match the order you place the elements into this.hboxAddIngredientChoices earlier in the createIngredientsListView  
+        hboxIngredientsDetails.getChildren().add(new Label(((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()));
+        hboxIngredientsDetails.getChildren().add(new Label("1"));
+        hboxIngredientsDetails.getChildren().add(new Label("Cup"));
+
+        this.vboxIngredientsList.getChildren().add(hboxIngredientsDetails);
+        System.out.println("ObservableList<Node> recipeIngredientNodes size: " + recipeViewModel.recipeIngredientsNodesProperty().size()+"\n\n");
+    }
+
+
 }

@@ -16,11 +16,11 @@ public class Recipe implements Serializable {
         this.recipeInstructions = instructions;
     }
 
-    public Recipe(String name){
-        this.recipeName = name;
-        this.recipeIngredients = new ArrayList<Ingredient>();
-        this.recipeInstructions = new ArrayList<String>();
-    }
+    // public Recipe(String name){
+    //     this.recipeName = name;
+    //     this.recipeIngredients = new ArrayList<Ingredient>();
+    //     this.recipeInstructions = new ArrayList<String>();
+    // }
 
     public void setInstructions(ArrayList<String> instructions){
         this.recipeInstructions = instructions;

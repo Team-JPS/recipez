@@ -5,8 +5,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.recipez.models.POJO.Ingredient;
 import com.recipez.models.POJO.Recipe;
 import com.recipez.util.CustomValidSaveException;
 
@@ -83,7 +85,7 @@ public class RecipeModel {
             }
         }else{
             System.out.print("NO TEMPORARY RECIPE FILE PRESENT, LOADING EMPTY RECIPE\n");
-            recipe = new Recipe("");
+            recipe = new Recipe("", new ArrayList<Ingredient>(), new ArrayList<String>());
         }
         return recipe;
     }
@@ -112,7 +114,7 @@ public class RecipeModel {
             }
         }else{
             System.out.print("NO RECIPE FILE PRESENT, LOADING EMPTY RECIPE");
-            recipe = new Recipe("");
+            recipe = new Recipe("", new ArrayList<Ingredient>(), new ArrayList<String>());
         }
         return recipe;
     }

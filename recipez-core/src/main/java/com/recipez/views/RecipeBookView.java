@@ -1,11 +1,8 @@
 package com.recipez.views;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
+
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -14,7 +11,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.TableColumn;
 
 import com.recipez.models.RecipeDataStoreModel;
 import com.recipez.models.POJO.Recipe;
