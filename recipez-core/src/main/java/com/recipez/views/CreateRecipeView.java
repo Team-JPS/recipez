@@ -87,7 +87,7 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.spaneIngredientsListHolder.setFitToHeight(true);
         this.spaneIngredientsListHolder.setPrefViewportHeight(200);
         
-        this.btnAddIngredient.setFont(GlobalValues.SMALL_FONT);
+        this.btnAddIngredient.setFont(GlobalValues.MEDIUM_FONT);
 
         this.btnAddIngredient.setOnAction(this::addIngredient);
         
