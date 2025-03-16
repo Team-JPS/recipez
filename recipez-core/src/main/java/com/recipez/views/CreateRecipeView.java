@@ -122,6 +122,7 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.recipeViewModel.setRecipeName(recipe.getRecipeName());
     }
 
+    // WORKING COPY 
     private void populateIngredients(Recipe recipe){
         for(Ingredient ingredient : recipe.getIngredients()){
             HBox ingredientHolder = new HBox();
@@ -131,6 +132,14 @@ public class CreateRecipeView extends GridPane implements Observer{
             this.vboxIngredientsList.getChildren().add(ingredientHolder); 
         } 
     }
+
+    //TESING COPY
+    // private void populateIngredients(Recipe recipe){
+    //     for(Node ingredient : recipeViewModel.recipeIngredientsNodesProperty()){
+    //         this.vboxIngredientsList.getChildren().add((HBox)ingredient); 
+    //     } 
+    // }
+
 
     private void populateInstructions(Recipe recipe){
         for(String text : recipe.getInstructions()){
