@@ -65,11 +65,18 @@ public class CreateRecipeView extends GridPane implements Observer{
         ColumnConstraints columns = new ColumnConstraints(); 
         columns.setPercentWidth(50);
         this.getColumnConstraints().addAll(columns);   
+        // register this class with with the dataStoreUpdater. Allows changing 
+        // of CurrentUpdate, an enum, that the other Views also observe. saveRecipe
+        // calls setUpdate(CurrentUpdate currentUpdate) if the Recipe saved 
+        // successfully. setUpdate() calls notifyObservers() which lets the other
+        // Views know a change was made. 
         dataStoreUpdater.registerObserver(this);
-        this.dataStoreUpdater = dataStoreUpdater;        
+        this.dataStoreUpdater = dataStoreUpdater;    
+        // the create...() methods here populate the UI for this this View.    
         createRecipeNameView();
         createIngredientsListView();
         createInstructionsListView();
+        //loadRecipe() needs to happen after the UI has been created. 
         loadRecipe();
         bindViewModel(); 
     }
@@ -353,14 +360,18 @@ public class CreateRecipeView extends GridPane implements Observer{
     public void addIngredient(ActionEvent event){
 
         System.out.println("Calling addIngredient in CreateRecipeView:\nIngredient name: " + ((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()+"\n");
-        HBox hboxIngredientsDetails = new HBox();
+        // HBox hboxIngredientsDetails = new HBox();
 
         //these are tricky as the index needs to match the order you place the elements into this.hboxAddIngredientChoices earlier in the createIngredientsListView  
-        hboxIngredientsDetails.getChildren().add(new Label(((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()));
-        hboxIngredientsDetails.getChildren().add(new Label("1"));
-        hboxIngredientsDetails.getChildren().add(new Label("Cup"));
+        // hboxIngredientsDetails.getChildren().add(new Label(((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()));
+        // hboxIngredientsDetails.getChildren().add(new Label("1"));
+        // hboxIngredientsDetails.getChildren().add(new Label("Cup"));
 
-        this.vboxIngredientsList.getChildren().add(hboxIngredientsDetails);
+        //IngredientView(String ingredientName, String quantity, String volume, String unitOfVolume, String weight, String unitOfWeight, boolean edit)
+        IngredientView ingredientView = new IngredientView((((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()),"1", "1","cup", "1", "ounce");
+
+
+        this.vboxIngredientsList.getChildren().add(ingredientView);
         System.out.println("ObservableList<Node> recipeIngredientNodes size: " + recipeViewModel.recipeIngredientsNodesProperty().size()+"\n\n");
     }
 

@@ -11,7 +11,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 import com.recipez.models.RecipeModel;
 import com.recipez.models.POJO.Ingredient;
@@ -116,7 +115,9 @@ public class RecipeViewModel {
     public ArrayList<Ingredient> getIngredients(){
         ArrayList<Ingredient> temp = new ArrayList<Ingredient>();
         for(Node node : this.recipeIngredientsNodes) {
-            // This line broke my brain to write, and the index is dependent on how you add them in the CreateRecipeView.java... be mindful of the order.
+            // This line broke my brain to write, and the index is dependent on the order you add them in the CreateRecipeView.java... be mindful of the order.
+            // this order mindfulness may motivate me to create a class that is an HBox for the Ingredients. this may also help with the view/edit swap I want 
+            // to implement on the ingredients and the instructions.
             Ingredient ingredient = new Ingredient(((Label)((HBox)node).getChildren().get(0)).getText());
             ingredient.setVolume(((Label)((HBox)node).getChildren().get(1)).getText());
             ingredient.setUnitOfVolume(((Label)((HBox)node).getChildren().get(2)).getText());
@@ -163,6 +164,8 @@ public class RecipeViewModel {
         Recipe recipe = converter.toRecipe(this);
         try{
             String message = "";
+            
+            // These checks may be added into the Recipe POJO. boolean returns.
             if(recipe.getRecipeName() == ""){
                 message += "Missing recipe name.\n";                
             }
@@ -172,8 +175,10 @@ public class RecipeViewModel {
             if (recipe.getInstructions().size() == 0){
                 message += "No instructions.\n\n";
             }
-            // System.out.print("\n\nSAVE ERROR MESSAGE:\n" + message);
-            if(message.length() != 0){
+            // A little hacky, but if anything is populated into the message (which means elemnts of recipe are missing) 
+            // it throws an exception with the message created above. It doesnt stop checking after the first missing element
+            // because I want the user to know everything thats is still needed.
+            if(message.length() != 0){                
                 throw new Exception(message);
             }
             recipeModel.saveRecipe(recipe);                      
