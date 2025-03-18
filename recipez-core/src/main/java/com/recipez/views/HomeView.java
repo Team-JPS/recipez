@@ -31,7 +31,7 @@ public class HomeView extends Scene {
 
     //Observer Pattern solution (INCOMPLETE)
     private RecipeDataStoreModel recipeDataStoreModel = new RecipeDataStoreModel();
-    private Observer[] observers = new Observer[2]; // this is 3, recipeBook, groceryList, and mealPlanner should be aware of updates
+    private Observer[] observers = new Observer[2]; // will end up being 3: recipeBook, groceryList, and mealPlanner should be aware of updates
 
 
     public HomeView() {
@@ -63,8 +63,11 @@ public class HomeView extends Scene {
         this.createRecipeView = new CreateRecipeView(this.recipeDataStoreModel);
         this.recipeBookView = new RecipeBookView(this.recipeDataStoreModel);
         // this.mealPlannerView = new MealPlannerView();
+
+        //observers set up
         this.observers[0] = this.createRecipeView;
         this.observers[1] = this.recipeBookView;
+        
         //Application Navigation buttons initialized
         this.btnCreateRecipe = new Button("New Recipe");
         this.btnRecipeBook = new Button("Recipe Book");

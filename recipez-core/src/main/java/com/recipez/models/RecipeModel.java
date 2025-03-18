@@ -12,12 +12,12 @@ import com.recipez.models.POJO.Ingredient;
 import com.recipez.models.POJO.Recipe;
 import com.recipez.util.CustomValidSaveException;
 
-//Data save logic is going to be here, but persistence between Views.... Handled in ViewModel files??
+// Recipe save logic 
 public class RecipeModel {
     /**
-     * @method save(Recipe recipe) saves a Recipe class to a JSON file. 
+     * @method saveRecipe(Recipe recipe) saves a Recipe class to a JSON file. 
+     * 
      */
-
 
     @SuppressWarnings("unchecked")
     public void saveRecipe(Recipe recipe){
@@ -27,6 +27,7 @@ public class RecipeModel {
         String filePath = workingDir+"\\src\\main\\resources\\data";        
         // Create a Gson instance
         Gson gson = new Gson();
+        // this is to remove the tempRecipe.json when saving the Recipe.json.
         File recipeTempFile = new File(filePath+"\\recipeTemp.json");
         // Convert the Java object to JSON and write it to a file
         try (FileWriter writer = new FileWriter(filePath+"\\recipe.json")) {
@@ -45,7 +46,7 @@ public class RecipeModel {
     }
 
     public void saveTemporaryRecipe(Recipe recipe){
-        System.out.println("Saving recipe: \n" + recipe.toString());        
+        System.out.println("Saving temporary recipe: \n" + recipe.toString());        
         String workingDir = System.getProperty("user.dir");
         // System.out.println("Current working directory: " + workingDir);
         String filePath = workingDir+"\\src\\main\\resources\\data";        

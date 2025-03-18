@@ -1,5 +1,6 @@
 package com.recipez.views;
 
+import com.recipez.views.view_models.IngredientViewModel;
 import com.recipez.views.view_models.RecipeViewModel;
 
 import javafx.beans.binding.Bindings;
@@ -48,6 +49,11 @@ public class CreateRecipeView extends GridPane implements Observer{
     private TextField tfIngredientName;
     private ChoiceBox<String> cboxVolume, cboxUnitsOfVolume, cboxUnitsOfWeight, cboxWeight;
 
+
+    //View for adding an ingredient. HBox 
+    private AddIngredientView addIngredientView = new AddIngredientView();
+
+
     //Add/remove recipe instructions UI Elements
     private VBox vboxInstructionsListView, vboxInstructionsList;
     private HBox hboxAddInstructionOptions;
@@ -65,11 +71,18 @@ public class CreateRecipeView extends GridPane implements Observer{
         ColumnConstraints columns = new ColumnConstraints(); 
         columns.setPercentWidth(50);
         this.getColumnConstraints().addAll(columns);   
+        // register this class with with the dataStoreUpdater. Allows changing 
+        // of CurrentUpdate, an enum, that the other Views also observe. saveRecipe
+        // calls setUpdate(CurrentUpdate currentUpdate) if the Recipe saved 
+        // successfully. setUpdate() calls notifyObservers() which lets the other
+        // Views know a change was made. 
         dataStoreUpdater.registerObserver(this);
-        this.dataStoreUpdater = dataStoreUpdater;        
+        this.dataStoreUpdater = dataStoreUpdater;    
+        // the create...() methods here populate the UI for this this View.    
         createRecipeNameView();
         createIngredientsListView();
         createInstructionsListView();
+        //loadRecipe() needs to happen after the UI has been created. 
         loadRecipe();
         bindViewModel(); 
     }
@@ -77,11 +90,12 @@ public class CreateRecipeView extends GridPane implements Observer{
     private void createIngredientsListView(){        
         this.vboxIngredientsListView = new VBox();
         this.vboxIngredientsList = new VBox();
+        this.addIngredientView = new AddIngredientView();
         this.hboxAddIngredientChoices = new HBox();
-        this.tfIngredientName = new TextField("");
+        // this.tfIngredientName = new TextField("");
         this.btnAddIngredient = new Button("+");
-        this.cboxUnitsOfVolume = new ChoiceBox<>();
-        this.cboxVolume = new ChoiceBox<>();
+        // this.cboxUnitsOfVolume = new ChoiceBox<>();
+        // this.cboxVolume = new ChoiceBox<>();
 
         this.spaneIngredientsListHolder = new ScrollPane();
         this.spaneIngredientsListHolder.setFitToHeight(true);
@@ -92,7 +106,8 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.btnAddIngredient.setOnAction(this::addIngredient);
         
         this.spaneIngredientsListHolder.setContent(vboxIngredientsList);
-        this.hboxAddIngredientChoices.getChildren().addAll(this.btnAddIngredient, this.tfIngredientName, this.cboxUnitsOfVolume, this.cboxVolume);
+        this.hboxAddIngredientChoices.getChildren().addAll(this.btnAddIngredient, this.addIngredientView);        
+        // this.vboxIngredientsListView.getChildren().addAll(this.spaneIngredientsListHolder, this.hboxAddIngredientChoices);
         this.vboxIngredientsListView.getChildren().addAll(this.spaneIngredientsListHolder, this.hboxAddIngredientChoices);
         this.add(this.vboxIngredientsListView, 0, 1);        
         this.vboxIngredientsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
@@ -118,6 +133,13 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
     }
 
+    private void loadRecipe(){ 
+        Recipe recipe = recipeViewModel.loadTemporaryRecipe();
+        populateRecipeName(recipe);
+        populateIngredients(recipe);
+        populateInstructions(recipe);
+    }
+
     private void populateRecipeName(Recipe recipe){
         this.recipeViewModel.setRecipeName(recipe.getRecipeName());
     }
@@ -125,11 +147,12 @@ public class CreateRecipeView extends GridPane implements Observer{
     // WORKING COPY 
     private void populateIngredients(Recipe recipe){
         for(Ingredient ingredient : recipe.getIngredients()){
-            HBox ingredientHolder = new HBox();
-            ingredientHolder.getChildren().add(new Label(ingredient.getName()));
-            ingredientHolder.getChildren().add(new Label(ingredient.getVolume()));
-            ingredientHolder.getChildren().add(new Label(ingredient.getUnitOfVolume()));           
-            this.vboxIngredientsList.getChildren().add(ingredientHolder); 
+            IngredientView ingredientView = new IngredientView(ingredient.getIngredientName(), ingredient.getQuantity(), ingredient.getVolume(), ingredient.getUnitOfVolume(), ingredient.getWeight(), ingredient.getUnitOfWeight());
+            // HBox ingredientHolder = new HBox();
+            // ingredientHolder.getChildren().add(new Label(ingredient.getName()));
+            // ingredientHolder.getChildren().add(new Label(ingredient.getVolume()));
+            // ingredientHolder.getChildren().add(new Label(ingredient.getUnitOfVolume()));           
+            this.vboxIngredientsList.getChildren().add(ingredientView); 
         } 
     }
 
@@ -334,12 +357,7 @@ public class CreateRecipeView extends GridPane implements Observer{
         recipeViewModel.resetRecipeAll();
     }
 
-    private void loadRecipe(){ 
-        Recipe recipe = recipeViewModel.loadTemporaryRecipe();
-        populateRecipeName(recipe);
-        populateIngredients(recipe);
-        populateInstructions(recipe);
-    }
+   
 
     public void update(CurrentUpdate update) {
         //For now CreateRecipeView isnt looking for any updates. so it doesnt matter what the current update is.
@@ -352,15 +370,22 @@ public class CreateRecipeView extends GridPane implements Observer{
     //add ingredient
     public void addIngredient(ActionEvent event){
 
-        System.out.println("Calling addIngredient in CreateRecipeView:\nIngredient name: " + ((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()+"\n");
-        HBox hboxIngredientsDetails = new HBox();
+        // System.out.println("Calling addIngredient in CreateRecipeView:\nIngredient name: " + ((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()+"\n");
+        // HBox hboxIngredientsDetails = new HBox();
 
         //these are tricky as the index needs to match the order you place the elements into this.hboxAddIngredientChoices earlier in the createIngredientsListView  
-        hboxIngredientsDetails.getChildren().add(new Label(((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()));
-        hboxIngredientsDetails.getChildren().add(new Label("1"));
-        hboxIngredientsDetails.getChildren().add(new Label("Cup"));
+        // hboxIngredientsDetails.getChildren().add(new Label(((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()));
+        // hboxIngredientsDetails.getChildren().add(new Label("1"));
+        // hboxIngredientsDetails.getChildren().add(new Label("Cup"));
 
-        this.vboxIngredientsList.getChildren().add(hboxIngredientsDetails);
+        //IngredientView(String ingredientName, String quantity, String volume, String unitOfVolume, String weight, String unitOfWeight, boolean edit)
+        // IngredientView ingredientView = new IngredientView((((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()),"1", "1","cup", "1", "ounce");
+
+        System.out.println("addIngredientView.getIngredientName(), ingredient name: " + this.addIngredientView.getIngredientName()+"\n");
+        IngredientView ingredientView = new IngredientView(this.addIngredientView.getIngredientName(),"1", "1","cup", "1", "ounce");
+        // IngredientView ingredientView = new IngredientView(addIngredientView.addNewIngredient());
+
+        this.vboxIngredientsList.getChildren().add(ingredientView);
         System.out.println("ObservableList<Node> recipeIngredientNodes size: " + recipeViewModel.recipeIngredientsNodesProperty().size()+"\n\n");
     }
 

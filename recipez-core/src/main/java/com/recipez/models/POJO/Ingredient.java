@@ -28,18 +28,29 @@ public class Ingredient {
      * **/
 
     private String ingredientName, volume, unitOfVolume, weight, unitOfWeight;
-    private int quantity; 
+    private String quantity; 
      
     public Ingredient(String name) {      
         this.ingredientName = name;
-        this.quantity = 1; 
+        this.quantity = "1"; 
         this.volume = "1";  
         this.unitOfVolume = "cup";  
         this.weight = "0"; 
         this.unitOfWeight = "ounces";  
     }
 
-    public String getName(){
+    public Ingredient(String name, String quantity, String volume, String unitOfVolume, String weight, String unitOfWeight) {      
+        this.ingredientName = name;
+        this.quantity = quantity; 
+        this.volume = volume;  
+        this.unitOfVolume = unitOfVolume;  
+        this.weight = weight; 
+        this.unitOfWeight = unitOfWeight;  
+    }
+
+
+
+    public String getIngredientName(){
         return this.ingredientName;
     }
 
@@ -47,11 +58,12 @@ public class Ingredient {
         this.ingredientName = name;
     }
 
-    public int getQuantity(){
+    public String getQuantity(){
         return this.quantity;
     }
 
-    public void setQuantity(int quantity){
+    //this is going to be a String, unless it needs to be an int. For sake of ease, String.
+    public void setQuantity(String quantity){
         this.quantity = quantity;
     }
 
