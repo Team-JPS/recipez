@@ -49,10 +49,10 @@ public class Recipe implements Serializable {
     public String toString(){
         String message = "";
         int count = 1;
-        message += "Recipe Information:\nName: "+this.recipeName+"\n";
+        message += "\nRecipe Information:\nName: "+this.recipeName+"\n";
         message += "Ingredients:\n";
         for(Ingredient ingredient : getIngredients()){
-            message += " - " + ingredient.getName() + "\n";
+            message += " - " + ingredient.getIngredientName() + "\n";
         }
         message += "Instructions:\n";
         for(String instruction : getInstructions()){
