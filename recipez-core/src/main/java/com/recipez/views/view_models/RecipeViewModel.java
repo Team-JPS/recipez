@@ -133,7 +133,7 @@ public class RecipeViewModel {
             // to implement on the ingredients and the instructions.
             // String 
             System.out.println("\nIn RecipeViewModel.getIngredients() " + ((IngredientView)node).getIngredientName() + "\n");
-            Ingredient ingredient = new Ingredient(((IngredientView)node).getIngredientName());
+            Ingredient ingredient = new Ingredient(((IngredientView)node).getIngredientName(), ((IngredientView)node).getIngredientVolume());
             // ingredient.setVolume(((Label)((HBox)node).getChildren().get(1)).getText());
             // ingredient.setUnitOfVolume(((Label)((HBox)node).getChildren().get(2)).getText());
             temp.add(ingredient);

@@ -1,12 +1,10 @@
 package com.recipez.views;
 
-import com.recipez.models.POJO.Ingredient;
+import com.recipez.util.GlobalValues;
 
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 
 public class AddIngredientView extends HBox{
@@ -29,13 +27,20 @@ public class AddIngredientView extends HBox{
         // this.tfIngredientNameInput.setOnAction(this::processKeyPress);
         // this.btnAddIngredient.setOnAction(this::addNewIngredient);
         // this.tfIngredientNameInput.setOnKeyPressed(this::processKeyPress);
-        
+       
+        // String[] volumeValues = {" ","1","1/2","1/3","1/4","1/8"};
+        this.cboxVolume.getItems().setAll(GlobalValues.VOLUMEVALUES);
+
         this.getChildren().addAll(tfIngredientNameInput, cboxVolume, cboxUnitsOfVolume);
     }
 
     public String getIngredientName(){
         return this.tfIngredientNameInput.getText();
     }  
+
+    public String getIngredientVolume(){
+        return this.cboxVolume.getValue();
+    }
 
     // public void processKeyPress(KeyEvent event){
     //     System.out.println("\nmethod call processKeyPress(KeyEvent event)\n");
@@ -48,10 +53,10 @@ public class AddIngredientView extends HBox{
     //     }
     // }
 
-    public Ingredient addNewIngredient() {  
-        System.out.println("\nmethod call addNewIngredient()\n");      
-        return new Ingredient(getIngredientName());      
-    }
+    // public Ingredient addNewIngredient() {  
+    //     System.out.println("\nmethod call addNewIngredient()\n");      
+    //     return new Ingredient(getIngredientName(), this.cboxVolume.getValue());      
+    // }
     
     // public Ingredient addNewIngredient(ActionEvent event) {        
     //     System.out.println("\nmethod call addNewIngredient(ActionEvent event)\n");

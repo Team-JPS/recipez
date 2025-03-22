@@ -37,6 +37,15 @@ public class IngredientView extends HBox{
     public void bindViewModel(){
         this.lblIngredientName.textProperty().bindBidirectional(ingredientViewModel.ingredientNameStringProperty());       
         this.tfIngredientNameInput.textProperty().bindBidirectional(ingredientViewModel.ingredientNameStringProperty());
+
+        Bindings.bindContentBidirectional(ingredientViewModel.ingredientVolumeCheckBoxProperty(), this.cboxVolume.getItems());
+
+        this.cboxVolume.valueProperty().bindBidirectional(ingredientViewModel.ingredientVolumeStringProperty());
+        this.lblVolume.textProperty().bindBidirectional(ingredientViewModel.ingredientVolumeStringProperty());
+    
+        
+
+
     }
 
     // Initializes elements for the ingredient View
@@ -50,6 +59,7 @@ public class IngredientView extends HBox{
         this.lblUnitsOfWeight = new Label(unitOfWeight);
         this.toggleEditButton = new Button("+");
 
+        this.ingredientViewModel.setIngredientVolume(volume);
         // Ingredient name needs to be set in the viewModel before the binding works.
         this.ingredientViewModel.setIngredientName(ingredientName);
        
@@ -69,8 +79,10 @@ public class IngredientView extends HBox{
         this.cboxUnitsOfVolume = new ChoiceBox<>();
         this.cboxWeight = new ChoiceBox<>();
         this.cboxUnitsOfWeight = new ChoiceBox<>();
-        this.toggleEditButton = new Button("+");
+        this.toggleEditButton = new Button("-");
 
+        this.cboxVolume.getItems().addAll(GlobalValues.VOLUMEVALUES);
+        this.cboxVolume.setValue(volume);
         // If this is the view that is shown first this may need to be set first too.
         // this.ingredientViewModel.setIngredientName(ingredientName);
         
@@ -97,7 +109,7 @@ public class IngredientView extends HBox{
         this.toggleEditButton.setOnAction(e -> toggleEditableView(true));
     }
 
-    //bad way to toggle view of editable state. True Editable, False Viewable 
+    //bad way to toggle view of editable state? True Editable, False Viewable 
     public void toggleEditableView(boolean toggle){
         // if true show viewable
         if(toggle){
@@ -110,6 +122,10 @@ public class IngredientView extends HBox{
 
     public String getIngredientName(){
         return ingredientViewModel.getIngredientName();
+    }
+
+    public String getIngredientVolume(){
+        return ingredientViewModel.getIngredientVolume();
     }
 
 }

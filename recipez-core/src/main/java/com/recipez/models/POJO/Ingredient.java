@@ -30,10 +30,25 @@ public class Ingredient {
     private String ingredientName, volume, unitOfVolume, weight, unitOfWeight;
     private String quantity; 
      
+
+    // There are multiple constructors as I work with adding/editing a new property
+    // I dont want to break what currently works. So as I work with a new property I will add a new constructor
+    // with the new incoming property. 
+
+    // When all properties are being added/edited properly the final constructor should be the only one left. 
     public Ingredient(String name) {      
         this.ingredientName = name;
         this.quantity = "1"; 
         this.volume = "1";  
+        this.unitOfVolume = "cup";  
+        this.weight = "0"; 
+        this.unitOfWeight = "ounces";  
+    }
+
+    public Ingredient(String name, String volume) {      
+        this.ingredientName = name;
+        this.quantity = "1"; 
+        this.volume = volume;  
         this.unitOfVolume = "cup";  
         this.weight = "0"; 
         this.unitOfWeight = "ounces";  
