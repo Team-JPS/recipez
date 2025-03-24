@@ -23,13 +23,9 @@ public class AddIngredientView extends HBox{
         this.cboxWeight = new ChoiceBox<>();
         this.cboxUnitsOfWeight = new ChoiceBox<>();
         this.tfIngredientNameInput = new TextField("");
-        // this.btnAddIngredient = new Button("+");
-        // this.tfIngredientNameInput.setOnAction(this::processKeyPress);
-        // this.btnAddIngredient.setOnAction(this::addNewIngredient);
-        // this.tfIngredientNameInput.setOnKeyPressed(this::processKeyPress);
-       
-        // String[] volumeValues = {" ","1","1/2","1/3","1/4","1/8"};
+     
         this.cboxVolume.getItems().setAll(GlobalValues.VOLUMEVALUES);
+        this.cboxUnitsOfVolume.getItems().setAll(GlobalValues.UNITSOFVOLUMEVALUES);
 
         this.getChildren().addAll(tfIngredientNameInput, cboxVolume, cboxUnitsOfVolume);
     }
@@ -42,28 +38,9 @@ public class AddIngredientView extends HBox{
         return this.cboxVolume.getValue();
     }
 
-    // public void processKeyPress(KeyEvent event){
-    //     System.out.println("\nmethod call processKeyPress(KeyEvent event)\n");
-    //     switch(event.getCode()){
-    //         case ENTER:
-    //             addNewIngredient();
-    //         break;
-    //         default:
-    //         break;
-    //     }
-    // }
+    public String getIngredientUnitsOfVolume(){
+        return this.cboxUnitsOfVolume.getValue();
+    }
 
-    // public Ingredient addNewIngredient() {  
-    //     System.out.println("\nmethod call addNewIngredient()\n");      
-    //     return new Ingredient(getIngredientName(), this.cboxVolume.getValue());      
-    // }
-    
-    // public Ingredient addNewIngredient(ActionEvent event) {        
-    //     System.out.println("\nmethod call addNewIngredient(ActionEvent event)\n");
-    //     return new Ingredient(getIngredientName());      
-    // }
-
-
-
-
+  
 }

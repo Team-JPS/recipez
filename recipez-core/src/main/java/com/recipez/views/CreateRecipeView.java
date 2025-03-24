@@ -382,7 +382,7 @@ public class CreateRecipeView extends GridPane implements Observer{
         // IngredientView ingredientView = new IngredientView((((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()),"1", "1","cup", "1", "ounce");
 
         System.out.println("addIngredientView.getIngredientName(), ingredient name: " + this.addIngredientView.getIngredientName()+"\n");
-        IngredientView ingredientView = new IngredientView(this.addIngredientView.getIngredientName(),"1", this.addIngredientView.getIngredientVolume(),"cup", "1", "ounce");
+        IngredientView ingredientView = new IngredientView(this.addIngredientView.getIngredientName(),"1", this.addIngredientView.getIngredientVolume(),this.addIngredientView.getIngredientUnitsOfVolume(), "1", "ounce");
         // IngredientView ingredientView = new IngredientView(addIngredientView.addNewIngredient());
 
         this.vboxIngredientsList.getChildren().add(ingredientView);

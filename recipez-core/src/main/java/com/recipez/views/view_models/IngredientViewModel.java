@@ -14,9 +14,16 @@ public class IngredientViewModel {
     private final StringProperty ingredientUnitsOfWeightStringProperty = new SimpleStringProperty();
 
     private final ObservableList<String> ingredientVolumeCheckBoxProperty =  FXCollections.observableArrayList();
+    private final ObservableList<String> ingredientUnitsOfVolumeCheckBoxProperty = FXCollections.observableArrayList();
+
     public ObservableList<String> ingredientVolumeCheckBoxProperty(){
         return this.ingredientVolumeCheckBoxProperty;
     }
+
+    public ObservableList<String> ingredientUnitsOfVolumeCheckBoxProperty(){
+        return this.ingredientUnitsOfVolumeCheckBoxProperty;
+    }
+
     // public IngredientViewModel(){
     //     this.ingredientNameStringProperty.set("");
     //     this.ingredientQuantityStringProperty.set("");
@@ -50,6 +57,8 @@ public class IngredientViewModel {
         return this.ingredientUnitsOfWeightStringProperty;
     }
 
+    /*Getters and Setters*/
+
     public String getIngredientName(){
         return this.ingredientNameStringProperty.get();
     }
@@ -66,5 +75,12 @@ public class IngredientViewModel {
         this.ingredientVolumeStringProperty.set(volume);
     }
 
+    public String getIngredientUnitsOfVolume(){
+        return this.ingredientUnitsOfVolumeStringProperty.get();
+    }
+
+    public void setIngredientUnitsOfVolume(String unitsOfVolume){
+        this.ingredientUnitsOfVolumeStringProperty.set(unitsOfVolume);
+    }
 
 }

@@ -53,7 +53,14 @@ public class Ingredient {
         this.weight = "0"; 
         this.unitOfWeight = "ounces";  
     }
-
+    public Ingredient(String name, String volume, String unitsOfVolume) {      
+        this.ingredientName = name;
+        this.quantity = "1"; 
+        this.volume = volume;  
+        this.unitOfVolume = unitsOfVolume;  
+        this.weight = "0"; 
+        this.unitOfWeight = "ounces";  
+    }
     public Ingredient(String name, String quantity, String volume, String unitOfVolume, String weight, String unitOfWeight) {      
         this.ingredientName = name;
         this.quantity = quantity; 

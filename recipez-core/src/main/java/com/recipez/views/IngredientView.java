@@ -25,10 +25,10 @@ public class IngredientView extends HBox{
 
     private final IngredientViewModel ingredientViewModel = new IngredientViewModel();  
     
-    public IngredientView(String ingredientName, String quantity, String volume, String unitOfVolume, String weight, String unitOfWeight) {        
+    public IngredientView(String ingredientName, String quantity, String volume, String unitsOfVolume, String weight, String unitOfWeight) {        
         //Initialize elements for the Ingredient View
-        createIngredientView(ingredientName, quantity, volume, unitOfVolume, weight, unitOfWeight);
-        createIngredientViewEditable(ingredientName, quantity, volume, unitOfVolume, weight, unitOfWeight);        
+        createIngredientView(ingredientName, quantity, volume, unitsOfVolume, weight, unitOfWeight);
+        createIngredientViewEditable(ingredientName, quantity, volume, unitsOfVolume, weight, unitOfWeight);        
         //default view is ingredient without edit
         populateIngredientView();
         bindViewModel();               
@@ -39,27 +39,29 @@ public class IngredientView extends HBox{
         this.tfIngredientNameInput.textProperty().bindBidirectional(ingredientViewModel.ingredientNameStringProperty());
 
         Bindings.bindContentBidirectional(ingredientViewModel.ingredientVolumeCheckBoxProperty(), this.cboxVolume.getItems());
+        Bindings.bindContentBidirectional(ingredientViewModel.ingredientUnitsOfVolumeCheckBoxProperty(), this.cboxUnitsOfVolume.getItems());
 
         this.cboxVolume.valueProperty().bindBidirectional(ingredientViewModel.ingredientVolumeStringProperty());
         this.lblVolume.textProperty().bindBidirectional(ingredientViewModel.ingredientVolumeStringProperty());
     
-        
-
+        this.cboxUnitsOfVolume.valueProperty().bindBidirectional(ingredientViewModel.ingredientUnitsOfVolumeStringProperty());
+        this.lblUnitsOfVolume.textProperty().bindBidirectional(ingredientViewModel.ingredientUnitsOfVolumeStringProperty());
 
     }
 
     // Initializes elements for the ingredient View
-    public void createIngredientView(String ingredientName, String quantity, String volume, String unitOfVolume, String weight, String unitOfWeight){
+    public void createIngredientView(String ingredientName, String quantity, String volume, String unitsOfVolume, String weight, String unitOfWeight){
         // System.out.println("IngredientView.creatIngredientView() ingredient name: "+ ingredientName);
         this.lblIngredientName = new Label("");
         this.lblQuantity = new Label(quantity);
         this.lblVolume = new Label(volume);
-        this.lblUnitsOfVolume = new Label(unitOfVolume);
+        this.lblUnitsOfVolume = new Label(unitsOfVolume);
         this.lblWeight = new Label(weight);
         this.lblUnitsOfWeight = new Label(unitOfWeight);
         this.toggleEditButton = new Button("+");
 
         this.ingredientViewModel.setIngredientVolume(volume);
+        this.ingredientViewModel.setIngredientUnitsOfVolume(unitsOfVolume);
         // Ingredient name needs to be set in the viewModel before the binding works.
         this.ingredientViewModel.setIngredientName(ingredientName);
        
@@ -72,7 +74,7 @@ public class IngredientView extends HBox{
     } 
 
     // Initializes elements for the ingredient View Editable
-    public void createIngredientViewEditable(String ingredientName, String quantity, String volume, String unitOfVolume, String weight, String unitOfWeight) {
+    public void createIngredientViewEditable(String ingredientName, String quantity, String volume, String unitsOfVolume, String weight, String unitOfWeight) {
         this.tfIngredientNameInput = new TextField("");
         this.cboxQuantity = new ChoiceBox<>();
         this.cboxVolume = new ChoiceBox<>();
@@ -83,6 +85,8 @@ public class IngredientView extends HBox{
 
         this.cboxVolume.getItems().addAll(GlobalValues.VOLUMEVALUES);
         this.cboxVolume.setValue(volume);
+        this.cboxUnitsOfVolume.getItems().addAll(GlobalValues.UNITSOFVOLUMEVALUES);
+        this.cboxUnitsOfVolume.setValue(unitsOfVolume);
         // If this is the view that is shown first this may need to be set first too.
         // this.ingredientViewModel.setIngredientName(ingredientName);
         
@@ -126,6 +130,10 @@ public class IngredientView extends HBox{
 
     public String getIngredientVolume(){
         return ingredientViewModel.getIngredientVolume();
+    }
+
+    public String getIngredientUnitsOfVolume(){
+        return ingredientViewModel.getIngredientUnitsOfVolume();
     }
 
 }
