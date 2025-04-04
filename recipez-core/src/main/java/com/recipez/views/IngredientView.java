@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 //This is a single Ingredient View, multiple of these will be stacked into VBox inside of CreateRecipeView.java
-public class IngredientView extends HBox{
+public class IngredientView extends HBox {
     
     // 6 labels will be swapped out for six other editable elements
     private Label lblIngredientName, lblQuantity, lblVolume, lblUnitsOfVolume, lblWeight, lblUnitsOfWeight;
@@ -21,7 +21,7 @@ public class IngredientView extends HBox{
     private TextField tfIngredientNameInput;
 
     // button to toggle editable state;
-    private Button toggleEditButton;
+    private Button btnToggleEdit, btnDeleteIngredientView;
 
     private final IngredientViewModel ingredientViewModel = new IngredientViewModel();  
     
@@ -56,9 +56,17 @@ public class IngredientView extends HBox{
         this.lblQuantity = new Label(quantity);
         this.lblVolume = new Label(volume);
         this.lblUnitsOfVolume = new Label(unitsOfVolume);
+
+        // These two buttons are unique as they can go in either Editable or View, depending in which is currently user facing.
+        // intialized here as this is the default user view.
+        this.btnToggleEdit = new Button("+");
+        this.btnDeleteIngredientView = new Button("x");
+        
+        //not in use at the moment
         this.lblWeight = new Label(weight);
         this.lblUnitsOfWeight = new Label(unitOfWeight);
-        this.toggleEditButton = new Button("+");
+        
+       
 
         this.ingredientViewModel.setIngredientVolume(volume);
         this.ingredientViewModel.setIngredientUnitsOfVolume(unitsOfVolume);
@@ -69,7 +77,7 @@ public class IngredientView extends HBox{
        // this.lblQuantity.setMinWidth(50);
         this.lblVolume.setMinWidth(50);
         this.lblUnitsOfVolume.setMinWidth(50);
-        this.toggleEditButton.setFont(GlobalValues.SMALL_FONT);
+        this.btnToggleEdit.setFont(GlobalValues.SMALL_FONT);
 
     } 
 
@@ -79,9 +87,12 @@ public class IngredientView extends HBox{
         this.cboxQuantity = new ChoiceBox<>();
         this.cboxVolume = new ChoiceBox<>();
         this.cboxUnitsOfVolume = new ChoiceBox<>();
+
+        //not in use at the moment
         this.cboxWeight = new ChoiceBox<>();
         this.cboxUnitsOfWeight = new ChoiceBox<>();
-        this.toggleEditButton = new Button("-");
+        
+        // this.toggleEditButton = new Button("-");
 
         this.cboxVolume.getItems().addAll(GlobalValues.VOLUMEVALUES);
         this.cboxVolume.setValue(volume);
@@ -93,24 +104,25 @@ public class IngredientView extends HBox{
         this.tfIngredientNameInput.setMinWidth(200);
         this.cboxVolume.setMinWidth(50);
         this.cboxUnitsOfVolume.setMinWidth(50);
-        this.toggleEditButton.setFont(GlobalValues.SMALL_FONT);
-
+        this.btnToggleEdit.setFont(GlobalValues.SMALL_FONT);
     }
 
     public void populateIngredientView(){     
         // System.out.println("IngredientView.populateIngredientView() ingredient name: "+ this.lblIngredientName.getText());  
+        this.btnToggleEdit.setText("+");
         this.getChildren().clear();
-        this.getChildren().addAll(this.lblIngredientName, this.lblVolume, this.lblUnitsOfVolume, this.toggleEditButton);
+        this.getChildren().addAll(this.lblIngredientName, this.lblVolume, this.lblUnitsOfVolume, this.btnToggleEdit);
         // System.out.println("(2) IngredientView.populateIngredientView() ingredient name: "+ this.lblIngredientName.getText()+"\n"); 
-        this.toggleEditButton.setOnAction(e -> toggleEditableView(false));
+        this.btnToggleEdit.setOnAction(e -> toggleEditableView(false));
     }
 
     public void populateIngredientsViewEditable(){
         // System.out.println("IngredientView.populateIngredientEditable() ingredient name: "+ this.tfIngredientNameInput.getText()); 
+        this.btnToggleEdit.setText("-");
         this.getChildren().clear();
-        this.getChildren().addAll(this.tfIngredientNameInput, this.cboxVolume, this.cboxUnitsOfVolume, this.toggleEditButton);
+        this.getChildren().addAll(this.tfIngredientNameInput, this.cboxVolume, this.cboxUnitsOfVolume, this.btnToggleEdit);
         // System.out.println("(2)IngredientView.populateIngredientEditable() ingredient name: "+ this.tfIngredientNameInput.getText()+"\n"); 
-        this.toggleEditButton.setOnAction(e -> toggleEditableView(true));
+        this.btnToggleEdit.setOnAction(e -> toggleEditableView(true));
     }
 
     //bad way to toggle view of editable state? True Editable, False Viewable 
@@ -122,6 +134,11 @@ public class IngredientView extends HBox{
         }else{
             populateIngredientsViewEditable();
         }
+    }
+
+
+    public void deleteIngredientView(IngredientView ingredientView){
+        // ingredientViewModel.deleteIngredientView(ingredientView);
     }
 
     public String getIngredientName(){

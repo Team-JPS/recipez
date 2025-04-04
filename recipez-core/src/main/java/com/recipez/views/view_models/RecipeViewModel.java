@@ -57,8 +57,7 @@ public class RecipeViewModel {
             this.recipeName.set("");
         }else{
             this.recipeName.set(name);
-        }
-        
+        }        
     }
     
     public ArrayList<String> getInstructions(){
@@ -71,14 +70,12 @@ public class RecipeViewModel {
     }
 
     public ArrayList<Ingredient> getIngredients(){
-        ArrayList<Ingredient> temp = new ArrayList<Ingredient>();
-        
+        ArrayList<Ingredient> temp = new ArrayList<Ingredient>();        
         for(Node node : this.recipeIngredientsNodes) {
             System.out.println("\nIn RecipeViewModel.getIngredients() " + ((IngredientView)node).getIngredientName() + "\n");
             Ingredient ingredient = new Ingredient(((IngredientView)node).getIngredientName(), ((IngredientView)node).getIngredientVolume(), ((IngredientView)node).getIngredientUnitsOfVolume());
             temp.add(ingredient);
         }
-
         return temp;
     }
    
@@ -90,15 +87,14 @@ public class RecipeViewModel {
         }catch(Exception e){
             System.out.println("Something went wrong when trying to save temporary recipe\n\n");
             e.printStackTrace(); 
-        }
-        
+        }        
     }
+
     @SuppressWarnings("unchecked")
     public void saveRecipe(){
         Recipe recipe = converter.toRecipe(this);
         try{
-            String message = "";
-            
+            String message = "";            
             // These checks may be added into the Recipe POJO. boolean returns.
             if(recipe.getRecipeName() == ""){
                 message += "Missing recipe name.\n";                

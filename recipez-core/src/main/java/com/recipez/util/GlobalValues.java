@@ -13,8 +13,7 @@ public class GlobalValues {
     public static final Font SMALL_FONT = new Font("Arial", 12);
     public static final Font MEDIUM_FONT = new Font("Arial", 24);
     public static final Font LARGE_FONT = new Font("Arial", 36);
-
+    
     public static final String[] VOLUMEVALUES = {" ", "1", "1/2", "1/3", "1/4", "1/8"};
-    public static final String[] UNITSOFVOLUMEVALUES = {" ","tsp", "tbsp", "cup", "pint", "qrt", "gal"};
-     
+    public static final String[] UNITSOFVOLUMEVALUES = {" ","tsp", "tbsp", "cup", "pint", "qrt", "gal"};     
 }

@@ -41,6 +41,5 @@ public class AddIngredientView extends HBox{
     public String getIngredientUnitsOfVolume(){
         return this.cboxUnitsOfVolume.getValue();
     }
-
   
 }
