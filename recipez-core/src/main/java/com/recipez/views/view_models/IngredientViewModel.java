@@ -2,6 +2,8 @@ package com.recipez.views.view_models;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class IngredientViewModel {
     private final StringProperty ingredientNameStringProperty = new SimpleStringProperty();
@@ -11,14 +13,25 @@ public class IngredientViewModel {
     private final StringProperty ingredientWeightStringProperty = new SimpleStringProperty();
     private final StringProperty ingredientUnitsOfWeightStringProperty = new SimpleStringProperty();
 
-    public IngredientViewModel(){
-        this.ingredientNameStringProperty.set("");
-        this.ingredientQuantityStringProperty.set("");
-        this.ingredientVolumeStringProperty.set("");
-        this.ingredientUnitsOfVolumeStringProperty.set("");
-        this.ingredientWeightStringProperty.set("");
-        this.ingredientUnitsOfWeightStringProperty.set("");
+    private final ObservableList<String> ingredientVolumeCheckBoxProperty =  FXCollections.observableArrayList();
+    private final ObservableList<String> ingredientUnitsOfVolumeCheckBoxProperty = FXCollections.observableArrayList();
+
+    public ObservableList<String> ingredientVolumeCheckBoxProperty(){
+        return this.ingredientVolumeCheckBoxProperty;
     }
+
+    public ObservableList<String> ingredientUnitsOfVolumeCheckBoxProperty(){
+        return this.ingredientUnitsOfVolumeCheckBoxProperty;
+    }
+
+    // public IngredientViewModel(){
+    //     this.ingredientNameStringProperty.set("");
+    //     this.ingredientQuantityStringProperty.set("");
+    //     this.ingredientVolumeStringProperty.set("");
+    //     this.ingredientUnitsOfVolumeStringProperty.set("");
+    //     this.ingredientWeightStringProperty.set("");
+    //     this.ingredientUnitsOfWeightStringProperty.set("");
+    // }
 
     public StringProperty ingredientNameStringProperty(){
         return this.ingredientNameStringProperty;
@@ -44,12 +57,30 @@ public class IngredientViewModel {
         return this.ingredientUnitsOfWeightStringProperty;
     }
 
+    /*Getters and Setters*/
+
     public String getIngredientName(){
         return this.ingredientNameStringProperty.get();
     }
 
     public void setIngredientName(String name){
         this.ingredientNameStringProperty.set(name);
+    }
+
+    public String getIngredientVolume(){
+        return this.ingredientVolumeStringProperty.get();
+    }
+
+    public void setIngredientVolume(String volume){
+        this.ingredientVolumeStringProperty.set(volume);
+    }
+
+    public String getIngredientUnitsOfVolume(){
+        return this.ingredientUnitsOfVolumeStringProperty.get();
+    }
+
+    public void setIngredientUnitsOfVolume(String unitsOfVolume){
+        this.ingredientUnitsOfVolumeStringProperty.set(unitsOfVolume);
     }
 
 }

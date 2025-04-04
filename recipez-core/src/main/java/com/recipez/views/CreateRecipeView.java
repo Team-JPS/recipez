@@ -147,7 +147,9 @@ public class CreateRecipeView extends GridPane implements Observer{
     // WORKING COPY 
     private void populateIngredients(Recipe recipe){
         for(Ingredient ingredient : recipe.getIngredients()){
+          
             IngredientView ingredientView = new IngredientView(ingredient.getIngredientName(), ingredient.getQuantity(), ingredient.getVolume(), ingredient.getUnitOfVolume(), ingredient.getWeight(), ingredient.getUnitOfWeight());
+            
             // HBox ingredientHolder = new HBox();
             // ingredientHolder.getChildren().add(new Label(ingredient.getName()));
             // ingredientHolder.getChildren().add(new Label(ingredient.getVolume()));
@@ -162,7 +164,6 @@ public class CreateRecipeView extends GridPane implements Observer{
     //         this.vboxIngredientsList.getChildren().add((HBox)ingredient); 
     //     } 
     // }
-
 
     private void populateInstructions(Recipe recipe){
         for(String text : recipe.getInstructions()){
@@ -340,7 +341,7 @@ public class CreateRecipeView extends GridPane implements Observer{
     private void saveTemporaryRecipe(ActionEvent event) { recipeViewModel.saveTemporaryRecipe();}    
     private void saveTemporaryRecipe(KeyEvent event) { recipeViewModel.saveTemporaryRecipe();}
 
-    // this save should save recipe json file, and when recipeBook saves it to the recipe book, it will delete this file as it will now be part of another file, the recipe book.  
+    // this save should save recipe json file. When recipeBook saves it to the recipe book, it will delete this file as it will now be part of another file, the recipe book.  
         
     // @SuppressWarnings("unchecked")
     private void saveRecipe(ActionEvent event) { 
@@ -355,9 +356,7 @@ public class CreateRecipeView extends GridPane implements Observer{
 
     private void newRecipe(ActionEvent event){
         recipeViewModel.resetRecipeAll();
-    }
-
-   
+    }   
 
     public void update(CurrentUpdate update) {
         //For now CreateRecipeView isnt looking for any updates. so it doesnt matter what the current update is.
@@ -369,24 +368,12 @@ public class CreateRecipeView extends GridPane implements Observer{
 
     //add ingredient
     public void addIngredient(ActionEvent event){
-
-        // System.out.println("Calling addIngredient in CreateRecipeView:\nIngredient name: " + ((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()+"\n");
-        // HBox hboxIngredientsDetails = new HBox();
-
-        //these are tricky as the index needs to match the order you place the elements into this.hboxAddIngredientChoices earlier in the createIngredientsListView  
-        // hboxIngredientsDetails.getChildren().add(new Label(((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()));
-        // hboxIngredientsDetails.getChildren().add(new Label("1"));
-        // hboxIngredientsDetails.getChildren().add(new Label("Cup"));
-
-        //IngredientView(String ingredientName, String quantity, String volume, String unitOfVolume, String weight, String unitOfWeight, boolean edit)
-        // IngredientView ingredientView = new IngredientView((((TextField)this.hboxAddIngredientChoices.getChildren().get(1)).getText()),"1", "1","cup", "1", "ounce");
-
+       
         System.out.println("addIngredientView.getIngredientName(), ingredient name: " + this.addIngredientView.getIngredientName()+"\n");
-        IngredientView ingredientView = new IngredientView(this.addIngredientView.getIngredientName(),"1", "1","cup", "1", "ounce");
-        // IngredientView ingredientView = new IngredientView(addIngredientView.addNewIngredient());
-
+        IngredientView ingredientView = new IngredientView(this.addIngredientView.getIngredientName(),"1", this.addIngredientView.getIngredientVolume(),this.addIngredientView.getIngredientUnitsOfVolume(), "1", "ounce");
+        
         this.vboxIngredientsList.getChildren().add(ingredientView);
         System.out.println("ObservableList<Node> recipeIngredientNodes size: " + recipeViewModel.recipeIngredientsNodesProperty().size()+"\n\n");
     }
-
+    
 }
