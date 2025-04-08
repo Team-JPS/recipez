@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 public class AddIngredientView extends HBox{
     private ChoiceBox<String> cboxQuantity, cboxVolume, cboxUnitsOfVolume, cboxWeight, cboxUnitsOfWeight;
     private TextField tfIngredientNameInput;
-    private Button btnAddIngredient;
+    // private Button btnRemoveIngredient;
 
     public AddIngredientView() {
          createAddIngredientView();
