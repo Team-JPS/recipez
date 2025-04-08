@@ -33,6 +33,8 @@ public class IngredientViewModel {
     //     this.ingredientUnitsOfWeightStringProperty.set("");
     // }
 
+
+
     public StringProperty ingredientNameStringProperty(){
         return this.ingredientNameStringProperty;
     }
@@ -83,4 +85,5 @@ public class IngredientViewModel {
         this.ingredientUnitsOfVolumeStringProperty.set(unitsOfVolume);
     }
 
+    
 }

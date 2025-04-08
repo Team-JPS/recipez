@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 
 import com.recipez.models.RecipeModel;
 import com.recipez.models.POJO.Ingredient;
@@ -35,6 +37,19 @@ public class RecipeViewModel {
     //I think data persistence for creating and saving a recipe will be here. 
     private final RecipeModel recipeModel = new RecipeModel();
 
+    public RecipeViewModel(){
+        this.recipeIngredientsNodes.addListener((ListChangeListener.Change<? extends Node> change)-> {
+            while(change.next()){
+                if(change.wasRemoved()){
+                    System.out.println("\n The change Listener for ingredients being removed is working.\n");
+                }else if(change.wasAdded()){
+                    System.out.println("\n The change Listener for ingredients being added is working.\n");
+                }
+                
+            }
+        });
+    }
+
     public StringProperty recipeNameProperty(){
         return this.recipeName;
     }    
@@ -50,7 +65,7 @@ public class RecipeViewModel {
     public String getRecipeName(){
         return recipeName.get();
     }   
-    
+        
     public void setRecipeName(String name){
         System.out.print("RecipeViewModel.setRecipeName(): " + name+ "\n");
         if(name == null || name.trim().length() == 0){
@@ -59,7 +74,33 @@ public class RecipeViewModel {
             this.recipeName.set(name);
         }        
     }
-    
+
+    // WORKING COPY
+    // public ArrayList<Ingredient> getIngredients(){
+    //     ArrayList<Ingredient> temp = new ArrayList<Ingredient>();        
+    //     for(Node node : this.recipeIngredientsNodes) {
+    //         System.out.println("\nIn RecipeViewModel.getIngredients() " + ((IngredientView)node).getIngredientName() + "\n");
+    //         Ingredient ingredient = new Ingredient(((IngredientView)node).getIngredientName(), ((IngredientView)node).getIngredientVolume(), ((IngredientView)node).getIngredientUnitsOfVolume());
+    //         temp.add(ingredient);
+    //     }
+    //     return temp;
+    // }
+
+    //Testing copy 
+    public ArrayList<Ingredient> getIngredients(){
+        ArrayList<Ingredient> temp = new ArrayList<Ingredient>();
+        
+        System.out.println("\ncalling getIngredients method in RecipeViewModel\n");
+        for(Node node : this.recipeIngredientsNodes) {
+            // System.out.println("\nIn RecipeViewModel.getIngredients() " + ((IngredientView)((HBox)node).getChildren().getFirst()).getIngredientName() + "\n");
+            System.out.println("\nIn RecipeViewModel.getIngredients() " + ((IngredientView)((HBox)node).getChildren().getFirst()).getIngredientName() + "\n");
+            
+            Ingredient ingredient = new Ingredient(((IngredientView)((HBox)node).getChildren().getFirst()).getIngredientName(), ((IngredientView)((HBox)node).getChildren().getFirst()).getIngredientVolume(), ((IngredientView)((HBox)node).getChildren().getFirst()).getIngredientUnitsOfVolume());
+            temp.add(ingredient);
+        }
+        return temp;
+    }
+
     public ArrayList<String> getInstructions(){
         ArrayList<String> temp = new ArrayList<String>();
         for(Node node : this.recipeInstructionsNodes) {
@@ -69,15 +110,10 @@ public class RecipeViewModel {
         return temp;
     }
 
-    public ArrayList<Ingredient> getIngredients(){
-        ArrayList<Ingredient> temp = new ArrayList<Ingredient>();        
-        for(Node node : this.recipeIngredientsNodes) {
-            System.out.println("\nIn RecipeViewModel.getIngredients() " + ((IngredientView)node).getIngredientName() + "\n");
-            Ingredient ingredient = new Ingredient(((IngredientView)node).getIngredientName(), ((IngredientView)node).getIngredientVolume(), ((IngredientView)node).getIngredientUnitsOfVolume());
-            temp.add(ingredient);
-        }
-        return temp;
-    }
+    // public void removeIngredient(Node ingredient){
+    //     this.recipeIngredientsNodes.remove(ingredient);
+    // }
+
    
     public void saveTemporaryRecipe(){
         Recipe recipe = converter.toRecipe(this);        

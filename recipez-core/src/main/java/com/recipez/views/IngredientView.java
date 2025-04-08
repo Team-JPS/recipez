@@ -137,9 +137,9 @@ public class IngredientView extends HBox {
     }
 
 
-    public void deleteIngredientView(IngredientView ingredientView){
-        // ingredientViewModel.deleteIngredientView(ingredientView);
-    }
+    // public void deleteIngredientView(IngredientView ingredientView){
+    //     ingredientViewModel.deleteIngredientView(ingredientView);
+    // }
 
     public String getIngredientName(){
         return ingredientViewModel.getIngredientName();

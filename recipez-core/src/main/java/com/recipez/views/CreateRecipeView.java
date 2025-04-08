@@ -154,7 +154,8 @@ public class CreateRecipeView extends GridPane implements Observer{
             // ingredientHolder.getChildren().add(new Label(ingredient.getName()));
             // ingredientHolder.getChildren().add(new Label(ingredient.getVolume()));
             // ingredientHolder.getChildren().add(new Label(ingredient.getUnitOfVolume()));           
-            this.vboxIngredientsList.getChildren().add(ingredientView); 
+            // this.vboxIngredientsList.getChildren().add(ingredientView); 
+            this.addIngredient(ingredientView);
         } 
     }
 
@@ -366,14 +367,44 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.vboxInstructionsList.getChildren().add(new Label(this.tfInstruction.getText()));
     }
 
-    //add ingredient
-    public void addIngredient(ActionEvent event){
-       
-        System.out.println("addIngredientView.getIngredientName(), ingredient name: " + this.addIngredientView.getIngredientName()+"\n");
-        IngredientView ingredientView = new IngredientView(this.addIngredientView.getIngredientName(),"1", this.addIngredientView.getIngredientVolume(),this.addIngredientView.getIngredientUnitsOfVolume(), "1", "ounce");
-        
-        this.vboxIngredientsList.getChildren().add(ingredientView);
+    //add ingredient working copy
+    // public void addIngredient(ActionEvent event){       
+    //     System.out.println("addIngredientView.getIngredientName(), ingredient name: " + this.addIngredientView.getIngredientName()+"\n");
+    //     IngredientView ingredientView = new IngredientView(this.addIngredientView.getIngredientName(),"1", this.addIngredientView.getIngredientVolume(),this.addIngredientView.getIngredientUnitsOfVolume(), "1", "ounce");
+    //     this.vboxIngredientsList.getChildren().add(ingredientView);
+    //     // IngredientViewHolder.getChildren().addAll(this.vboxIngredientsList, btnDeleteIngredient);
+    //     System.out.println("ObservableList<Node> recipeIngredientNodes size: " + recipeViewModel.recipeIngredientsNodesProperty().size()+"\n\n");
+    // }
+
+    // test copy, for adding ingredients to a blank recipe from a saved recipe
+    public void addIngredient(IngredientView ingredientView){
+        System.out.println("addIngredientView.getIngredientName(IngredientView ingredientView), ingredient name: " + this.addIngredientView.getIngredientName()+"\n");
+        // IngredientView ingredientView = new IngredientView(this.addIngredientView.getIngredientName(),"1", this.addIngredientView.getIngredientVolume(),this.addIngredientView.getIngredientUnitsOfVolume(), "1", "ounce");
+        HBox IngredientViewHolder = new HBox();
+        Button btnDeleteIngredient = new Button("x");
+        btnDeleteIngredient.setOnAction(e -> removeIngredient(IngredientViewHolder));
+        IngredientViewHolder.getChildren().addAll(ingredientView, btnDeleteIngredient);
+        this.vboxIngredientsList.getChildren().add(IngredientViewHolder);        
+        // IngredientViewHolder.getChildren().addAll(this.vboxIngredientsList, btnDeleteIngredient);
         System.out.println("ObservableList<Node> recipeIngredientNodes size: " + recipeViewModel.recipeIngredientsNodesProperty().size()+"\n\n");
+    }
+
+    //add ingredient test copy
+    public void addIngredient(ActionEvent event){       
+        System.out.println("addIngredientView.getIngredientName(ActionEvent event), ingredient name: " + this.addIngredientView.getIngredientName()+"\n");
+        IngredientView ingredientView = new IngredientView(this.addIngredientView.getIngredientName(),"1", this.addIngredientView.getIngredientVolume(),this.addIngredientView.getIngredientUnitsOfVolume(), "1", "ounce");
+        HBox IngredientViewHolder = new HBox();
+        Button btnDeleteIngredient = new Button("x");
+        btnDeleteIngredient.setOnAction(e -> removeIngredient(IngredientViewHolder));
+        IngredientViewHolder.getChildren().addAll(ingredientView, btnDeleteIngredient);
+        this.vboxIngredientsList.getChildren().add(IngredientViewHolder);        
+        // IngredientViewHolder.getChildren().addAll(this.vboxIngredientsList, btnDeleteIngredient);
+        System.out.println("ObservableList<Node> recipeIngredientNodes size: " + recipeViewModel.recipeIngredientsNodesProperty().size()+"\n\n");
+    }
+
+    public void removeIngredient(HBox ingredientViewHolder){
+        System.out.print("removeIngredient(IngredientView ingredientView) fired " + ingredientViewHolder + "\n");
+        this.vboxIngredientsList.getChildren().remove(ingredientViewHolder);
     }
     
 }
