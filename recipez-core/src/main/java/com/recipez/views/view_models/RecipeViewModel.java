@@ -104,7 +104,7 @@ public class RecipeViewModel {
     public ArrayList<String> getInstructions(){
         ArrayList<String> temp = new ArrayList<String>();
         for(Node node : this.recipeInstructionsNodes) {
-            String instruction = ((Label)node).getText();
+            String instruction = ((Label)((HBox)node).getChildren().getFirst()).getText();
             temp.add(instruction); 
         }
         return temp;
