@@ -30,7 +30,7 @@ public class RecipeModel {
         // this is to remove the tempRecipe.json when saving the Recipe.json.
         File recipeTempFile = new File(filePath+"\\recipeTemp.json");
         // Convert the Java object to JSON and write it to a file
-        try (FileWriter writer = new FileWriter(filePath+"\\recipe.json")) {
+        try (FileWriter writer = new FileWriter(filePath+"\\"+"recipe"+".json")) {
             gson.toJson(recipe, writer);
             if(recipeTempFile.exists()){
                 recipeTempFile.delete();

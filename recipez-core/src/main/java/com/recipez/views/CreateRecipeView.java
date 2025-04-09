@@ -20,7 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-import com.recipez.models.RecipeDataStoreModel;
+import com.recipez.models.ObserverModel;
 import com.recipez.models.POJO.Ingredient;
 import com.recipez.models.POJO.Recipe;
 import com.recipez.util.CurrentUpdate;
@@ -351,7 +351,7 @@ public class CreateRecipeView extends GridPane implements Observer{
             recipeViewModel.saveRecipe();             
         }catch(CustomValidSaveException e){
             System.out.println("Made it back to CreateRecipeView\n"+e.getMessage());
-            ((RecipeDataStoreModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.RECIPE);
+            ((ObserverModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.RECIPE);
         }        
     }
 
@@ -365,6 +365,11 @@ public class CreateRecipeView extends GridPane implements Observer{
 
     public void addInstruction(ActionEvent event){
         this.vboxInstructionsList.getChildren().add(new Label(this.tfInstruction.getText()));
+    }
+
+    //the incoming Label may be changed to a InstructionView depending on the needs of 
+    public void removeInstruction(Label instruction){
+        this.vboxInstructionsList.getChildren().remove(instruction);
     }
 
     //add ingredient working copy
@@ -389,7 +394,7 @@ public class CreateRecipeView extends GridPane implements Observer{
         System.out.println("ObservableList<Node> recipeIngredientNodes size: " + recipeViewModel.recipeIngredientsNodesProperty().size()+"\n\n");
     }
 
-    //add ingredient test copy
+    //add ingredient from user input test copy
     public void addIngredient(ActionEvent event){       
         System.out.println("addIngredientView.getIngredientName(ActionEvent event), ingredient name: " + this.addIngredientView.getIngredientName()+"\n");
         IngredientView ingredientView = new IngredientView(this.addIngredientView.getIngredientName(),"1", this.addIngredientView.getIngredientVolume(),this.addIngredientView.getIngredientUnitsOfVolume(), "1", "ounce");

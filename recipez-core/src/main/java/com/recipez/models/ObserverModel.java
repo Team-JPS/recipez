@@ -6,11 +6,11 @@ import com.recipez.util.CurrentUpdate;
 import com.recipez.util.Observer;
 import com.recipez.util.Subject;
 
-public class RecipeDataStoreModel implements Subject{
+public class ObserverModel implements Subject{
     private CurrentUpdate currentUpdate;
     private ArrayList<Observer> listOfObservers; 
 
-    public RecipeDataStoreModel() {
+    public ObserverModel() {
         this.currentUpdate = CurrentUpdate.NONE;
         this.listOfObservers = new ArrayList<Observer>();      
     }

@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import com.recipez.models.RecipeDataStoreModel;
+import com.recipez.models.ObserverModel;
 import com.recipez.models.POJO.Recipe;
 import com.recipez.util.CurrentUpdate;
 import com.recipez.util.GlobalValues;
@@ -101,7 +101,7 @@ public class RecipeBookView extends StackPane implements Observer {
                 recipeBookViewModel.loadRecipe();
                 tableView.getItems().clear();
                 this.loadRecipes();
-                ((RecipeDataStoreModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.NONE);
+                ((ObserverModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.NONE);
             break;
             case GROCERY:
             break;

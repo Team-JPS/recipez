@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import com.recipez.models.RecipeDataStoreModel;
+import com.recipez.models.ObserverModel;
 import com.recipez.util.GlobalValues;
 import com.recipez.util.Observer;
 
@@ -30,7 +30,7 @@ public class HomeView extends Scene {
     // private MealPlannerView MealPlannerView;
 
     //Observer Pattern solution (INCOMPLETE)
-    private RecipeDataStoreModel recipeDataStoreModel = new RecipeDataStoreModel();
+    private ObserverModel recipeDataStoreModel = new ObserverModel();
     private Observer[] observers = new Observer[2]; // will end up being 3: recipeBook, groceryList, and mealPlanner should be aware of updates
 
 

@@ -3,6 +3,7 @@ C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\util\CustomValidSaveException.java
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\views\CreateRecipeView.java
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\App.java
+C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\models\ObserverModel.java
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\models\RecipeBookModel.java
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\views\AddIngredientView.java
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\views\view_models\RecipeViewModel.java
@@ -13,7 +14,6 @@ C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\models\RecipeModel.java
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\views\IngredientView.java
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\models\POJO\Recipe.java
-C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\models\RecipeDataStoreModel.java
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\views\HomeView.java
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\views\RecipeBookView.java
 C:\users\jasper\source\cwi\ENGR-290-Project\recipez-maven\recipez-core\src\main\java\com\recipez\util\CurrentUpdate.java

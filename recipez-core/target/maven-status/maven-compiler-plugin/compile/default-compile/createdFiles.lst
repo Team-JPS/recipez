@@ -12,7 +12,6 @@ com\recipez\views\IngredientView.class
 com\recipez\App.class
 com\recipez\models\RecipeBookModel.class
 com\recipez\views\CreateRecipeView.class
-com\recipez\models\RecipeDataStoreModel.class
 com\recipez\views\AddIngredientView.class
 com\recipez\util\CurrentUpdate.class
 com\recipez\views\view_models\IngredientViewModel.class
@@ -22,3 +21,4 @@ com\recipez\models\POJO\RecipeBook.class
 com\recipez\models\POJO\Ingredient.class
 com\recipez\util\GlobalValues.class
 com\recipez\views\HomeView.class
+com\recipez\models\ObserverModel.class
