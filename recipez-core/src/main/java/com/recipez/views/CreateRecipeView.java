@@ -51,7 +51,7 @@ public class CreateRecipeView extends GridPane implements Observer{
 
 
     //View for adding an ingredient. HBox 
-    private AddIngredientView addIngredientView = new AddIngredientView();
+    private AddIngredientView addIngredientView;
 
 
     //Add/remove recipe instructions UI Elements
@@ -133,45 +133,11 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
     }
 
-    private void loadRecipe(){ 
-        Recipe recipe = recipeViewModel.loadTemporaryRecipe();
-        populateRecipeName(recipe);
-        populateIngredients(recipe);
-        populateInstructions(recipe);
-    }
 
-    private void populateRecipeName(Recipe recipe){
-        this.recipeViewModel.setRecipeName(recipe.getRecipeName());
-    }
-
-    // WORKING COPY 
-    private void populateIngredients(Recipe recipe){
-        for(Ingredient ingredient : recipe.getIngredients()){
-          
-            IngredientView ingredientView = new IngredientView(ingredient.getIngredientName(), ingredient.getQuantity(), ingredient.getVolume(), ingredient.getUnitOfVolume(), ingredient.getWeight(), ingredient.getUnitOfWeight());
-            
-            // HBox ingredientHolder = new HBox();
-            // ingredientHolder.getChildren().add(new Label(ingredient.getName()));
-            // ingredientHolder.getChildren().add(new Label(ingredient.getVolume()));
-            // ingredientHolder.getChildren().add(new Label(ingredient.getUnitOfVolume()));           
-            // this.vboxIngredientsList.getChildren().add(ingredientView); 
-            this.addIngredient(ingredientView);
-        } 
-    }
-
-    //TESING COPY
-    // private void populateIngredients(Recipe recipe){
-    //     for(Node ingredient : recipeViewModel.recipeIngredientsNodesProperty()){
-    //         this.vboxIngredientsList.getChildren().add((HBox)ingredient); 
-    //     } 
-    // }
-
-    private void populateInstructions(Recipe recipe){
-        for(String text : recipe.getInstructions()){
-           this.addInstruction(text);
-        }
-    }
-
+    // UI change, 
+    // [HBox][Label][Some UI element][/HBox] <--swaps--> [HBox][TextField][Button][/HBox]
+    // The 'Some UI element' will be the swap with the save button. A flower or something, some cute image that
+    // sits next to the recipe name
     private void createRecipeNameView(){
         this.recipeNameToggle = true;
         this.lblUserMessage = new Label("Click to rename your recipe!");
@@ -197,8 +163,9 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.btnSaveRecipe.setAlignment(Pos.CENTER);
         this.btnNewRecipe.setAlignment(Pos.CENTER);
 
-        this.lblUserMessage.setOnMouseClicked(this::swapLayer);
-        this.lblRecipeName.setOnMouseClicked(this::swapLayer);
+        this.lblUserMessage.setOnMouseClicked(e -> this.swapLayer(false));
+        this.lblRecipeName.setOnMouseClicked(e -> this.swapLayer(false));
+        
         this.tfRecipeName.setOnKeyPressed(this::processKeyPress);
         this.btnSaveRecipeName.setOnAction(this::saveRecipeName);
         this.btnSaveRecipe.setOnAction(this::saveRecipe);
@@ -267,38 +234,80 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.setMinHeight(GlobalValues.VIEW_HEIGHT);
     }
 
+    private void loadRecipe(){ 
+        Recipe recipe = recipeViewModel.loadTemporaryRecipe();
+        populateRecipeName(recipe);
+        populateIngredients(recipe);
+        populateInstructions(recipe);
+    }
+
+    private void populateRecipeName(Recipe recipe){
+        this.recipeViewModel.setRecipeName(recipe.getRecipeName());
+    }
+
+    // WORKING COPY 
+    private void populateIngredients(Recipe recipe){
+        for(Ingredient ingredient : recipe.getIngredients()){          
+            IngredientView ingredientView = new IngredientView(ingredient.getIngredientName(), ingredient.getQuantity(), ingredient.getVolume(), ingredient.getUnitOfVolume(), ingredient.getWeight(), ingredient.getUnitOfWeight());
+            this.addIngredient(ingredientView);
+        } 
+    }
+
+    private void populateInstructions(Recipe recipe){
+        for(String text : recipe.getInstructions()){
+           this.addInstruction(text);
+        }
+    }
+
     //SwapLayer being called by a MouseEvent 
-    private void swapLayer(MouseEvent event){
-        swap();
-    }
+    // private void swapLayer(MouseEvent event){
+    //     swap();
+    // }
 
-    //SwapLayer being called by a KeyEvent 
-    private void swapLayer(KeyEvent event){
-        swap();
-    }
+    // //SwapLayer being called by a KeyEvent 
+    // private void swapLayer(KeyEvent event){
+    //     swap();
+    // }
 
-    //SwapLayer being called by a ActionEvent
-    private void swapLayer(ActionEvent event){
-        swap();
-    }
+    // //SwapLayer being called by a ActionEvent
+    // private void swapLayer(ActionEvent event){
+    //     swap();
+    // }
 
-    private void swap(){
-        if(this.recipeNameToggle){
+    // private void swap(){
+    //     if(this.recipeNameToggle){
+    //         Utility.fadeOut(this.vboxInputContainer);
+    //         this.btnSaveRecipeName.setDisable(true);
+    //         this.tfRecipeName.setDisable(true);            
+    //         binarySwap(vboxLabelContainer, vboxInputContainer);
+    //         Utility.fadeIn(this.vboxLabelContainer);
+    //         this.recipeNameToggle = !this.recipeNameToggle;            
+    //     }else{
+    //         Utility.fadeOut(this.vboxLabelContainer);
+    //         this.btnSaveRecipeName.setDisable(false);
+    //         this.tfRecipeName.setDisable(false);            
+    //         binarySwap(vboxInputContainer, vboxLabelContainer);
+    //         Utility.fadeIn(this.vboxInputContainer);
+    //         this.recipeNameToggle = !this.recipeNameToggle;  
+    //     }
+    // }
+
+    private void swapLayer(Boolean recipeNameToggle) {
+        if(recipeNameToggle){
             Utility.fadeOut(this.vboxInputContainer);
             this.btnSaveRecipeName.setDisable(true);
             this.tfRecipeName.setDisable(true);            
             binarySwap(vboxLabelContainer, vboxInputContainer);
-            Utility.fadeIn(this.vboxLabelContainer);
-            this.recipeNameToggle = !this.recipeNameToggle;            
+            Utility.fadeIn(this.vboxLabelContainer);          
         }else{
             Utility.fadeOut(this.vboxLabelContainer);
             this.btnSaveRecipeName.setDisable(false);
             this.tfRecipeName.setDisable(false);            
             binarySwap(vboxInputContainer, vboxLabelContainer);
-            Utility.fadeIn(this.vboxInputContainer);
-            this.recipeNameToggle = !this.recipeNameToggle;  
+            Utility.fadeIn(this.vboxInputContainer); 
         }
     }
+
 
     //The fade transition isnt smooth without both being present, hence the binary swap
     private void binarySwap(Node front, Node back){
@@ -334,8 +343,8 @@ public class CreateRecipeView extends GridPane implements Observer{
     }
     // Saving the name of the recipe to the recipeViewModel, should also save to temp recipe json.
     // Auto save points should be created for temp recipe json. 
-    private void saveRecipeName(ActionEvent event){ recipeViewModel.setRecipeName(tfRecipeName.getText()); saveTemporaryRecipe(event); swapLayer(event); }
-    private void saveRecipeName(KeyEvent event){ recipeViewModel.setRecipeName(tfRecipeName.getText()); saveTemporaryRecipe(event); swapLayer(event); }
+    private void saveRecipeName(ActionEvent event){ recipeViewModel.setRecipeName(tfRecipeName.getText()); saveTemporaryRecipe(event); swapLayer(true); }
+    private void saveRecipeName(KeyEvent event){ recipeViewModel.setRecipeName(tfRecipeName.getText()); saveTemporaryRecipe(event); swapLayer(true); }
 
     // Saves for temporary recipes. The logic is if someone doesnt finish creating a recipe and closes the app, they dont lose their progress.
     private void saveTemporaryRecipe(ActionEvent event) { recipeViewModel.saveTemporaryRecipe();}    
@@ -380,7 +389,7 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.vboxInstructionsList.getChildren().add(hboxInstructionViewHolder);
     }
 
-    //the incoming Label may be changed to a InstructionView depending on the needs of 
+    //the incoming Hbox may be changed to a InstructionView depending on the needs of the instructions
     public void removeInstruction(HBox instructionView){       
         this.vboxInstructionsList.getChildren().remove(instructionView);
     }
