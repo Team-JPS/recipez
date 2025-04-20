@@ -44,8 +44,7 @@ public class RecipeViewModel {
                     System.out.println("\n The change Listener for ingredients being removed is working.\n");
                 }else if(change.wasAdded()){
                     System.out.println("\n The change Listener for ingredients being added is working.\n");
-                }
-                
+                }                
             }
         });
     }

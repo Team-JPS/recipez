@@ -2,7 +2,6 @@ package com.recipez.views;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;

@@ -4,6 +4,8 @@ import com.recipez.views.view_models.IngredientViewModel;
 import com.recipez.views.view_models.RecipeViewModel;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -63,21 +65,24 @@ public class CreateRecipeView extends GridPane implements Observer{
 
     //Data store for creating a recipe... RecipeViewModel has notes on its usage with CreateRecipeView and RecipeView.
     private final RecipeViewModel recipeViewModel = new RecipeViewModel();
-    private Subject dataStoreUpdater;
-
-    public CreateRecipeView(Subject dataStoreUpdater){
-        this.setVgap(5);
-        this.setHgap(5);  
+    private Subject observerUpdater;
+   
+  
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public CreateRecipeView(Subject updater){
+        // this.setVgap(5);
+        // this.setHgap(5);  
         ColumnConstraints columns = new ColumnConstraints(); 
         columns.setPercentWidth(50);
         this.getColumnConstraints().addAll(columns);   
+        
         // register this class with with the dataStoreUpdater. Allows changing 
         // of CurrentUpdate, an enum, that the other Views also observe. saveRecipe
         // calls setUpdate(CurrentUpdate currentUpdate) if the Recipe saved 
         // successfully. setUpdate() calls notifyObservers() which lets the other
         // Views know a change was made. 
-        dataStoreUpdater.registerObserver(this);
-        this.dataStoreUpdater = dataStoreUpdater;    
+        updater.registerObserver(this);
+        this.observerUpdater = updater;    
         // the create...() methods here populate the UI for this this View.    
         createRecipeNameView();
         createIngredientsListView();
@@ -85,6 +90,7 @@ public class CreateRecipeView extends GridPane implements Observer{
         //loadRecipe() needs to happen after the UI has been created. 
         loadRecipe();
         bindViewModel(); 
+      
     }
 
     private void createIngredientsListView(){        
@@ -98,7 +104,7 @@ public class CreateRecipeView extends GridPane implements Observer{
         // this.cboxVolume = new ChoiceBox<>();
 
         this.spaneIngredientsListHolder = new ScrollPane();
-        this.spaneIngredientsListHolder.setFitToHeight(true);
+        // this.spaneIngredientsListHolder.setFitToHeight(true);
         this.spaneIngredientsListHolder.setPrefViewportHeight(200);
         
         this.btnAddIngredient.setFont(GlobalValues.MEDIUM_FONT);
@@ -259,39 +265,6 @@ public class CreateRecipeView extends GridPane implements Observer{
         }
     }
 
-    //SwapLayer being called by a MouseEvent 
-    // private void swapLayer(MouseEvent event){
-    //     swap();
-    // }
-
-    // //SwapLayer being called by a KeyEvent 
-    // private void swapLayer(KeyEvent event){
-    //     swap();
-    // }
-
-    // //SwapLayer being called by a ActionEvent
-    // private void swapLayer(ActionEvent event){
-    //     swap();
-    // }
-
-    // private void swap(){
-    //     if(this.recipeNameToggle){
-    //         Utility.fadeOut(this.vboxInputContainer);
-    //         this.btnSaveRecipeName.setDisable(true);
-    //         this.tfRecipeName.setDisable(true);            
-    //         binarySwap(vboxLabelContainer, vboxInputContainer);
-    //         Utility.fadeIn(this.vboxLabelContainer);
-    //         this.recipeNameToggle = !this.recipeNameToggle;            
-    //     }else{
-    //         Utility.fadeOut(this.vboxLabelContainer);
-    //         this.btnSaveRecipeName.setDisable(false);
-    //         this.tfRecipeName.setDisable(false);            
-    //         binarySwap(vboxInputContainer, vboxLabelContainer);
-    //         Utility.fadeIn(this.vboxInputContainer);
-    //         this.recipeNameToggle = !this.recipeNameToggle;  
-    //     }
-    // }
-
     private void swapLayer(Boolean recipeNameToggle) {
         if(recipeNameToggle){
             Utility.fadeOut(this.vboxInputContainer);
@@ -307,7 +280,6 @@ public class CreateRecipeView extends GridPane implements Observer{
             Utility.fadeIn(this.vboxInputContainer); 
         }
     }
-
 
     //The fade transition isnt smooth without both being present, hence the binary swap
     private void binarySwap(Node front, Node back){
@@ -359,7 +331,7 @@ public class CreateRecipeView extends GridPane implements Observer{
             recipeViewModel.saveRecipe();             
         }catch(CustomValidSaveException e){
             System.out.println("Made it back to CreateRecipeView\n"+e.getMessage());
-            ((ObserverModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.RECIPE);
+            ((ObserverModel)this.observerUpdater).setUpdate(CurrentUpdate.RECIPE);
         }        
     }
 
