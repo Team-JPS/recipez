@@ -2,14 +2,17 @@ package com.recipez.views;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 import com.recipez.models.ObserverModel;
 import com.recipez.models.POJO.Recipe;
@@ -70,13 +73,50 @@ public class RecipeBookView extends StackPane implements Observer {
         tableView.getColumns().add(nameColumn);
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         
+        addViewButtonToTable();
+
         vboxRecipeBookContainer = new VBox(hboxRecipeBook, tableView);
         this.getChildren().add(vboxRecipeBookContainer);
     }
 
+    private void addViewButtonToTable() {
+
+    TableColumn<Recipe, Void> colBtn = new TableColumn<>("Action");
+
+    Callback<TableColumn<Recipe, Void>, TableCell<Recipe, Void>> cellFactory = new Callback<>() {
+        @Override
+        public TableCell<Recipe, Void> call(final TableColumn<Recipe, Void> param) {
+            return new TableCell<>() {
+                private final Button btn = new Button("View");
+
+                {
+                    btn.setOnAction(event -> {
+                        Recipe selectedRecipe = getTableView().getItems().get(getIndex());
+                        // openRecipeInView(selectedRecipe);
+                        System.out.println("View button pressed");
+                    });
+                }
+
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : btn);
+                }
+            };
+        }
+    };
+
+    colBtn.setCellFactory(cellFactory);
+    tableView.getColumns().add(colBtn);
+    }
+
+    // tableView.getColumns().add(colBtn);
+
+
+
     private void loadRecipes() {
-        recipeList = recipeBookViewModel.getRecipeBook();
-        tableView.getItems().setAll(recipeList); // Ensure this method exists in RecipeBookViewModel
+        recipeList = recipeBookViewModel.getRecipeBook(); // Ensure this method exists in RecipeBookViewModel
+        tableView.getItems().setAll(recipeList); 
     }
 
     private void applySorting() {

@@ -14,6 +14,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
@@ -21,6 +23,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+
+import java.io.FileInputStream;
 
 import com.recipez.models.ObserverModel;
 import com.recipez.models.POJO.Ingredient;
@@ -36,20 +40,21 @@ import com.recipez.util.Utility;
 public class CreateRecipeView extends GridPane implements Observer{
 
     // Add/Edit Recipe Name UI elements
-    private Label lblRecipeName, lblUserMessage;
+    private Label lblRecipeName;
+    private ImageView imgRecipeNameSave;
     private TextField tfRecipeName;
     private Button btnSaveRecipeName, btnSaveRecipe, btnNewRecipe;
     private HBox hboxRecipeNameInput, hboxRecipeNameLabel;
-    private VBox vboxInputContainer, separatorNameInput, vboxLabelContainer, separatorNameLabel;
-    private boolean recipeNameToggle;    
+    private VBox vboxInputContainer, vboxLabelContainer;
+    // private boolean recipeNameToggle;    
     
     // Add/remove recipe ingredients UI Elements
     private VBox vboxIngredientsListView, vboxIngredientsList;
     private HBox hboxAddIngredientChoices;
     private ScrollPane spaneIngredientsListHolder;
     private Button btnAddIngredient;
-    private TextField tfIngredientName;
-    private ChoiceBox<String> cboxVolume, cboxUnitsOfVolume, cboxUnitsOfWeight, cboxWeight;
+    // private TextField tfIngredientName;
+    // private ChoiceBox<String> cboxVolume, cboxUnitsOfVolume, cboxUnitsOfWeight, cboxWeight;
 
 
     //View for adding an ingredient. HBox 
@@ -68,7 +73,7 @@ public class CreateRecipeView extends GridPane implements Observer{
     private Subject observerUpdater;
    
   
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    // @SuppressWarnings({ "unchecked", "rawtypes" })
     public CreateRecipeView(Subject updater){
         // this.setVgap(5);
         // this.setHgap(5);  
@@ -87,9 +92,14 @@ public class CreateRecipeView extends GridPane implements Observer{
         createRecipeNameView();
         createIngredientsListView();
         createInstructionsListView();
+        saveResetRecipeView();
         //loadRecipe() needs to happen after the UI has been created. 
         loadRecipe();
         bindViewModel(); 
+
+        // System.out.println("\n"+this.getParent()+"\n");
+        // this.prefWidthProperty().bind(this.getParent());
+        
       
     }
 
@@ -98,13 +108,15 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.vboxIngredientsList = new VBox();
         this.addIngredientView = new AddIngredientView();
         this.hboxAddIngredientChoices = new HBox();
-        // this.tfIngredientName = new TextField("");
+        Label recipeIngredients = new Label("Ingredients");
+        recipeIngredients.prefWidthProperty().bind(this.vboxIngredientsListView.widthProperty());
+        recipeIngredients.setAlignment(Pos.CENTER);
+
         this.btnAddIngredient = new Button("+");
-        // this.cboxUnitsOfVolume = new ChoiceBox<>();
-        // this.cboxVolume = new ChoiceBox<>();
+      
 
         this.spaneIngredientsListHolder = new ScrollPane();
-        // this.spaneIngredientsListHolder.setFitToHeight(true);
+        this.spaneIngredientsListHolder.setFitToHeight(true);
         this.spaneIngredientsListHolder.setPrefViewportHeight(200);
         
         this.btnAddIngredient.setFont(GlobalValues.MEDIUM_FONT);
@@ -112,9 +124,9 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.btnAddIngredient.setOnAction(this::addIngredient);
         
         this.spaneIngredientsListHolder.setContent(vboxIngredientsList);
-        this.hboxAddIngredientChoices.getChildren().addAll(this.btnAddIngredient, this.addIngredientView);        
+        this.hboxAddIngredientChoices.getChildren().addAll(this.addIngredientView, this.btnAddIngredient);        
         // this.vboxIngredientsListView.getChildren().addAll(this.spaneIngredientsListHolder, this.hboxAddIngredientChoices);
-        this.vboxIngredientsListView.getChildren().addAll(this.spaneIngredientsListHolder, this.hboxAddIngredientChoices);
+        this.vboxIngredientsListView.getChildren().addAll(recipeIngredients, this.spaneIngredientsListHolder, this.hboxAddIngredientChoices);
         this.add(this.vboxIngredientsListView, 0, 1);        
         this.vboxIngredientsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
     }
@@ -124,7 +136,9 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.vboxInstructionsListView = new VBox();
         this.hboxAddInstructionOptions = new HBox();
         this.tfInstruction = new TextField("");
-    
+        Label recipeInstructions = new Label("Instructions");
+        recipeInstructions.prefWidthProperty().bind(this.vboxInstructionsListView.widthProperty());
+        recipeInstructions.setAlignment(Pos.CENTER);
         this.btnAddInstruction = new Button("+");
         this.spaneInstructionsListHolder = new ScrollPane();
         this.spaneInstructionsListHolder.setFitToHeight(true);
@@ -134,109 +148,107 @@ public class CreateRecipeView extends GridPane implements Observer{
         
         this.spaneInstructionsListHolder.setContent(this.vboxInstructionsList);
         this.hboxAddInstructionOptions.getChildren().addAll(this.tfInstruction, this.btnAddInstruction);
-        this.vboxInstructionsListView.getChildren().addAll(this.spaneInstructionsListHolder, this.hboxAddInstructionOptions);
+        this.vboxInstructionsListView.getChildren().addAll(recipeInstructions, this.spaneInstructionsListHolder, this.hboxAddInstructionOptions);
         this.add(this.vboxInstructionsListView, 1, 1);
         this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
     }
 
+    
+    public void saveResetRecipeView(){
+        // save / new recipe buttons
+        HBox saveHolder = new HBox();
+        HBox newHolder = new HBox();
+        this.btnSaveRecipe = new Button("Save Recipe");
+        this.btnNewRecipe = new Button("New Recipe");
+        this.btnSaveRecipe.setFont(GlobalValues.MEDIUM_FONT);
+        this.btnNewRecipe.setFont(GlobalValues.MEDIUM_FONT);
+        // this.btnSaveRecipe.setAlignment(Pos.CENTER);
+        // this.btnNewRecipe.setAlignment(Pos.CENTER);
+        saveHolder.setAlignment(Pos.CENTER_RIGHT);
+        newHolder.setAlignment(Pos.CENTER_LEFT);
+        this.btnSaveRecipe.setOnAction(this::saveRecipe);
+        this.btnNewRecipe.setOnAction(this::newRecipe);
 
+        saveHolder.getChildren().add(this.btnSaveRecipe);
+        newHolder.getChildren().add(this.btnNewRecipe);
+
+        // saveHolder.setStyle(GlobalValues.COLOR_TEST_FORMATTING_THREE);
+
+        this.add(saveHolder, 0, 2);
+        this.add(newHolder, 1, 2);
+    }
+
+   // WORKING COPY
     // UI change, 
     // [HBox][Label][Some UI element][/HBox] <--swaps--> [HBox][TextField][Button][/HBox]
     // The 'Some UI element' will be the swap with the save button. A flower or something, some cute image that
-    // sits next to the recipe name
+    // sits next to the recipe name   
     private void createRecipeNameView(){
-        this.recipeNameToggle = true;
-        this.lblUserMessage = new Label("Click to rename your recipe!");
+        this.setStyle(GlobalValues.COLOR_PRIMARY);
+        this.imgRecipeNameSave = new ImageView();
+        // this.recipeNameToggle = true;
+        // this.lblUserMessage = new Label("Click to rename your recipe!");
         this.tfRecipeName = new TextField(" ");
         this.lblRecipeName = new Label("");      
-                
+        String workingDir = System.getProperty("user.dir");
+        // System.out.println("Current working directory: " + workingDir);
+        String filePath = workingDir+"\\src\\main\\resources\\images";  
         this.btnSaveRecipeName = new Button("Save");
-        this.btnSaveRecipe = new Button("Save Recipe");
-        this.btnNewRecipe = new Button("New Recipe");
+        System.out.println("\nImage file path:\n"+filePath+"\n");
 
-        this.lblUserMessage.setFont(GlobalValues.LARGE_FONT);
+        try{
+            Image flower = new Image("file:///"+filePath+"\\fire_flower.jpg", 75.0, 75.0, false, false, false);
+            this.imgRecipeNameSave.setImage(flower);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+     
+
         this.lblRecipeName.setFont(GlobalValues.LARGE_FONT);
         this.tfRecipeName.setFont(GlobalValues.LARGE_FONT);
-        this.btnSaveRecipeName.setFont(GlobalValues.MEDIUM_FONT);        
-        this.btnSaveRecipe.setFont(GlobalValues.MEDIUM_FONT);
-        this.btnNewRecipe.setFont(GlobalValues.MEDIUM_FONT);
+        this.tfRecipeName.setMinWidth(500.00);
+        this.lblRecipeName.setMinWidth(500.00);
+        this.btnSaveRecipeName.setFont(GlobalValues.MEDIUM_FONT);     
 
-        this.setStyle(GlobalValues.COLOR_PRIMARY);
-
-        this.lblRecipeName.setStyle("-fx-padding: 12 8 8 8");
+        this.lblRecipeName.setStyle("-fx-padding: 0 20 0 0");
         this.tfRecipeName.setAlignment(Pos.CENTER);
+        this.lblRecipeName.setAlignment(Pos.CENTER);
         this.btnSaveRecipeName.setAlignment(Pos.CENTER);
-        this.btnSaveRecipe.setAlignment(Pos.CENTER);
-        this.btnNewRecipe.setAlignment(Pos.CENTER);
-
-        this.lblUserMessage.setOnMouseClicked(e -> this.swapLayer(false));
-        this.lblRecipeName.setOnMouseClicked(e -> this.swapLayer(false));
         
+        // this.lblUserMessage.setOnMouseClicked(e -> this.swapLayer(false));
+        this.lblRecipeName.setOnMouseClicked(e -> this.swapLayer(false));        
+        this.imgRecipeNameSave.setOnMouseClicked(e -> this.swapLayer(false));
+
         this.tfRecipeName.setOnKeyPressed(this::processKeyPress);
-        this.btnSaveRecipeName.setOnAction(this::saveRecipeName);
-        this.btnSaveRecipe.setOnAction(this::saveRecipe);
-        this.btnNewRecipe.setOnAction(this::newRecipe);
+        this.btnSaveRecipeName.setOnAction(this::saveRecipeName);        
         
         this.hboxRecipeNameInput = new HBox(); 
         this.hboxRecipeNameLabel = new HBox(); 
-
-        this.vboxInputContainer = new VBox();
-        this.vboxLabelContainer = new VBox();      
-        this.separatorNameInput = new VBox();
-        this.separatorNameLabel = new VBox();
-
-        /*********************************User input screen*********************************/
-    
-        //TODO: This may be easier to do with a GridPane        
+       
+        /*********************************User input screen*********************************/           
         //Hbox container for textfield for user input   
         this.hboxRecipeNameInput.setSpacing(10);
         this.hboxRecipeNameInput.setAlignment(Pos.CENTER);
         this.hboxRecipeNameInput.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
-        this.hboxRecipeNameInput.getChildren().add(this.tfRecipeName);        
+        this.hboxRecipeNameInput.getChildren().addAll(this.tfRecipeName, this.btnSaveRecipeName);        
         this.hboxRecipeNameInput.setPrefWidth(GlobalValues.APP_WIDTH);
-        HBox.setHgrow(this.tfRecipeName, Priority.ALWAYS);
-        
-        //Vbox to vertically align tfRecipeName and btnSaveRecipeName 
-        this.separatorNameInput.getChildren().addAll(this.hboxRecipeNameInput, this.btnSaveRecipeName);
-        this.separatorNameInput.setAlignment(Pos.TOP_CENTER);
-        this.separatorNameInput.setPrefHeight(150);
-        this.separatorNameInput.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);
-        
-        //Vbox to hold Hbox to user input textfield
-        this.vboxInputContainer.setPrefHeight(GlobalValues.VIEW_HEIGHT-300);
-        this.vboxInputContainer.setAlignment(Pos.CENTER);
-        this.vboxInputContainer.setStyle(GlobalValues.COLOR_PRIMARY);
-        this.vboxInputContainer.getChildren().add(separatorNameInput);
+        this.hboxRecipeNameInput.prefWidthProperty().bind(this.widthProperty());
 
         /*********************************Input display screen*********************************/
-
         //Hbox container that displays user input via label             
-        // this.hboxRecipeNameLabel.setSpacing(10);
         this.hboxRecipeNameLabel.setAlignment(Pos.CENTER);
         this.hboxRecipeNameLabel.setStyle(GlobalValues.COLOR_PRIMARY);
-        this.hboxRecipeNameLabel.getChildren().add(this.lblRecipeName);        
+        this.hboxRecipeNameLabel.getChildren().addAll(this.lblRecipeName, this.imgRecipeNameSave);        
         this.hboxRecipeNameLabel.setPrefWidth(GlobalValues.APP_WIDTH);
+        this.hboxRecipeNameLabel.prefWidthProperty().bind(this.widthProperty());
+       
+        this.add(this.hboxRecipeNameLabel, 0, 0);
+        this.add(this.hboxRecipeNameInput, 0, 0);      
 
-        //Vbox to vertically align lblUserMessage and lblRecipeName 
-        this.separatorNameLabel.getChildren().addAll(this.hboxRecipeNameLabel, this.lblUserMessage);
-        this.separatorNameLabel.setAlignment(Pos.TOP_CENTER);
-        this.separatorNameLabel.setPrefHeight(150);        
-        this.separatorNameLabel.setStyle(GlobalValues.COLOR_PRIMARY);
-        
-        //Vbox to hold Hbox user input label     
-        this.vboxLabelContainer.setPrefHeight(GlobalValues.VIEW_HEIGHT-300);
-        this.vboxLabelContainer.setAlignment(Pos.CENTER);
-        this.vboxLabelContainer.setStyle(GlobalValues.COLOR_PRIMARY);
-        this.vboxLabelContainer.getChildren().add(separatorNameLabel);
+        GridPane.setColumnSpan(hboxRecipeNameInput, 2);
+        GridPane.setColumnSpan(hboxRecipeNameLabel, 2);
 
-        //UI elements combined for main display of RecipeView              
-        this.add(this.vboxLabelContainer, 0, 0);
-        this.add(this.vboxInputContainer, 0, 0);
-        this.add(this.btnSaveRecipe, 0, 2);
-        this.add(this.btnNewRecipe, 1, 2);
-        GridPane.setColumnSpan(btnSaveRecipe, 2);
-        GridPane.setColumnSpan(vboxInputContainer, 2);        
-        GridPane.setColumnSpan(vboxLabelContainer, 2);
         this.setMinHeight(GlobalValues.VIEW_HEIGHT);
     }
 
@@ -270,14 +282,14 @@ public class CreateRecipeView extends GridPane implements Observer{
             Utility.fadeOut(this.vboxInputContainer);
             this.btnSaveRecipeName.setDisable(true);
             this.tfRecipeName.setDisable(true);            
-            binarySwap(vboxLabelContainer, vboxInputContainer);
-            Utility.fadeIn(this.vboxLabelContainer);          
+            binarySwap(this.hboxRecipeNameLabel, this.hboxRecipeNameInput);
+            Utility.fadeIn(this.hboxRecipeNameLabel);          
         }else{
             Utility.fadeOut(this.vboxLabelContainer);
             this.btnSaveRecipeName.setDisable(false);
             this.tfRecipeName.setDisable(false);            
-            binarySwap(vboxInputContainer, vboxLabelContainer);
-            Utility.fadeIn(this.vboxInputContainer); 
+            binarySwap(this.hboxRecipeNameInput, this.hboxRecipeNameLabel);
+            Utility.fadeIn(this.hboxRecipeNameInput); 
         }
     }
 

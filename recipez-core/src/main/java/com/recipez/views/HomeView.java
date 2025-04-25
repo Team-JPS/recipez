@@ -90,6 +90,8 @@ public class HomeView extends Scene {
         this.vboxApplication.prefWidthProperty().bind(this.widthProperty());
         //setting up the fluff, the pretty stuff
         this.lblWelcome.setFont(GlobalValues.LARGE_FONT);
+        this.createRecipeView.prefWidthProperty().bind(this.widthProperty());
+        this.createRecipeView.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);
 
         //Vbox for welcome screen prettified
         this.vboxHomeScreen.setPrefHeight(GlobalValues.VIEW_HEIGHT);

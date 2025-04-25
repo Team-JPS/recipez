@@ -9,6 +9,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.Text;
 
 public class AddIngredientView extends HBox{
     private ChoiceBox<String> cboxQuantity, cboxVolume, cboxUnitsOfVolume, cboxWeight, cboxUnitsOfWeight;
@@ -16,9 +17,9 @@ public class AddIngredientView extends HBox{
     // private Button btnRemoveIngredient;
 
     public AddIngredientView() {
-        this.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);
+        this.setStyle(GlobalValues.COLOR_TEST_FORMATTING_THREE);
         // this.setMinWidth();
-        // HBox.setHgrow(this, Priority.ALWAYS);
+        HBox.setHgrow(this, Priority.ALWAYS);
         createAddIngredientView();
         
        
@@ -31,9 +32,14 @@ public class AddIngredientView extends HBox{
         this.cboxWeight = new ChoiceBox<>();
         this.cboxUnitsOfWeight = new ChoiceBox<>();
         this.tfIngredientNameInput = new TextField("");
-        
     
-     
+
+        this.tfIngredientNameInput.setFont(GlobalValues.SMALL_FONT);
+        this.cboxVolume.setStyle(GlobalValues.SMALL_FONT_SIZE_STRING+GlobalValues.SMALL_FONT_FAMILY_STRING);
+    
+        this.cboxUnitsOfVolume.setStyle(GlobalValues.SMALL_FONT_SIZE_STRING+GlobalValues.SMALL_FONT_FAMILY_STRING);
+    
+
         this.cboxVolume.getItems().setAll(GlobalValues.VOLUMEVALUES);
         this.cboxUnitsOfVolume.getItems().setAll(GlobalValues.UNITSOFVOLUMEVALUES);
         
