@@ -9,6 +9,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 //This is a single Ingredient View, multiple of these will be stacked into VBox inside of CreateRecipeView.java
 public class IngredientView extends HBox {
@@ -31,7 +32,8 @@ public class IngredientView extends HBox {
         createIngredientViewEditable(ingredientName, quantity, volume, unitsOfVolume, weight, unitOfWeight);        
         //default view is ingredient without edit
         populateIngredientView();
-        bindViewModel();               
+        bindViewModel();  
+        // HBox.setHgrow(this, Priority.ALWAYS);             
     }
 
     public void bindViewModel(){
@@ -64,8 +66,7 @@ public class IngredientView extends HBox {
         
         //not in use at the moment
         this.lblWeight = new Label(weight);
-        this.lblUnitsOfWeight = new Label(unitOfWeight);
-        
+        this.lblUnitsOfWeight = new Label(unitOfWeight);       
        
 
         this.ingredientViewModel.setIngredientVolume(volume);
@@ -73,11 +74,23 @@ public class IngredientView extends HBox {
         // Ingredient name needs to be set in the viewModel before the binding works.
         this.ingredientViewModel.setIngredientName(ingredientName);
        
-        this.lblIngredientName.setMinWidth(200);
-       // this.lblQuantity.setMinWidth(50);
-        this.lblVolume.setMinWidth(50);
-        this.lblUnitsOfVolume.setMinWidth(50);
+        //need to add padding to these elements so they match up with the textfield and choiceboxes in the editable view
+        this.lblIngredientName.setMinWidth(226);
+        this.lblIngredientName.setMaxWidth(226);
+        this.lblIngredientName.setStyle("-fx-padding: 6 0 0 11;"+GlobalValues.COLOR_TEST_FORMATTING_THREE);
+
+        this.lblIngredientName.setFont(GlobalValues.SMALL_FONT);
+        this.lblVolume.setMinWidth(80);
+        this.lblUnitsOfVolume.setMinWidth(80);
+        this.lblVolume.setFont(GlobalValues.SMALL_FONT);
+        this.lblUnitsOfVolume.setFont(GlobalValues.SMALL_FONT);
+        this.lblVolume.setStyle("-fx-padding: 6 0 0 12;");
+        this.lblUnitsOfVolume.setStyle("-fx-padding: 6 0 0 12;");
+        this.lblVolume.setMinWidth(74);
+        this.lblUnitsOfVolume.setMinWidth(90);
+
         this.btnToggleEdit.setFont(GlobalValues.SMALL_FONT);
+        this.btnDeleteIngredientView.setFont(GlobalValues.SMALL_FONT);
 
     } 
 
@@ -102,8 +115,11 @@ public class IngredientView extends HBox {
         // this.ingredientViewModel.setIngredientName(ingredientName);
         
         this.tfIngredientNameInput.setMinWidth(200);
-        this.cboxVolume.setMinWidth(50);
-        this.cboxUnitsOfVolume.setMinWidth(50);
+        this.tfIngredientNameInput.setFont(GlobalValues.SMALL_FONT);
+        this.cboxVolume.setMinWidth(80);
+        this.cboxUnitsOfVolume.setMinWidth(80);
+        this.cboxVolume.setStyle(GlobalValues.SMALL_FONT_SIZE_STRING + GlobalValues.SMALL_FONT_FAMILY_STRING);
+        this.cboxUnitsOfVolume.setStyle(GlobalValues.SMALL_FONT_SIZE_STRING + GlobalValues.SMALL_FONT_FAMILY_STRING);
         this.btnToggleEdit.setFont(GlobalValues.SMALL_FONT);
     }
 

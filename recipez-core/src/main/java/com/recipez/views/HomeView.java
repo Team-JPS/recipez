@@ -23,14 +23,14 @@ public class HomeView extends Scene {
     private VBox vboxApplication, vboxHomeScreen;
     private Label lblWelcome;
     private StackPane spViewDisplay;
-
+    
     //The views for our application 
     private CreateRecipeView createRecipeView;
     private RecipeBookView recipeBookView;
     // private MealPlannerView MealPlannerView;
 
     //Observer Pattern solution (INCOMPLETE)
-    private ObserverModel recipeDataStoreModel = new ObserverModel();
+    private ObserverModel observerModel = new ObserverModel();
     private Observer[] observers = new Observer[2]; // will end up being 3: recipeBook, groceryList, and mealPlanner should be aware of updates
 
 
@@ -60,8 +60,8 @@ public class HomeView extends Scene {
     private void createView(){
         //intializing 
         root = ((Pane)this.getRoot());
-        this.createRecipeView = new CreateRecipeView(this.recipeDataStoreModel);
-        this.recipeBookView = new RecipeBookView(this.recipeDataStoreModel);
+        this.createRecipeView = new CreateRecipeView(this.observerModel);
+        this.recipeBookView = new RecipeBookView(this.observerModel);
         // this.mealPlannerView = new MealPlannerView();
 
         //observers set up
@@ -83,9 +83,15 @@ public class HomeView extends Scene {
         this.vboxApplication = new VBox();
         this.spViewDisplay = new StackPane();
         this.hboxNavigation = new HBox();
-        
+
+        //trying to dynamic resize
+        this.vboxApplication.setStyle(GlobalValues.COLOR_PRIMARY);
+        //Dynamic resize of top Parent Node element inside of root
+        this.vboxApplication.prefWidthProperty().bind(this.widthProperty());
         //setting up the fluff, the pretty stuff
         this.lblWelcome.setFont(GlobalValues.LARGE_FONT);
+        this.createRecipeView.prefWidthProperty().bind(this.widthProperty());
+        this.createRecipeView.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);
 
         //Vbox for welcome screen prettified
         this.vboxHomeScreen.setPrefHeight(GlobalValues.VIEW_HEIGHT);
@@ -95,6 +101,7 @@ public class HomeView extends Scene {
         //navigation holder prettified
         this.hboxNavigation.setPrefWidth(GlobalValues.APP_WIDTH);
         this.hboxNavigation.setPrefHeight(GlobalValues.NAV_HEIGHT);
+        this.hboxNavigation.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);
         this.hboxNavigation.setAlignment(Pos.CENTER);
 
         //setting up action for click on navigation buttons
@@ -114,11 +121,12 @@ public class HomeView extends Scene {
     private void navigation(ActionEvent event){
         String buttonText = ((Button)event.getSource()).getText();
         if (buttonText == "New Recipe") {
+            //setDisable(false) sets all the buttons to abled
             for(Node button : this.hboxNavigation.getChildren()){
                 ((Button)button).setDisable(false);
             }
             for(Observer observer : this.observers){
-                observer.update(recipeDataStoreModel.getCurrentUpdate());
+                observer.update(observerModel.getCurrentUpdate());
             }
             this.spViewDisplay.getChildren().clear();
             this.spViewDisplay.getChildren().add(this.createRecipeView);
@@ -128,7 +136,7 @@ public class HomeView extends Scene {
                 ((Button)button).setDisable(false);
             }
             for(Observer observer : this.observers){
-                observer.update(recipeDataStoreModel.getCurrentUpdate());
+                observer.update(observerModel.getCurrentUpdate());
             }
             this.spViewDisplay.getChildren().clear();
             this.spViewDisplay.getChildren().add(this.recipeBookView);
@@ -138,7 +146,7 @@ public class HomeView extends Scene {
                 ((Button)button).setDisable(false);
             }
             for(Observer observer : this.observers){
-                observer.update(recipeDataStoreModel.getCurrentUpdate());
+                observer.update(observerModel.getCurrentUpdate());
             }
             // this.spViewDisplay.getChildren().clear();
             // this.spViewDisplay.getChildren().add(this.mealPlannerView);
