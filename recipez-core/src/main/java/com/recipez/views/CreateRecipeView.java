@@ -37,10 +37,10 @@ import com.recipez.util.Subject;
 import com.recipez.util.Utility;
 
 //extends GridPane, design choice for layout of elements. 
-public class CreateRecipeView extends GridPane implements Observer{
+public class CreateRecipeView extends GridPane implements Observer {
 
     // Add/Edit Recipe Name UI elements
-    private Label lblRecipeName;
+    private Label lblRecipeName; 
     private ImageView imgRecipeNameSave;
     private TextField tfRecipeName;
     private Button btnSaveRecipeName, btnSaveRecipe, btnNewRecipe;
@@ -48,6 +48,10 @@ public class CreateRecipeView extends GridPane implements Observer{
     private VBox vboxInputContainer, vboxLabelContainer;
     // private boolean recipeNameToggle;    
     
+
+    //Header and navigation between ingredients and instructions
+    private Label lblRecipeIngredients, lblRecipeInstructions;
+    private HBox hboxIngredientsInstructionsToggleBox;
     // Add/remove recipe ingredients UI Elements
     private VBox vboxIngredientsListView, vboxIngredientsList;
     private HBox hboxAddIngredientChoices;
@@ -92,15 +96,69 @@ public class CreateRecipeView extends GridPane implements Observer{
         createRecipeNameView();
         createIngredientsListView();
         createInstructionsListView();
-        saveResetRecipeView();
+        saveResetRecipeView();        
+        ingredientsInstructionsHeader();
         //loadRecipe() needs to happen after the UI has been created. 
         loadRecipe();
         bindViewModel(); 
-
+        this.layoutBoundsProperty().addListener((obs, oldBounds, newBounds) -> {
+            double width = newBounds.getWidth();
+            if (width < 600.0){
+                System.out.println("\nSkinny witches\n");
+                portraitViewMode("ingredients");
+            }
+        });
+        
         // System.out.println("\n"+this.getParent()+"\n");
         // this.prefWidthProperty().bind(this.getParent());
         
       
+    }
+
+
+    private void portraitViewMode(String bringToFront){
+        
+        if(bringToFront.toLowerCase() == "ingredients"){
+            this.getChildren().remove(this.vboxInstructionsListView);
+            // this.add(this.vboxIngredientsListView, 0, 2);
+            // this.add(this.vboxInstructionsListView, 0,2);
+            GridPane.setColumnSpan(this.vboxIngredientsListView, 2);
+            // GridPane.setColumnSpan(this.vboxInstructionsListView, 2);
+            // this.vboxInstructionsListView.getChildren().clear();
+            // this.vboxIngredientsListView            
+            // this.add(this.spaneIngredientsListHolder, 0, 1);
+            // this.add(this.spaneInstructionsListHolder, 0, 1); 
+
+            // Gr
+            // GridPane.setColumnSpan(this.spaneIngredientsListHolder, 2);
+            // GridPane.setColumnSpan(this.spaneInstructionsListHolder, 2);    
+        }if(bringToFront.toLowerCase() == "instructions"){
+
+        }
+        // this.add(this.spaneIngredientsListHolder, 0, 1);
+        // this.add(this.spaneInstructionsListHolder, 0, 1); 
+
+        // GridPane.setColumnSpan(this.spaneIngredientsListHolder, 2);
+        // GridPane.setColumnSpan(this.spaneInstructionsListHolder, 2);
+    }
+
+
+    private void ingredientsInstructionsHeader(){
+        //Hbox for la
+        this.hboxIngredientsInstructionsToggleBox = new HBox();
+        this.hboxIngredientsInstructionsToggleBox.prefWidthProperty().bind(this.widthProperty());
+        this.lblRecipeIngredients = new Label("Ingredients");
+        // this.lblRecipeIngredients.prefWidthProperty().bind(this.vboxIngredientsListView.widthProperty());
+        this.lblRecipeIngredients.setAlignment(Pos.CENTER);
+        
+
+        this.lblRecipeInstructions = new Label("Instructions");
+        // this.lblRecipeInstructions.prefWidthProperty().bind(this.vboxInstructionsListView.widthProperty());
+        this.lblRecipeInstructions.setAlignment(Pos.CENTER);
+
+        this.hboxIngredientsInstructionsToggleBox.getChildren().addAll(this.lblRecipeIngredients, this.lblRecipeInstructions);
+        this.add(hboxIngredientsInstructionsToggleBox, 0, 1);
+        GridPane.setColumnSpan(this.hboxIngredientsInstructionsToggleBox, 2);
     }
 
     private void createIngredientsListView(){        
@@ -108,9 +166,6 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.vboxIngredientsList = new VBox();
         this.addIngredientView = new AddIngredientView();
         this.hboxAddIngredientChoices = new HBox();
-        Label recipeIngredients = new Label("Ingredients");
-        recipeIngredients.prefWidthProperty().bind(this.vboxIngredientsListView.widthProperty());
-        recipeIngredients.setAlignment(Pos.CENTER);
 
         this.btnAddIngredient = new Button("+");
       
@@ -125,9 +180,8 @@ public class CreateRecipeView extends GridPane implements Observer{
         
         this.spaneIngredientsListHolder.setContent(vboxIngredientsList);
         this.hboxAddIngredientChoices.getChildren().addAll(this.addIngredientView, this.btnAddIngredient);        
-        // this.vboxIngredientsListView.getChildren().addAll(this.spaneIngredientsListHolder, this.hboxAddIngredientChoices);
-        this.vboxIngredientsListView.getChildren().addAll(recipeIngredients, this.spaneIngredientsListHolder, this.hboxAddIngredientChoices);
-        this.add(this.vboxIngredientsListView, 0, 1);        
+        this.vboxIngredientsListView.getChildren().addAll(this.spaneIngredientsListHolder, this.hboxAddIngredientChoices);
+        this.add(this.vboxIngredientsListView, 0, 2);        
         this.vboxIngredientsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
     }
 
@@ -136,9 +190,7 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.vboxInstructionsListView = new VBox();
         this.hboxAddInstructionOptions = new HBox();
         this.tfInstruction = new TextField("");
-        Label recipeInstructions = new Label("Instructions");
-        recipeInstructions.prefWidthProperty().bind(this.vboxInstructionsListView.widthProperty());
-        recipeInstructions.setAlignment(Pos.CENTER);
+        
         this.btnAddInstruction = new Button("+");
         this.spaneInstructionsListHolder = new ScrollPane();
         this.spaneInstructionsListHolder.setFitToHeight(true);
@@ -148,8 +200,8 @@ public class CreateRecipeView extends GridPane implements Observer{
         
         this.spaneInstructionsListHolder.setContent(this.vboxInstructionsList);
         this.hboxAddInstructionOptions.getChildren().addAll(this.tfInstruction, this.btnAddInstruction);
-        this.vboxInstructionsListView.getChildren().addAll(recipeInstructions, this.spaneInstructionsListHolder, this.hboxAddInstructionOptions);
-        this.add(this.vboxInstructionsListView, 1, 1);
+        this.vboxInstructionsListView.getChildren().addAll(this.spaneInstructionsListHolder, this.hboxAddInstructionOptions);
+        this.add(this.vboxInstructionsListView, 1, 2);
         this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
     }
 
@@ -174,8 +226,8 @@ public class CreateRecipeView extends GridPane implements Observer{
 
         // saveHolder.setStyle(GlobalValues.COLOR_TEST_FORMATTING_THREE);
 
-        this.add(saveHolder, 0, 2);
-        this.add(newHolder, 1, 2);
+        this.add(saveHolder, 0, 3);
+        this.add(newHolder, 1, 3);
     }
 
    // WORKING COPY
@@ -211,7 +263,8 @@ public class CreateRecipeView extends GridPane implements Observer{
         this.lblRecipeName.setMinWidth(500.00);
         this.btnSaveRecipeName.setFont(GlobalValues.MEDIUM_FONT);     
 
-        this.lblRecipeName.setStyle("-fx-padding: 0 20 0 0");
+        this.lblRecipeName.setStyle("-fx-padding: 0 20 0 0;"+GlobalValues.COLOR_TEST_FORMATTING_THREE);
+        // this.lblRecipeName.setSyt
         this.tfRecipeName.setAlignment(Pos.CENTER);
         this.lblRecipeName.setAlignment(Pos.CENTER);
         this.btnSaveRecipeName.setAlignment(Pos.CENTER);
