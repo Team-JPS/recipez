@@ -126,7 +126,10 @@ public class RecipeBookView extends StackPane implements Observer {
             recipeList.sort(Comparator.comparing(Recipe::getRecipeName));
         } else if (selectedSort.equals("Sort by Name (Z-A)")) {
             recipeList.sort(Comparator.comparing(Recipe::getRecipeName).reversed());
-        }
+        } else if (selectedSort.equals("Sort by protein type (A-Z)")) {
+            recipeList.sort(Comparator.comparing(Recipe::getProteinType));
+        } else if (selectedSort.equals("Sort by protein type (A-Z)")) {
+            recipeList.sort(Comparator.comparing(Recipe::getProteinType).reversed());
 
         tableView.getItems().setAll(recipeList);
     }
