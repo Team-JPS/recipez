@@ -3,6 +3,7 @@ package com.recipez.views;
 import com.recipez.util.GlobalValues;
 
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -19,7 +20,8 @@ public class AddIngredientView extends HBox{
     public AddIngredientView() {
         this.setStyle(GlobalValues.COLOR_TEST_FORMATTING_THREE);
         // this.setMinWidth();
-        HBox.setHgrow(this, Priority.ALWAYS);
+        // HBox.setHgrow(this, Priority.ALWAYS);
+        // this.setAlignment(Pos.CENTER);
         createAddIngredientView();
         
        
