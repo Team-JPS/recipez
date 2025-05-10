@@ -1,21 +1,28 @@
 package com.recipez.views;
 
-import com.recipez.models.POJO.Ingredient;
+import com.recipez.util.GlobalValues;
 
-import javafx.event.ActionEvent;
+import javafx.collections.ListChangeListener;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.text.Text;
 
 public class AddIngredientView extends HBox{
     private ChoiceBox<String> cboxQuantity, cboxVolume, cboxUnitsOfVolume, cboxWeight, cboxUnitsOfWeight;
     private TextField tfIngredientNameInput;
-    private Button btnAddIngredient;
+    // private Button btnRemoveIngredient;
 
     public AddIngredientView() {
-         createAddIngredientView();
+        this.setStyle(GlobalValues.COLOR_TEST_FORMATTING_THREE);
+        // this.setMinWidth();
+        HBox.setHgrow(this, Priority.ALWAYS);
+        createAddIngredientView();
+        
+       
     }
 
     public void createAddIngredientView(){
@@ -25,10 +32,16 @@ public class AddIngredientView extends HBox{
         this.cboxWeight = new ChoiceBox<>();
         this.cboxUnitsOfWeight = new ChoiceBox<>();
         this.tfIngredientNameInput = new TextField("");
-        // this.btnAddIngredient = new Button("+");
-        // this.tfIngredientNameInput.setOnAction(this::processKeyPress);
-        // this.btnAddIngredient.setOnAction(this::addNewIngredient);
-        // this.tfIngredientNameInput.setOnKeyPressed(this::processKeyPress);
+    
+
+        this.tfIngredientNameInput.setFont(GlobalValues.SMALL_FONT);
+        this.cboxVolume.setStyle(GlobalValues.SMALL_FONT_SIZE_STRING+GlobalValues.SMALL_FONT_FAMILY_STRING);
+    
+        this.cboxUnitsOfVolume.setStyle(GlobalValues.SMALL_FONT_SIZE_STRING+GlobalValues.SMALL_FONT_FAMILY_STRING);
+    
+
+        this.cboxVolume.getItems().setAll(GlobalValues.VOLUMEVALUES);
+        this.cboxUnitsOfVolume.getItems().setAll(GlobalValues.UNITSOFVOLUMEVALUES);
         
         this.getChildren().addAll(tfIngredientNameInput, cboxVolume, cboxUnitsOfVolume);
     }
@@ -37,28 +50,12 @@ public class AddIngredientView extends HBox{
         return this.tfIngredientNameInput.getText();
     }  
 
-    // public void processKeyPress(KeyEvent event){
-    //     System.out.println("\nmethod call processKeyPress(KeyEvent event)\n");
-    //     switch(event.getCode()){
-    //         case ENTER:
-    //             addNewIngredient();
-    //         break;
-    //         default:
-    //         break;
-    //     }
-    // }
-
-    public Ingredient addNewIngredient() {  
-        System.out.println("\nmethod call addNewIngredient()\n");      
-        return new Ingredient(getIngredientName());      
+    public String getIngredientVolume(){
+        return this.cboxVolume.getValue();
     }
-    
-    // public Ingredient addNewIngredient(ActionEvent event) {        
-    //     System.out.println("\nmethod call addNewIngredient(ActionEvent event)\n");
-    //     return new Ingredient(getIngredientName());      
-    // }
 
-
-
-
+    public String getIngredientUnitsOfVolume(){
+        return this.cboxUnitsOfVolume.getValue();
+    }
+  
 }
