@@ -2,8 +2,9 @@ package com.recipez.views;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import com.recipez.models.ObserverModel;
+import com.recipez.models.POJO.Ingredient;
 import com.recipez.models.POJO.Recipe;
-import com.recipez.models.RecipeDataStoreModel;
 import com.recipez.util.CurrentUpdate;
 import com.recipez.util.GlobalValues;
 import com.recipez.util.Observer;
@@ -29,6 +30,7 @@ public class RecipeBookView extends StackPane implements Observer {
     private HBox hboxRecipeBook;
     private VBox vboxRecipeBookContainer;
     private TableView<Recipe> tableView;
+    private VBox recipeDetails;
      
 
     private final RecipeBookViewModel recipeBookViewModel = new RecipeBookViewModel();
@@ -94,12 +96,12 @@ public class RecipeBookView extends StackPane implements Observer {
         tableView.getColumns().add(nameColumn);
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        VBox recipeDetails = new VBox();
+        this.recipeDetails = new VBox();
         recipeDetails.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px;");
-        this.getChildren().add(recipeDetails);
         
-        // vboxRecipeBookContainer = new VBox(hboxRecipeBook, tableView);
-        // this.getChildren().add(vboxRecipeBookContainer);
+        
+        vboxRecipeBookContainer = new VBox(hboxRecipeBook, tableView, recipeDetails);
+        this.getChildren().add(vboxRecipeBookContainer);
     }
 
     private void loadRecipes() {
@@ -108,8 +110,14 @@ public class RecipeBookView extends StackPane implements Observer {
     }
 
     private void showRecipeDetails(Recipe recipe) {
-        // Implement the logic to show recipe details
-        // You can create a new view or update the existing one with the recipe details
+        recipeDetails.getChildren().clear();
+        if(recipe != null){
+            lblRecipeName = new Label(recipe.getRecipeName());
+            Label name = new Label("Recipe Name: " + recipe.getRecipeName());
+            Label ingredients = new Label("Ingredients: " + recipe.getIngredients());
+            Label instructions = new Label("Instructions: " + recipe.getInstructions());
+            recipeDetails.getChildren().addAll(name, ingredients, instructions);
+        }
         System.out.println("Selected Recipe: " + recipe.getRecipeName());
     }
 
@@ -120,7 +128,6 @@ public class RecipeBookView extends StackPane implements Observer {
             recipeList.sort(Comparator.comparing(Recipe::getRecipeName));
         } else if (selectedSort.equals("Sort by Name (Z-A)")) {
             recipeList.sort(Comparator.comparing(Recipe::getRecipeName).reversed());
-        } else if (selectedSort.equals("Sort by Protein Type (A-Z)")) {
         }
 
         tableView.getItems().setAll(recipeList);
@@ -135,7 +142,7 @@ public class RecipeBookView extends StackPane implements Observer {
                 recipeBookViewModel.loadRecipe();
                 tableView.getItems().clear();
                 this.loadRecipes();
-                ((RecipeDataStoreModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.NONE);
+                ((ObserverModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.RECIPE);
             break;
             case GROCERY:
             break;
