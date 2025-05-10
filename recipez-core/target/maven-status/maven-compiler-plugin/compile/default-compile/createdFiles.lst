@@ -11,7 +11,6 @@ com\recipez\util\Subject.class
 com\recipez\util\CustomValidSaveException.class
 com\recipez\views\IngredientView.class
 com\recipez\App.class
-com\recipez\views\RecipeBookView$1$1.class
 com\recipez\models\RecipeBookModel.class
 com\recipez\views\CreateRecipeView.class
 com\recipez\views\AddIngredientView.class

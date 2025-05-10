@@ -2,7 +2,15 @@ package com.recipez.views;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import javafx.scene.control.Button;
+import com.recipez.models.ObserverModel;
+import com.recipez.models.POJO.Ingredient;
+import com.recipez.models.POJO.Recipe;
+import com.recipez.util.CurrentUpdate;
+import com.recipez.util.GlobalValues;
+import com.recipez.util.Observer;
+import com.recipez.util.Subject;
+import com.recipez.views.view_models.RecipeBookViewModel;
+
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -12,15 +20,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
-
-import com.recipez.models.ObserverModel;
-import com.recipez.models.POJO.Recipe;
-import com.recipez.util.CurrentUpdate;
-import com.recipez.util.GlobalValues;
-import com.recipez.util.Observer;
-import com.recipez.util.Subject;
-import com.recipez.views.view_models.RecipeBookViewModel;
 
 //This extends StackPane, but you can change it to whatever UI element works best for your View Layout.
 public class RecipeBookView extends StackPane implements Observer {
@@ -31,6 +30,7 @@ public class RecipeBookView extends StackPane implements Observer {
     private HBox hboxRecipeBook;
     private VBox vboxRecipeBookContainer;
     private TableView<Recipe> tableView;
+    private VBox recipeDetails;
      
 
     private final RecipeBookViewModel recipeBookViewModel = new RecipeBookViewModel();
@@ -57,7 +57,10 @@ public class RecipeBookView extends StackPane implements Observer {
         this.setMinHeight(GlobalValues.VIEW_HEIGHT);
 
         sortDropdown = new ComboBox<>();
-        sortDropdown.getItems().addAll("Sort by Name (A-Z)", "Sort by Name (Z-A)");
+        sortDropdown.getItems().addAll("Sort by Name (A-Z)", "Sort by Name (Z-A)", 
+        "Sort by Protein Type (A-Z)", "Sort by Protein Type (Z-A)", 
+        "Sort by Ethnicity(A-Z)", "Sort by Ethnicity(Z-A)", 
+        "Sort by Cooking Time (Low to High)", "Sort by Cooking Time (High to Low)");
         sortDropdown.setValue("Sort by Name (A-Z)");
 
         sortDropdown.setOnAction(e -> applySorting());
@@ -70,53 +73,52 @@ public class RecipeBookView extends StackPane implements Observer {
         TableColumn<Recipe, String> nameColumn = new TableColumn<>("Recipe Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("recipeName")); 
 
+        nameColumn.setCellFactory(column -> {
+        TableCell<Recipe, String> cell = new TableCell<Recipe, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                    } else {
+                        setText(item);
+                        setOnMouseClicked(event -> {
+                        showRecipeDetails(getTableRow().getItem());
+                        });
+                    }
+                }
+            };
+            return cell;
+        });
+
+
         tableView.getColumns().add(nameColumn);
         tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-        
-        addViewButtonToTable();
 
-        vboxRecipeBookContainer = new VBox(hboxRecipeBook, tableView);
+        this.recipeDetails = new VBox();
+        recipeDetails.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 10px;");
+        
+        
+        vboxRecipeBookContainer = new VBox(hboxRecipeBook, tableView, recipeDetails);
         this.getChildren().add(vboxRecipeBookContainer);
     }
 
-    private void addViewButtonToTable() {
-
-    TableColumn<Recipe, Void> colBtn = new TableColumn<>("Action");
-
-    Callback<TableColumn<Recipe, Void>, TableCell<Recipe, Void>> cellFactory = new Callback<>() {
-        @Override
-        public TableCell<Recipe, Void> call(final TableColumn<Recipe, Void> param) {
-            return new TableCell<>() {
-                private final Button btn = new Button("View");
-
-                {
-                    btn.setOnAction(event -> {
-                        Recipe selectedRecipe = getTableView().getItems().get(getIndex());
-                        // openRecipeInView(selectedRecipe);
-                        System.out.println("View button pressed");
-                    });
-                }
-
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setGraphic(empty ? null : btn);
-                }
-            };
-        }
-    };
-
-    colBtn.setCellFactory(cellFactory);
-    tableView.getColumns().add(colBtn);
+    private void loadRecipes() {
+        recipeList = recipeBookViewModel.getRecipeBook();
+        tableView.getItems().setAll(recipeList); // Ensure this method exists in RecipeBookViewModel
     }
 
-    // tableView.getColumns().add(colBtn);
-
-
-
-    private void loadRecipes() {
-        recipeList = recipeBookViewModel.getRecipeBook(); // Ensure this method exists in RecipeBookViewModel
-        tableView.getItems().setAll(recipeList); 
+    private void showRecipeDetails(Recipe recipe) {
+        recipeDetails.getChildren().clear();
+        if(recipe != null){
+            lblRecipeName = new Label(recipe.getRecipeName());
+            Label name = new Label("Recipe Name: " + recipe.getRecipeName());
+            Label ingredients = new Label("Ingredients: " + recipe.getIngredients());
+            Label instructions = new Label("Instructions: " + recipe.getInstructions());
+            recipeDetails.getChildren().addAll(name, ingredients, instructions);
+        }
+        System.out.println("Selected Recipe: " + recipe.getRecipeName());
     }
 
     private void applySorting() {
@@ -140,7 +142,7 @@ public class RecipeBookView extends StackPane implements Observer {
                 recipeBookViewModel.loadRecipe();
                 tableView.getItems().clear();
                 this.loadRecipes();
-                ((ObserverModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.NONE);
+                ((ObserverModel)this.dataStoreUpdater).setUpdate(CurrentUpdate.RECIPE);
             break;
             case GROCERY:
             break;
