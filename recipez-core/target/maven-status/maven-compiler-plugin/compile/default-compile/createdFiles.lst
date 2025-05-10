@@ -1,6 +1,7 @@
 com\recipez\models\RecipeModel.class
 com\recipez\util\Utility.class
 com\recipez\views\CreateRecipeView$1.class
+com\recipez\views\RecipeBookView$2.class
 com\recipez\views\view_models\RecipeBookViewModel.class
 com\recipez\views\RecipeBookView.class
 com\recipez\models\POJO\Recipe.class
