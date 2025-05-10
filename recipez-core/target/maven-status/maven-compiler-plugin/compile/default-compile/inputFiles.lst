@@ -1,7 +1,6 @@
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\views\view_models\RecipeBookViewModel.java
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\views\CreateRecipeView.java
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\models\RecipeBookModel.java
-C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\models\RecipeDataStoreModel.java
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\util\Utility.java
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\util\CurrentUpdate.java
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\util\Subject.java
@@ -14,6 +13,7 @@ C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\views\view_models\IngredientViewModel.java
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\views\RecipeBookView.java
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\models\POJO\RecipeBook.java
+C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\models\ObserverModel.java
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\models\RecipeModel.java
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\views\AddIngredientView.java
 C:\Users\noahd\OneDrive\Documents\GitHub\recipez\recipez-core\src\main\java\com\recipez\App.java
