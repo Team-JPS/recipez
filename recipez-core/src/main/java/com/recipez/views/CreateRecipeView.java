@@ -22,6 +22,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.FileInputStream;
@@ -174,6 +175,44 @@ public class CreateRecipeView extends GridPane implements Observer {
 
     }
 
+    //  private void createIngredientsListView(){        
+    //     this.vboxIngredientsListView = new VBox();
+    //     this.vboxIngredientsList = new VBox();
+    //     this.addIngredientView = new AddIngredientView();
+    //     this.hboxAddIngredientChoices = new HBox();
+    //     this.btnAddIngredient = new Button("+");
+    //     this.spaneIngredientsListHolder = new ScrollPane();
+        
+    //     // HBox hboxIngredientsHolder = new HBox();
+    //     // hboxIngredientsHolder.setAlignment(Pos.CENTER);
+    //     // hboxIngredientsHolder.setMinWidth(200.00);
+    //     // hboxIngredientsHolder.setStyle(GlobalValues.COLOR_TEST_FORMATTING_THREE);
+    //     // hboxIngredientsHolder.setFit
+        
+    //     // HBox.setHgrow(hboxIngredientsHolder, Priority.ALWAYS);
+
+    //     this.spaneIngredientsListHolder.setFitToHeight(true);
+    //     this.spaneIngredientsListHolder.setPrefViewportHeight(500);
+    //     this.spaneIngredientsListHolder.setFitToWidth(true);
+    //     // GridPane.setHgrow(this.spaneIngredientsListHolder, Priority.ALWAYS);
+      
+    //     this.hboxAddIngredientChoices.setAlignment(Pos.CENTER);        
+    //     this.btnAddIngredient.setFont(GlobalValues.MEDIUM_FONT);
+
+    //     this.btnAddIngredient.setOnAction(this::addIngredient);
+        
+    //     // hboxIngredientsHolder.getChildren().add(this.spaneIngredientsListHolder);
+    //     this.spaneIngredientsListHolder.setContent(this.vboxIngredientsList);
+    //     this.hboxAddIngredientChoices.getChildren().addAll(this.addIngredientView, this.btnAddIngredient);        
+    //     this.vboxIngredientsListView.getChildren().addAll(this.spaneIngredientsListHolder, this.hboxAddIngredientChoices);
+    //     // this.vboxIngredientsListView.getChildren().addAll(hboxIngredientsHolder, this.hboxAddIngredientChoices);
+    //     this.add(this.vboxIngredientsListView, 0, 2);        
+    //     this.vboxIngredientsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE); 
+    //     this.vboxIngredientsListView.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);       
+    // }
+
+
+    //Working copy
     private void createIngredientsListView(){        
         this.vboxIngredientsListView = new VBox();
         this.vboxIngredientsList = new VBox();
@@ -184,6 +223,8 @@ public class CreateRecipeView extends GridPane implements Observer {
         
         HBox hboxIngredientsHolder = new HBox();
         hboxIngredientsHolder.setAlignment(Pos.CENTER);
+        hboxIngredientsHolder.setMinWidth(200.00);
+        hboxIngredientsHolder.setStyle(GlobalValues.COLOR_TEST_FORMATTING_THREE);
         // hboxIngredientsHolder.setFit
         
         HBox.setHgrow(hboxIngredientsHolder, Priority.ALWAYS);
@@ -203,7 +244,7 @@ public class CreateRecipeView extends GridPane implements Observer {
         // this.vboxIngredientsListView.getChildren().addAll(this.spaneIngredientsListHolder, this.hboxAddIngredientChoices);
         this.vboxIngredientsListView.getChildren().addAll(hboxIngredientsHolder, this.hboxAddIngredientChoices);
         this.add(this.vboxIngredientsListView, 0, 2);        
-        this.vboxIngredientsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
+        this.vboxIngredientsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);        
     }
 
     private void createInstructionsListView(){
@@ -211,19 +252,37 @@ public class CreateRecipeView extends GridPane implements Observer {
         this.vboxInstructionsListView = new VBox();
         this.hboxAddInstructionOptions = new HBox();
         this.tfInstruction = new TextField("");
-        
         this.btnAddInstruction = new Button("+");
         this.spaneInstructionsListHolder = new ScrollPane();
+
+        HBox hboxInstructionsHolder = new HBox();
+        hboxInstructionsHolder.setAlignment(Pos.CENTER);
+        hboxInstructionsHolder.setMinWidth(200.00);
+        hboxInstructionsHolder.setStyle(GlobalValues.COLOR_TEST_FORMATTING_THREE);
+        // hboxIngredientsHolder.setFit
+        
+        HBox.setHgrow(hboxInstructionsHolder, Priority.ALWAYS);
+        
+       
         this.spaneInstructionsListHolder.setFitToHeight(true);
-        this.spaneInstructionsListHolder.setPrefViewportHeight(200); 
+        this.spaneInstructionsListHolder.setPrefViewportHeight(500);
+        this.spaneInstructionsListHolder.setPrefViewportWidth(300);
+        this.spaneInstructionsListHolder.setFitToWidth(true); 
+        this.spaneInstructionsListHolder.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);
         
-        this.btnAddInstruction.setOnAction(this::addInstruction);        
-        
+        this.hboxAddInstructionOptions.setAlignment(Pos.CENTER);
+
+        this.btnAddInstruction.setOnAction(this::addInstruction);  
+        // this.btnAddInstruction.setAlignment(Pos.BASELINE_RIGHT);  
+
+        hboxInstructionsHolder.getChildren().add(this.spaneInstructionsListHolder);
         this.spaneInstructionsListHolder.setContent(this.vboxInstructionsList);
         this.hboxAddInstructionOptions.getChildren().addAll(this.tfInstruction, this.btnAddInstruction);
-        this.vboxInstructionsListView.getChildren().addAll(this.spaneInstructionsListHolder, this.hboxAddInstructionOptions);
+        // this.vboxInstructionsListView.getChildren().addAll(this.spaneInstructionsListHolder, this.hboxAddInstructionOptions);
+        this.vboxInstructionsListView.getChildren().addAll(hboxInstructionsHolder, this.hboxAddInstructionOptions);
         this.add(this.vboxInstructionsListView, 1, 2);
-        this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_ONE);        
+        this.vboxInstructionsList.setStyle(GlobalValues.COLOR_TEST_FORMATTING_TWO);     
+        // this.vboxInstructionsListView.setStyle(GlobalValues.COLOR_TEST_FORMATTING_THREE);   
     }
 
     
@@ -430,18 +489,25 @@ public class CreateRecipeView extends GridPane implements Observer {
     public void addInstruction(String instruction){
         HBox hboxInstructionViewHolder = new HBox();
         Button btnDeleteInstruction = new Button("x");
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        
         btnDeleteInstruction.setOnAction(e -> removeInstruction(hboxInstructionViewHolder));
-        hboxInstructionViewHolder.getChildren().addAll(new Label(instruction), btnDeleteInstruction);
+        hboxInstructionViewHolder.getChildren().addAll(new Label(instruction), spacer, btnDeleteInstruction);
         this.vboxInstructionsList.getChildren().add(hboxInstructionViewHolder);
+        // btnDeleteInstruction.setAlignment(Pos.BASELINE_RIGHT);
     }
 
     // adding instruction from user input
     public void addInstruction(ActionEvent event){
         HBox hboxInstructionViewHolder = new HBox();
         Button btnDeleteInstruction = new Button("x");
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
         btnDeleteInstruction.setOnAction(e -> removeInstruction(hboxInstructionViewHolder));
-        hboxInstructionViewHolder.getChildren().addAll(new Label(this.tfInstruction.getText()), btnDeleteInstruction);
+        hboxInstructionViewHolder.getChildren().addAll(new Label(this.tfInstruction.getText()), spacer, btnDeleteInstruction);
         this.vboxInstructionsList.getChildren().add(hboxInstructionViewHolder);
+        // btnDeleteInstruction.setAlignment(Pos.BASELINE_RIGHT);
     }
 
     //the incoming Hbox may be changed to a InstructionView depending on the needs of the instructions
