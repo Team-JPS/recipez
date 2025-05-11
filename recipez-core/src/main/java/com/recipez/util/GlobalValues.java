@@ -8,9 +8,9 @@ public class GlobalValues {
     public static final Integer NAV_HEIGHT = 50;
     public static final Integer VIEW_HEIGHT = APP_HEIGHT - NAV_HEIGHT;
     public static final String COLOR_PRIMARY = "-fx-background-color: #fccdb6;";
-    public static final String COLOR_TEST_FORMATTING_ONE = "-fx-background-color:rgb(182, 252, 188);";
-    public static final String COLOR_TEST_FORMATTING_TWO = "-fx-background-color:rgb(182, 187, 252);";    
-    public static final String COLOR_TEST_FORMATTING_THREE = "-fx-background-color:rgb(255, 131, 189);";
+    public static final String COLOR_TEST_FORMATTING_ONE = "-fx-background-color:rgb(182, 252, 188);"; //Green
+    public static final String COLOR_TEST_FORMATTING_TWO = "-fx-background-color:rgb(182, 187, 252);"; //Purple   
+    public static final String COLOR_TEST_FORMATTING_THREE = "-fx-background-color:rgb(255, 131, 189);"; //Red
     public static final Font SMALL_FONT = new Font("Arial", 18);
     public static final Font MEDIUM_FONT = new Font("Arial", 24);
     public static final Font LARGE_FONT = new Font("Arial", 36);
